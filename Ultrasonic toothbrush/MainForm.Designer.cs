@@ -28,127 +28,128 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.button3 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.buttonPortName = new System.Windows.Forms.Button();
-			this.startButton = new System.Windows.Forms.Button();
-			this.logBox = new System.Windows.Forms.TextBox();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
-			this.label1 = new System.Windows.Forms.Label();
-			this.groupBox1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.button3);
-			this.groupBox1.Controls.Add(this.button2);
-			this.groupBox1.Controls.Add(this.button1);
-			this.groupBox1.Controls.Add(this.buttonPortName);
-			this.groupBox1.Controls.Add(this.startButton);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(1288, 84);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "...";
-			// 
-			// button3
-			// 
-			this.button3.Location = new System.Drawing.Point(862, 33);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(75, 23);
-			this.button3.TabIndex = 6;
-			this.button3.Text = "停止";
-			this.button3.UseVisualStyleBackColor = true;
-			this.button3.Click += new System.EventHandler(this.button3_Click);
-			// 
-			// button2
-			// 
-			this.button2.Location = new System.Drawing.Point(753, 33);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 5;
-			this.button2.Text = "上传数据";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(639, 33);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 4;
-			this.button1.Text = "连接";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// buttonPortName
-			// 
-			this.buttonPortName.Location = new System.Drawing.Point(29, 26);
-			this.buttonPortName.Name = "buttonPortName";
-			this.buttonPortName.Size = new System.Drawing.Size(117, 30);
-			this.buttonPortName.TabIndex = 3;
-			this.buttonPortName.Text = "无串口";
-			this.buttonPortName.UseVisualStyleBackColor = true;
-			this.buttonPortName.Click += new System.EventHandler(this.buttonPortName_Click);
-			// 
-			// startButton
-			// 
-			this.startButton.Location = new System.Drawing.Point(284, 20);
-			this.startButton.Name = "startButton";
-			this.startButton.Size = new System.Drawing.Size(225, 48);
-			this.startButton.TabIndex = 0;
-			this.startButton.Text = "开始";
-			this.startButton.UseVisualStyleBackColor = true;
-			this.startButton.Click += new System.EventHandler(this.startButton_Click);
-			// 
-			// logBox
-			// 
-			this.logBox.AllowDrop = true;
-			this.logBox.Location = new System.Drawing.Point(41, 294);
-			this.logBox.Multiline = true;
-			this.logBox.Name = "logBox";
-			this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logBox.Size = new System.Drawing.Size(908, 396);
-			this.logBox.TabIndex = 1;
-			// 
-			// trackBar1
-			// 
-			this.trackBar1.Location = new System.Drawing.Point(276, 183);
-			this.trackBar1.Maximum = 0;
-			this.trackBar1.Minimum = -100;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(228, 45);
-			this.trackBar1.TabIndex = 2;
-			this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(259, 192);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(11, 12);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "0";
-			// 
-			// MainForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1010, 715);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.trackBar1);
-			this.Controls.Add(this.logBox);
-			this.Controls.Add(this.groupBox1);
-			this.Name = "MainForm";
-			this.Text = "Ultrasonic toothbrush";
-			this.groupBox1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.buttonPortName = new System.Windows.Forms.Button();
+            this.startButton = new System.Windows.Forms.Button();
+            this.logBox = new System.Windows.Forms.TextBox();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.buttonPortName);
+            this.groupBox1.Controls.Add(this.startButton);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1288, 84);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "...";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(823, 33);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "恢复工厂模式";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(705, 33);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 5;
+            this.button2.Text = "上传数据";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(587, 33);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "断开";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // buttonPortName
+            // 
+            this.buttonPortName.Location = new System.Drawing.Point(29, 26);
+            this.buttonPortName.Name = "buttonPortName";
+            this.buttonPortName.Size = new System.Drawing.Size(117, 30);
+            this.buttonPortName.TabIndex = 3;
+            this.buttonPortName.Text = "无串口";
+            this.buttonPortName.UseVisualStyleBackColor = true;
+            this.buttonPortName.Click += new System.EventHandler(this.buttonPortName_Click);
+            // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(284, 20);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(225, 48);
+            this.startButton.TabIndex = 0;
+            this.startButton.Text = "开始";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // logBox
+            // 
+            this.logBox.AllowDrop = true;
+            this.logBox.Location = new System.Drawing.Point(41, 294);
+            this.logBox.Multiline = true;
+            this.logBox.Name = "logBox";
+            this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.logBox.Size = new System.Drawing.Size(908, 396);
+            this.logBox.TabIndex = 1;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(276, 183);
+            this.trackBar1.Maximum = 0;
+            this.trackBar1.Minimum = -100;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(228, 45);
+            this.trackBar1.TabIndex = 2;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(243, 192);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(11, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "0";
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1010, 715);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.logBox);
+            this.Controls.Add(this.groupBox1);
+            this.Name = "MainForm";
+            this.Text = "Ultrasonic toothbrush";
+            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 

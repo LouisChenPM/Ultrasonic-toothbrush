@@ -16,7 +16,7 @@ namespace Ultrasonic_toothbrush
 	{
 		//public   UIHandler uiHandler ;
 		private Port port;
-		private ResetTimer resetTimer;
+        private bool isStart=true;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -34,12 +34,23 @@ namespace Ultrasonic_toothbrush
 			this.buttonPortName.Text = port.NextPort();
 		}
 
-		private void startButton_Click(object sender, EventArgs e)
+		private void startButton_Click(object sender, EventArgs e)//开始停止
 		{
-			if(port.Start()==true)
-				this.startButton.Text="停止";
-			Port.SendCommand(Command.Id.Scan);//发送连接
-			ResetTimer.Start();//重置时钟开始计时
+            if (isStart)
+            {
+                port.Start();//打开串口
+                Port.SendCommand(Command.Id.Scan);//发送连接
+                ResetTimer.Start();//重置时钟开始计时
+                isStart = false;//停止标志
+                this.startButton.Text = "停止";
+            }
+            else
+            {
+                ResetTimer.Disable();//计时器关闭
+                isStart=true;//开始标志
+                port.End();//停止串口
+                this.startButton.Text = "开始";
+            }
 
 		}
 		//更新UI
@@ -52,7 +63,7 @@ namespace Ultrasonic_toothbrush
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			Port.SendCommand(Command.Id.Connect);
+			Port.SendCommand(Command.Id.Disconnect);
 		}
 
 		private void button2_Click(object sender, EventArgs e)
@@ -62,7 +73,7 @@ namespace Ultrasonic_toothbrush
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			port.End();
+            Port.SendCommand(Command.Id.FactoryReset);
 		}
 
 		private void trackBar1_Scroll(object sender, EventArgs e)
@@ -70,5 +81,10 @@ namespace Ultrasonic_toothbrush
 			label1.Text = trackBar1.Value.ToString();
 			Setting.Rssi = trackBar1.Value;
 		}
-	}
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

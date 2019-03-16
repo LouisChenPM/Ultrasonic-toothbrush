@@ -76,11 +76,12 @@ namespace Ultrasonic_toothbrush
 					break;
 				case Command.Id.Stop:
 					break;
-				case Command.Id.Disconnect:
+				case Command.Id.Disconnect:buf = Command.Disconnect;
 					break;
 				case Command.Id.UpLoadRealData:buf = Command.UpLoadRealData;
 					break;
-				case Command.Id.Reset: buf=Command.Reset;break;//暂时显示reset
+				case Command.Id.Reset: buf=Command.Disconnect; break;//暂时显示reset
+                case Command.Id.FactoryReset: buf= Command.Factoryreset;break;
 				default:
 					break;
 			}
@@ -109,7 +110,7 @@ namespace Ultrasonic_toothbrush
 			receivedCount += n;//增加接收计数 
 			comm.Read(buf, 0, n);//读取缓冲数据
 			buffer.AddRange(buf);//添加到缓冲区
-			while (buffer.Count > Command.headerLength)
+			while (buffer.Count >= Command.headerLength)
 			{
 				//2.1 查找数据头  buffer[6] 为数据包的长度
 				if (buffer[0] == 0x78&& buffer[1] == 0x73 && buffer[2] == 0x63 && buffer[3] == 0x73)
