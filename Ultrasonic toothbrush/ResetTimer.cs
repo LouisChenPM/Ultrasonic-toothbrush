@@ -12,11 +12,17 @@ namespace Ultrasonic_toothbrush
 		private static long timeInterval;
 		private static int tick=100;
         private static bool disConnected = false;
+		private static bool eventHandleNotBonded=true;
 		public static void Start()
 		{
+			timeInterval = 0;
 			timer.Interval = tick;
 			timer.Enabled = true;
-			timer.Elapsed += new ElapsedEventHandler(SendReset);
+			if (eventHandleNotBonded) {//只绑定一次计时器相应函数这里后面代码修改
+				timer.Elapsed += new ElapsedEventHandler(SendReset);
+				eventHandleNotBonded = false;
+			}
+			
 			timer.Start();
 		}
         public static void Disable()
@@ -32,7 +38,7 @@ namespace Ultrasonic_toothbrush
                 if (disConnected == false)
                 { 
                 Port.SendCommand(Command.Id.Disconnect);//间隔时间差大于5秒发送重置
-                disConnected = true;
+                disConnected = true;//这里引入全局状态的数据进行判断
                 }
                 else
                 {
