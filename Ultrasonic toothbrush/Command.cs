@@ -18,12 +18,13 @@ namespace Ultrasonic_toothbrush
 		private static byte[] connectCode = { 0x01, 0x02, 0x06, 0x08 };//命令特征码连接码0x1厂家代码，0x02命令类型,0x06数据长度,0x08校验值和
 		private static byte[] chipCode = { 0x01, 0x31 };//芯片型号/通道号 ，来自设置
 		private static byte[] deviceCodeRear = {  };//device Code，来自设置
-		public static byte[] Connect 
+		public static byte[] Connect //拼接连接指令，这里要在最后增加字符串以供通道设置并设置length的长度
 		{
 
 			get {
 				List<byte> byteSource = new List<byte>();
 				byteSource.AddRange(head);
+                connectCode[2] = (byte)(device.connectMac.Length + deviceCodeRear.Length + chipCode.Length);//计算数据包的长度
 				byteSource.AddRange(connectCode);
 				byteSource.AddRange(device.connectMac);
 				byteSource.AddRange(chipCode);
@@ -31,8 +32,20 @@ namespace Ultrasonic_toothbrush
 			}
 
 		}
-		//发送数据命令字节串
-		public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
+        private static byte[] upLoadCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
+        private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//
+        public static byte[] UpLoadRealData2
+        {
+            get
+            {
+                List<byte> byteSource = new List<byte>();
+                byteSource.AddRange(head);
+                return byteSource.ToArray();
+
+            }
+        }
+        //发送数据命令字节串
+        public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
         public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
         public static byte[] Disconnect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x03, 0x00, 0x00 };//收到断开{ 0x78,0x73,0x63,0x73,0x01,0x03,0x00,0x19 };
         private static Device device=null;
@@ -53,10 +66,23 @@ namespace Ultrasonic_toothbrush
 			//out_reset = 0xFD,
 			//sel_mac = 0xFE,
 		}
-	
-		public static void  DealCmd()
+	    public static void timestamp()
+        {
+            long l =(System.DateTime.UtcNow.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+            byte[] b = new byte[4];
+            for (int i=0;i<4;i++ )
+            {
+                b[i] = (byte)(l& 0x00ff);
+                l >>= 8;
+            }
+
+        }
+
+        public static void  DealCmd()
 		{
-			switch (cmd[5])
+            timestamp();
+
+            switch (cmd[5])
 			{
 				case(byte) Id.Scan:
 					device = new Device();//新建一个扫描到的设备
@@ -66,7 +92,7 @@ namespace Ultrasonic_toothbrush
 					if(device.rssi> Setting.Rssi)
 					Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
-				case (byte)Id.Connect:
+				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);
 					break;
 				case (byte)Id.Disconnect:
 					break;
@@ -96,13 +122,6 @@ namespace Ultrasonic_toothbrush
 			int rssi = -10000;
 			rssi =-( 0x7F - cmd[rssiOffect] & 0x7F);//这里信号强度算法不懂，从我哥那里炒来的
 			string s = rssi.ToString();
-			/*
-			this.s_rssi = "" + (-(0x7F - (this.rssi & 0x7F)));
-			this.mac[i_mac].rssi = -(0x7F - (this.rssi & 0x7F));
-			this.rc_rssi = this.mac[i_mac].rssi;//record current rssi 
-			this.isset_rssi = true;
-			return 0;
-			*/
 			return rssi;
 		}
 		private static string GetDeviceName()

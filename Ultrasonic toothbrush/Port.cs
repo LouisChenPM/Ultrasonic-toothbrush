@@ -17,8 +17,9 @@ namespace Ultrasonic_toothbrush
 		private bool Listening = false;//是否执行完成invoke操作;
 		private bool Closing = false;//是否正在关闭串口，执行Application.DoEvents，并阻止再次invoke  
 		private List<byte> buffer = new List<byte>(4096);
-		/* 串口名称*/
-		private string portName;//使用串口
+        private static bool dataReceivedHandleNotBonded = true;
+        /* 串口名称*/
+        private string portName;//使用串口
 		string[] portNames;//所有串口
 		int portNameIndex = -1;//当前串口索引号
 		public static UIHandler uiHandler ;//ui委托对象
@@ -44,7 +45,11 @@ namespace Ultrasonic_toothbrush
 			comm.Handshake= System.IO.Ports.Handshake.None;
 			comm.ReadTimeout = 500;
 			comm.WriteTimeout = 500;
+            if(dataReceivedHandleNotBonded)
+            { 
 			comm.DataReceived += DataDataReceived;
+                dataReceivedHandleNotBonded = false;
+                }
 			//尝试打开串口
 			try { 
 			comm.Open();
