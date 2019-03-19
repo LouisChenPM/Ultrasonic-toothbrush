@@ -33,19 +33,29 @@ namespace Ultrasonic_toothbrush
 
 		}
         private static byte[] upLoadCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
-        private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//
-        public static byte[] UpLoadRealData2
+        private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//x9A帧头0xC1命令类型查询
+		private static byte[] commandCode= { 0x9A, 0xC1 };
+		private static byte[] timestamp { get { return nowtimestamp(); } }
+		private static byte[] commandOption = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,0xC1};//操作选项
+		private static byte[] commandRear = {  0xAA };
+		public static byte[] UpLoadRealData
         {
             get
             {
                 List<byte> byteSource = new List<byte>();
-                byteSource.AddRange(head);
-                return byteSource.ToArray();
+              //  byteSource.AddRange(head);
+				byteSource.AddRange(commandCode);
+				byteSource.AddRange(timestamp);
+				byteSource.AddRange(commandOption);
+				XOR(1, byteSource);
+				
+
+				return byteSource.ToArray();
 
             }
         }
         //发送数据命令字节串
-        public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
+       // public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
         public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
         public static byte[] Disconnect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x03, 0x00, 0x00 };//收到断开{ 0x78,0x73,0x63,0x73,0x01,0x03,0x00,0x19 };
         private static Device device=null;
@@ -66,7 +76,7 @@ namespace Ultrasonic_toothbrush
 			//out_reset = 0xFD,
 			//sel_mac = 0xFE,
 		}
-	    public static void timestamp()
+	    public static byte[] nowtimestamp()//时间戳前两位表示高位，后两位表示低位
         {
             long l =(System.DateTime.UtcNow.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
             byte[] b = new byte[4];
@@ -75,12 +85,29 @@ namespace Ultrasonic_toothbrush
                 b[i] = (byte)(l& 0x00ff);
                 l >>= 8;
             }
+			Array.Reverse(b);
+			return b;
 
         }
-
-        public static void  DealCmd()
+		public static void XOR(int i, List<byte> byteSource)//亦或校验
 		{
-            timestamp();
+			int c = byteSource.Count;
+			byte r = byteSource[i];
+			i++;
+			for (int x = i; i< c-1; i++)
+			{
+				r ^= byteSource[x];
+			}
+			byteSource[c - 1] = r;
+		}
+		public static void CheckSum(byte source, byte result)//校验和
+		{
+
+		}
+
+		public static void  DealCmd()
+		{
+         //   timestamp();
 
             switch (cmd[5])
 			{
