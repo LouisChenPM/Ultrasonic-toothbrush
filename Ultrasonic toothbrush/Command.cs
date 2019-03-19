@@ -15,7 +15,7 @@ namespace Ultrasonic_toothbrush
 		//连接命令字节串，里面的mac地址(从第九位开始往后算两位)、芯片型号(最后两位)
 		//public static byte[] Connect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x02, 0x06, 0x08, 0x20, 0x49, 0x31, 0x50, 0xA0, 0x00, 0x01, 0x31 };
 		private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
-		private static byte[] connectCode = { 0x01, 0x02, 0x06, 0x08 };//命令特征码连接码0x1厂家代码，0x02命令类型,0x06数据长度,0x08校验值和
+		private static byte[] commandCode = { 0x01, 0x02, 0x06, 0x08 };//命令特征码连接码0x1厂家代码，0x02命令类型,0x06数据长度,0x08校验值和
 		private static byte[] chipCode = { 0x01, 0x31 };//芯片型号/通道号 ，来自设置
 		private static byte[] deviceCodeRear = {  };//device Code，来自设置
 		public static byte[] Connect //拼接连接指令，这里要在最后增加字符串以供通道设置并设置length的长度
@@ -24,8 +24,8 @@ namespace Ultrasonic_toothbrush
 			get {
 				List<byte> byteSource = new List<byte>();
 				byteSource.AddRange(head);
-                connectCode[2] = (byte)(device.connectMac.Length + deviceCodeRear.Length + chipCode.Length);//计算数据包的长度
-				byteSource.AddRange(connectCode);
+                commandCode[2] = (byte)(device.connectMac.Length + deviceCodeRear.Length + chipCode.Length);//计算数据包的长度
+				byteSource.AddRange(commandCode);
 				byteSource.AddRange(device.connectMac);
 				byteSource.AddRange(chipCode);
 				return  byteSource.ToArray();
@@ -34,22 +34,24 @@ namespace Ultrasonic_toothbrush
 		}
         private static byte[] upLoadCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
         private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//x9A帧头0xC1命令类型查询
-		private static byte[] commandCode= { 0x9A, 0xC1 };
+		private static byte[] brushCommandCode= { 0x9A, 0xC1 };
 		private static byte[] timestamp { get { return nowtimestamp(); } }
-		private static byte[] commandOption = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,0xC1};//操作选项
+		private static byte[] commandOption = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0xC1};//操作选项
 		private static byte[] commandRear = {  0xAA };
-		public static byte[] UpLoadRealData
+		public static byte[] UpLoadRealData//上传实时数据命令
         {
             get
             {
                 List<byte> byteSource = new List<byte>();
-              //  byteSource.AddRange(head);
-				byteSource.AddRange(commandCode);
-				byteSource.AddRange(timestamp);
-				byteSource.AddRange(commandOption);
-				XOR(1, byteSource);
-				
-
+               byteSource.AddRange(head);//添加帧头
+				upLoadCode[2] = (byte)(brushCommandCode.Length + timestamp.Length + commandOption.Length + commandRear.Length);//计算数据包的长度
+				upLoadCode[1] = 0x05;//添加代码编号
+				byteSource.AddRange(upLoadCode);//
+				byteSource.AddRange(brushCommandCode);//添加牙刷操命令号
+				byteSource.AddRange(timestamp);//添加时间戳
+				byteSource.AddRange(commandOption);//添加牙刷操作命令号
+				XOR(9, byteSource);//异或校验和
+				byteSource.AddRange(commandRear);//添加帧尾
 				return byteSource.ToArray();
 
             }
@@ -91,14 +93,13 @@ namespace Ultrasonic_toothbrush
         }
 		public static void XOR(int i, List<byte> byteSource)//亦或校验
 		{
-			int c = byteSource.Count;
-			byte r = byteSource[i];
-			i++;
-			for (int x = i; i< c-1; i++)
+			int c = byteSource.Count-1;
+			byteSource[c]=0;
+			for (int x = i; x< c; x++)
 			{
-				r ^= byteSource[x];
+				byteSource[c] ^= byteSource[x];
 			}
-			byteSource[c - 1] = r;
+			
 		}
 		public static void CheckSum(byte source, byte result)//校验和
 		{
