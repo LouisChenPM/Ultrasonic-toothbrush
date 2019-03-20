@@ -87,6 +87,9 @@ namespace Ultrasonic_toothbrush
 					break;
 				case Command.Id.Reset: buf=Command.Disconnect; break;//暂时显示reset
                 case Command.Id.FactoryReset: buf= Command.Factoryreset;break;
+				case Command.Id.CleanMode:buf = Command.SetCleanMode;break;
+				case Command.Id.PowerOn:buf = Command.SetPowerOn;break;
+				case Command.Id.PowerOff:buf = Command.SetPowerOff;break;
 				default:
 					break;
 			}

@@ -32,8 +32,9 @@ namespace Ultrasonic_toothbrush
 			}
 
 		}
+
         private static byte[] upLoadCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
-        private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//x9A帧头0xC1命令类型查询
+       // private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//x9A帧头0xC1命令类型查询
 		private static byte[] brushCommandCode= { 0x9A, 0xC1 };
 		private static byte[] timestamp { get { return nowtimestamp(); } }
 		private static byte[] commandOption = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0xC1};//操作选项
@@ -56,9 +57,74 @@ namespace Ultrasonic_toothbrush
 
             }
         }
-        //发送数据命令字节串
-       // public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
-        public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
+
+		private static byte[] setCleanCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
+		private static byte[] cleanCommandCode = { 0x9A, 0xC8 };
+		private static byte[] setCleanOption = { 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//设置清洁操作选项
+		public static byte[] SetCleanMode//设置清洁模式
+		{
+			get
+			{
+				List<byte> byteSource = new List<byte>();
+				byteSource.AddRange(head);//添加帧头
+				setCleanCode[2] = (byte)(cleanCommandCode.Length +timestamp.Length+ setCleanOption.Length + commandRear.Length);
+				setCleanCode[1] = 0x5;
+				byteSource.AddRange(setCleanCode);
+				byteSource.AddRange(cleanCommandCode);
+				byteSource.AddRange(timestamp);
+				byteSource.AddRange(setCleanOption);
+				XOR(9, byteSource);//异或校验和
+				byteSource.AddRange(commandRear);
+				return byteSource.ToArray();
+			}
+		}
+
+		private static byte[] setPowerOnCode = { 0x01, 0x05, 0x12, 0xA8 };
+		private static byte[] powerOnCommandCode = { 0x9A, 0xC9 };
+		private static byte[] setPowerOnOption = { 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//设置开机操作选项
+		public static byte[] SetPowerOn//设置开机
+		{
+			get
+			{
+				List<byte> byteSource = new List<byte>();
+				byteSource.AddRange(head);//添加帧头
+				setPowerOnCode[2] = (byte)(powerOnCommandCode.Length+timestamp.Length+setPowerOnOption.Length+commandRear.Length);
+				setPowerOnCode[1] = 0x5;
+				byteSource.AddRange(setPowerOnCode);
+				byteSource.AddRange(powerOnCommandCode);
+				byteSource.AddRange(timestamp);
+				byteSource.AddRange(setPowerOnOption);
+				XOR(9, byteSource);
+				byteSource.AddRange(commandRear);
+				return byteSource.ToArray();
+			}
+		}
+
+		private static byte[] setPowerOffCode = { 0x01, 0x05, 0x12, 0xA8 };
+		private static byte[] powerOffCommandCode = { 0x9A, 0xC9 };
+		private static byte[] setPowerOffOption = { 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//设置关机操作选项
+		public static byte[] SetPowerOff//设置关机
+		{
+			get
+			{
+				List<byte> byteSource = new List<byte>();
+				byteSource.AddRange(head);//添加帧头
+				setPowerOnCode[2] = (byte)(powerOffCommandCode.Length + timestamp.Length + setPowerOffOption.Length + commandRear.Length);
+				setPowerOnCode[1] = 0x5;
+				byteSource.AddRange(setPowerOffCode);
+				byteSource.AddRange(powerOffCommandCode);
+				byteSource.AddRange(timestamp);
+				byteSource.AddRange(setPowerOffOption);
+				XOR(9, byteSource);
+				byteSource.AddRange(commandRear);
+				return byteSource.ToArray();
+			}
+		}
+
+
+		//发送数据命令字节串
+		// public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
+		public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
         public static byte[] Disconnect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x03, 0x00, 0x00 };//收到断开{ 0x78,0x73,0x63,0x73,0x01,0x03,0x00,0x19 };
         private static Device device=null;
 		public static Port port;
@@ -70,7 +136,10 @@ namespace Ultrasonic_toothbrush
 			PackageData = 4,
 			UpLoadRealData,
             FactoryReset,
-            Stop,
+			CleanMode,
+			PowerOn,
+			PowerOff,
+			Stop,
 			Reset
 			//以下留着备用
 			//wait_disconnect = 0xFB,
@@ -124,7 +193,7 @@ namespace Ultrasonic_toothbrush
 					break;
 				case (byte)Id.Disconnect:
 					break;
-				case (byte)Id.PackageData://PackageData//数据处理
+				case (byte)Id.PackageData:if (cmd[6] == 0x12) RealDataRespon();//PackageData//数据处理
 					break;
 				case (byte)Id.UpLoadRealData:
 					break;
@@ -133,6 +202,11 @@ namespace Ultrasonic_toothbrush
 				default:
 					break;
 			}
+		}
+
+		private static void RealDataRespon()
+		{
+
 		}
 		private static int macOffect = 10;
 		private static int macLength = 6;

@@ -86,5 +86,20 @@ namespace Ultrasonic_toothbrush
         {
 
         }
-    }
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+		Port.SendCommand(Command.Id.CleanMode);
+		}
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			Port.SendCommand(Command.Id.PowerOn);
+		}
+
+		private void button6_Click(object sender, EventArgs e)
+		{
+			Port.SendCommand(Command.Id.PowerOff);
+		}
+	}
 }
