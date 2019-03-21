@@ -32,99 +32,87 @@ namespace Ultrasonic_toothbrush
 			}
 
 		}
-
-        private static byte[] upLoadCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
-       // private static byte[] package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//x9A帧头0xC1命令类型查询
-		private static byte[] brushCommandCode= { 0x9A, 0xC1 };
-		private static byte[] timestamp { get { return nowtimestamp(); } }
-		private static byte[] commandOption = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,0xC1};//操作选项
-		private static byte[] commandRear = {  0xAA };
-		public static byte[] UpLoadRealData//上传实时数据命令
+        // package = { 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };//x9A帧头0xC1命令类型查询
+        public static byte[] UpLoadRealData//上传实时数据命令
         {
-            get
-            {
-                List<byte> byteSource = new List<byte>();
-               byteSource.AddRange(head);//添加帧头
-				upLoadCode[2] = (byte)(brushCommandCode.Length + timestamp.Length + commandOption.Length + commandRear.Length);//计算数据包的长度
-				upLoadCode[1] = 0x05;//添加代码编号
-				byteSource.AddRange(upLoadCode);//
-				byteSource.AddRange(brushCommandCode);//添加牙刷操命令号
-				byteSource.AddRange(timestamp);//添加时间戳
-				byteSource.AddRange(commandOption);//添加牙刷操作命令号
-				XOR(9, byteSource);//异或校验和
-				byteSource.AddRange(commandRear);//添加帧尾
-				return byteSource.ToArray();
-
-            }
+            get { return getPackageToBrush(Id.UpLoadRealData); }
+        }
+        public static byte[] SetCleanMode//设置清洁模式
+        {
+            get { return getPackageToBrush(Id.CleanMode); }
+        }
+        public static byte[] SetWhiteMode//设置亮白模式
+        {
+            get { return getPackageToBrush(Id.SetWhiteMode); }
+        }
+        public static byte[] SetPolishMode//设置抛光模式
+        {
+            get { return getPackageToBrush(Id.SetPolishMode); }
+        }
+        public static byte[] SetSensitiveMode//设置敏感模式
+        {
+            get { return getPackageToBrush(Id.SetSensitiveMode); }
+        }
+        public static byte[] SetMassageMode//设置按摩模式
+        {
+            get { return getPackageToBrush(Id.SetMassageMode); }
+        }
+        public static byte[] SetPowerOn//设置开机
+        {
+            get { return getPackageToBrush(Id.PowerOn); }
         }
 
-		private static byte[] setCleanCode = { 0x01, 0x05, 0x12, 0xA8 };//0x1厂家代码,0x05命令类型,0x12数据长度,0xA8校验值和
-		private static byte[] cleanCommandCode = { 0x9A, 0xC8 };
-		private static byte[] setCleanOption = { 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//设置清洁操作选项
-		public static byte[] SetCleanMode//设置清洁模式
-		{
-			get
-			{
-				List<byte> byteSource = new List<byte>();
-				byteSource.AddRange(head);//添加帧头
-				setCleanCode[2] = (byte)(cleanCommandCode.Length +timestamp.Length+ setCleanOption.Length + commandRear.Length);
-				setCleanCode[1] = 0x5;
-				byteSource.AddRange(setCleanCode);
-				byteSource.AddRange(cleanCommandCode);
-				byteSource.AddRange(timestamp);
-				byteSource.AddRange(setCleanOption);
-				XOR(9, byteSource);//异或校验和
-				byteSource.AddRange(commandRear);
-				return byteSource.ToArray();
-			}
-		}
+        public static byte[] SetPowerOff//设置关机
+        {
+            get { return getPackageToBrush(Id.PowerOff); }
+        }
 
-		private static byte[] setPowerOnCode = { 0x01, 0x05, 0x12, 0xA8 };
-		private static byte[] powerOnCommandCode = { 0x9A, 0xC9 };
-		private static byte[] setPowerOnOption = { 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//设置开机操作选项
-		public static byte[] SetPowerOn//设置开机
-		{
-			get
-			{
-				List<byte> byteSource = new List<byte>();
-				byteSource.AddRange(head);//添加帧头
-				setPowerOnCode[2] = (byte)(powerOnCommandCode.Length+timestamp.Length+setPowerOnOption.Length+commandRear.Length);
-				setPowerOnCode[1] = 0x5;
-				byteSource.AddRange(setPowerOnCode);
-				byteSource.AddRange(powerOnCommandCode);
-				byteSource.AddRange(timestamp);
-				byteSource.AddRange(setPowerOnOption);
-				XOR(9, byteSource);
-				byteSource.AddRange(commandRear);
-				return byteSource.ToArray();
-			}
-		}
+        /*--将与牙刷通信的指令拆分为head code timestamp brushComdCode Option Rear---
+        ----这几部分根据不同的指令对应这些部分不同的内容分别赋值，最后做校验拼接---- */
+        private static byte[] code = { 0x01, 0x02, 0x06, 0x08 };
+        private static byte[] timestamp { get { return nowtimestamp(); } }
+        private static byte[] brushComdCode = { 0x9A, 0xC1 };
+        private static byte[] Option = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//操作选项
+        private static byte[] Rear = { 0xAA };
+        private static byte[] getPackageToBrush(Command.Id id)
+        {//分别对不同的指令设置的code[1],brushComdCode[1],Option[1],Option[2]进行设置
 
-		private static byte[] setPowerOffCode = { 0x01, 0x05, 0x12, 0xA8 };
-		private static byte[] powerOffCommandCode = { 0x9A, 0xC9 };
-		private static byte[] setPowerOffOption = { 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//设置关机操作选项
-		public static byte[] SetPowerOff//设置关机
-		{
-			get
-			{
-				List<byte> byteSource = new List<byte>();
-				byteSource.AddRange(head);//添加帧头
-				setPowerOnCode[2] = (byte)(powerOffCommandCode.Length + timestamp.Length + setPowerOffOption.Length + commandRear.Length);
-				setPowerOnCode[1] = 0x5;
-				byteSource.AddRange(setPowerOffCode);
-				byteSource.AddRange(powerOffCommandCode);
-				byteSource.AddRange(timestamp);
-				byteSource.AddRange(setPowerOffOption);
-				XOR(9, byteSource);
-				byteSource.AddRange(commandRear);
-				return byteSource.ToArray();
-			}
-		}
+            for (int i = 0; i < Option.Length; i++)//初始化option
+                Option[i] = 0x0;
+            switch (id)
+            {
+                case Id.UpLoadRealData:   code[1] = 0x05; brushComdCode[1] = 0xc1; Option[1] = 0x00; Option[2] = 0x00; break;
+                case Id.CleanMode:        code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置情节模式
+                case Id.SetWhiteMode:     code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
+                case Id.SetPolishMode:    code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
+                case Id.SetSensitiveMode: code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x04; break;
+                case Id.SetMassageMode:   code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x05; break;
+                case Id.PowerOn: code[1] = 0x05; brushComdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
+                case Id.PowerOff: code[1] = 0x05; brushComdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
+                case Id.FactoryReset: code[1] = 0x05; brushComdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
 
 
-		//发送数据命令字节串
-		// public static byte[] UpLoadRealData = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xC1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1, 0xAA };
-		public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
+
+            }
+            List<byte> byteSource = new List<byte>();
+            byteSource.AddRange(head);//添加帧头
+            code[2] = (byte)(brushComdCode.Length + timestamp.Length + Option.Length + Rear.Length);//计算帧长
+            code[3] = 0;//code[3]为暂时未用的校验和位
+            byteSource.AddRange(code);//添加code
+            byteSource.AddRange(brushComdCode);//添加牙刷操命令号
+            byteSource.AddRange(timestamp);//添加时间戳
+            byteSource.AddRange(Option);//添加不同操作指令中的操作选项
+            XOR(9, byteSource);//异或校验和
+            byteSource.AddRange(Rear);//添加帧尾
+            return byteSource.ToArray();//转换为字节串
+        }
+
+        public static byte[] Factoryreset
+        {
+            get { return getPackageToBrush(Id.FactoryReset); }
+        }
+
+        //public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
         public static byte[] Disconnect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x03, 0x00, 0x00 };//收到断开{ 0x78,0x73,0x63,0x73,0x01,0x03,0x00,0x19 };
         private static Device device=null;
 		public static Port port;
@@ -137,7 +125,11 @@ namespace Ultrasonic_toothbrush
 			UpLoadRealData,
             FactoryReset,
 			CleanMode,
-			PowerOn,
+            SetWhiteMode,
+            SetPolishMode,
+            SetSensitiveMode,
+            SetMassageMode,
+            PowerOn,
 			PowerOff,
 			Stop,
 			Reset
