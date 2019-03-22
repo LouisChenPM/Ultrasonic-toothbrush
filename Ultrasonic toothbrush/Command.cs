@@ -23,11 +23,12 @@ namespace Ultrasonic_toothbrush
 
 			get {
 				List<byte> byteSource = new List<byte>();
-				byteSource.AddRange(head);
+				byteSource.AddRange(head);//添加头
                 commandCode[2] = (byte)(device.connectMac.Length + deviceCodeRear.Length + chipCode.Length);//计算数据包的长度
-				byteSource.AddRange(commandCode);
-				byteSource.AddRange(device.connectMac);
-				byteSource.AddRange(chipCode);
+				byteSource.AddRange(commandCode);//添加命令类型
+				byteSource.AddRange(device.connectMac);//添加mac地址
+				byteSource.AddRange(chipCode);//添加芯片型号
+				byteSource.AddRange(deviceCodeRear);//添加用于指定通道号的字符串
 				return  byteSource.ToArray();
 			}
 
@@ -71,7 +72,7 @@ namespace Ultrasonic_toothbrush
         ----这几部分根据不同的指令对应这些部分不同的内容分别赋值，最后做校验拼接---- */
         private static byte[] code = { 0x01, 0x02, 0x06, 0x08 };
         private static byte[] timestamp { get { return nowtimestamp(); } }
-        private static byte[] brushComdCode = { 0x9A, 0xC1 };
+        private static byte[] brushCmdCode = { 0x9A, 0xC1 };
         private static byte[] Option = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC1 };//操作选项
         private static byte[] Rear = { 0xAA };
         private static byte[] getPackageToBrush(Command.Id id)
@@ -81,25 +82,25 @@ namespace Ultrasonic_toothbrush
                 Option[i] = 0x0;
             switch (id)
             {
-                case Id.UpLoadRealData:   code[1] = 0x05; brushComdCode[1] = 0xc1; Option[1] = 0x00; Option[2] = 0x00; break;
-                case Id.CleanMode:        code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置情节模式
-                case Id.SetWhiteMode:     code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
-                case Id.SetPolishMode:    code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
-                case Id.SetSensitiveMode: code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x04; break;
-                case Id.SetMassageMode:   code[1] = 0x05; brushComdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x05; break;
-                case Id.PowerOn: code[1] = 0x05; brushComdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
-                case Id.PowerOff: code[1] = 0x05; brushComdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
-                case Id.FactoryReset: code[1] = 0x05; brushComdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
+                case Id.UpLoadRealData:	code[1] = 0x05; brushCmdCode[1] = 0xc1; Option[1] = 0x00; Option[2] = 0x00; break;
+                case Id.CleanMode:				code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置情节模式
+                case Id.SetWhiteMode:		code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
+                case Id.SetPolishMode:		code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
+                case Id.SetSensitiveMode:	code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x04; break;
+                case Id.SetMassageMode:	code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x05; break;
+                case Id.PowerOn:				code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
+                case Id.PowerOff:				code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
+                case Id.FactoryReset:			code[1] = 0x05; brushCmdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
 
 
 
             }
             List<byte> byteSource = new List<byte>();
             byteSource.AddRange(head);//添加帧头
-            code[2] = (byte)(brushComdCode.Length + timestamp.Length + Option.Length + Rear.Length);//计算帧长
+            code[2] = (byte)(brushCmdCode.Length + timestamp.Length + Option.Length + Rear.Length);//计算帧长
             code[3] = 0;//code[3]为暂时未用的校验和位
             byteSource.AddRange(code);//添加code
-            byteSource.AddRange(brushComdCode);//添加牙刷操命令号
+            byteSource.AddRange(brushCmdCode);//添加牙刷操命令号
             byteSource.AddRange(timestamp);//添加时间戳
             byteSource.AddRange(Option);//添加不同操作指令中的操作选项
             XOR(9, byteSource);//异或校验和
