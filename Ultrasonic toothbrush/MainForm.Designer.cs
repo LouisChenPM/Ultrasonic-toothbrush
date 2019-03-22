@@ -51,11 +51,9 @@
 			this.radioButton3 = new System.Windows.Forms.RadioButton();
 			this.radioButton4 = new System.Windows.Forms.RadioButton();
 			this.radioButton5 = new System.Windows.Forms.RadioButton();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -234,7 +232,7 @@
 			this.radioButton1.AutoSize = true;
 			this.radioButton1.FlatAppearance.BorderSize = 10;
 			this.radioButton1.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-			this.radioButton1.Location = new System.Drawing.Point(47, 18);
+			this.radioButton1.Location = new System.Drawing.Point(644, 124);
 			this.radioButton1.Name = "radioButton1";
 			this.radioButton1.Size = new System.Drawing.Size(14, 13);
 			this.radioButton1.TabIndex = 4;
@@ -262,7 +260,7 @@
 			this.radioButton2.AutoSize = true;
 			this.radioButton2.FlatAppearance.BorderSize = 10;
 			this.radioButton2.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-			this.radioButton2.Location = new System.Drawing.Point(92, 18);
+			this.radioButton2.Location = new System.Drawing.Point(690, 124);
 			this.radioButton2.Name = "radioButton2";
 			this.radioButton2.Size = new System.Drawing.Size(14, 13);
 			this.radioButton2.TabIndex = 7;
@@ -273,7 +271,7 @@
 			this.radioButton3.AutoSize = true;
 			this.radioButton3.FlatAppearance.BorderSize = 10;
 			this.radioButton3.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-			this.radioButton3.Location = new System.Drawing.Point(288, 127);
+			this.radioButton3.Location = new System.Drawing.Point(782, 124);
 			this.radioButton3.Name = "radioButton3";
 			this.radioButton3.Size = new System.Drawing.Size(14, 13);
 			this.radioButton3.TabIndex = 8;
@@ -285,7 +283,7 @@
 			this.radioButton4.AutoSize = true;
 			this.radioButton4.FlatAppearance.BorderSize = 10;
 			this.radioButton4.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-			this.radioButton4.Location = new System.Drawing.Point(244, 127);
+			this.radioButton4.Location = new System.Drawing.Point(736, 124);
 			this.radioButton4.Name = "radioButton4";
 			this.radioButton4.Size = new System.Drawing.Size(14, 13);
 			this.radioButton4.TabIndex = 9;
@@ -299,21 +297,12 @@
 			this.radioButton5.Enabled = false;
 			this.radioButton5.FlatAppearance.BorderSize = 10;
 			this.radioButton5.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-			this.radioButton5.Location = new System.Drawing.Point(332, 127);
+			this.radioButton5.Location = new System.Drawing.Point(828, 124);
 			this.radioButton5.Name = "radioButton5";
 			this.radioButton5.Size = new System.Drawing.Size(14, 13);
 			this.radioButton5.TabIndex = 10;
 			this.radioButton5.TabStop = true;
 			this.radioButton5.UseVisualStyleBackColor = true;
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.radioButton2);
-			this.panel1.Controls.Add(this.radioButton1);
-			this.panel1.Location = new System.Drawing.Point(41, 157);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(200, 100);
-			this.panel1.TabIndex = 11;
 			// 
 			// panel2
 			// 
@@ -329,8 +318,9 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1010, 715);
+			this.Controls.Add(this.radioButton2);
+			this.Controls.Add(this.radioButton1);
 			this.Controls.Add(this.panel2);
-			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.radioButton5);
 			this.Controls.Add(this.radioButton4);
 			this.Controls.Add(this.radioButton3);
@@ -343,8 +333,6 @@
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -376,7 +364,6 @@
 		private System.Windows.Forms.RadioButton radioButton3;
 		private System.Windows.Forms.RadioButton radioButton4;
 		private System.Windows.Forms.RadioButton radioButton5;
-		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;
 	}
 }
