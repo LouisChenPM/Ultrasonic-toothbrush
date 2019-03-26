@@ -45,16 +45,12 @@
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.label1 = new System.Windows.Forms.Label();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
-			this.progressBar1 = new System.Windows.Forms.ProgressBar();
-			this.button11 = new System.Windows.Forms.Button();
 			this.radioButton2 = new System.Windows.Forms.RadioButton();
 			this.radioButton3 = new System.Windows.Forms.RadioButton();
 			this.radioButton4 = new System.Windows.Forms.RadioButton();
 			this.radioButton5 = new System.Windows.Forms.RadioButton();
-			this.panel2 = new System.Windows.Forms.Panel();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -238,23 +234,6 @@
 			this.radioButton1.TabIndex = 4;
 			this.radioButton1.UseVisualStyleBackColor = true;
 			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(43, 49);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(46, 22);
-			this.progressBar1.TabIndex = 5;
-			this.progressBar1.Value = 80;
-			// 
-			// button11
-			// 
-			this.button11.Location = new System.Drawing.Point(69, 55);
-			this.button11.Name = "button11";
-			this.button11.Size = new System.Drawing.Size(26, 10);
-			this.button11.TabIndex = 6;
-			this.button11.Text = "button11";
-			this.button11.UseVisualStyleBackColor = true;
-			// 
 			// radioButton2
 			// 
 			this.radioButton2.AutoSize = true;
@@ -304,15 +283,6 @@
 			this.radioButton5.TabStop = true;
 			this.radioButton5.UseVisualStyleBackColor = true;
 			// 
-			// panel2
-			// 
-			this.panel2.Controls.Add(this.progressBar1);
-			this.panel2.Controls.Add(this.button11);
-			this.panel2.Location = new System.Drawing.Point(672, 157);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(156, 100);
-			this.panel2.TabIndex = 12;
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -320,7 +290,6 @@
 			this.ClientSize = new System.Drawing.Size(1010, 715);
 			this.Controls.Add(this.radioButton2);
 			this.Controls.Add(this.radioButton1);
-			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.radioButton5);
 			this.Controls.Add(this.radioButton4);
 			this.Controls.Add(this.radioButton3);
@@ -333,7 +302,6 @@
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -358,13 +326,10 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;
 		private System.Windows.Forms.RadioButton radioButton1;
-		private System.Windows.Forms.Button button11;
-		internal System.Windows.Forms.ProgressBar progressBar1;
 		private System.Windows.Forms.RadioButton radioButton2;
 		private System.Windows.Forms.RadioButton radioButton3;
 		private System.Windows.Forms.RadioButton radioButton4;
 		private System.Windows.Forms.RadioButton radioButton5;
-		private System.Windows.Forms.Panel panel2;
 	}
 }
 
