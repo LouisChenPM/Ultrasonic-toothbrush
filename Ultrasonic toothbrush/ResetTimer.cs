@@ -29,6 +29,14 @@ namespace Ultrasonic_toothbrush
         {
             timer.Enabled = false;
         }
+		public static void DelaySend(int tickCount ,Command.Id id)//延迟几个tick发送某个命令
+		{
+			int delaytime = tick * tickCount;//定义延时时间
+			delaytime = delaytime - tick;
+		/*	if(delaytime<=0)*/
+				//send
+
+		}
 		private static void  SendReset(object source,ElapsedEventArgs e)
 		{
 			 timeInterval = timeInterval + tick;

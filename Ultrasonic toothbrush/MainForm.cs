@@ -74,6 +74,8 @@ namespace Ultrasonic_toothbrush
 		private void button3_Click(object sender, EventArgs e)
 		{
             Port.SendCommand(Command.Id.FactoryReset);
+			//System.Threading.Thread.Sleep(14);
+			Port.SendCommand(Command.Id.Disconnect);
 		}
 
 		private void trackBar1_Scroll(object sender, EventArgs e)

@@ -163,6 +163,11 @@ namespace Ultrasonic_toothbrush
 			}
 			
 		}
+		public static bool XORCheck(byte[] b,int i,int r)//亦或校验
+		{
+			return true;
+
+		}
 		public static void CheckSum(byte source, byte result)//校验和
 		{
 
@@ -179,14 +184,14 @@ namespace Ultrasonic_toothbrush
 					device.mac=GetMac();//获取扫描到的mac地址
 					device.rssi=GetRssi();//获取信号强度
 					device.name=GetDeviceName();//getmac//getrssi//getdevicename//getchiptype//port.connect(if rssi>x)
-					if(device.rssi> Setting.Rssi)
+					if(device.rssi> Setting.Rssi)//这里是连接条件（还可以包含设置连接名称）
 					Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
 				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);
 					break;
 				case (byte)Id.Disconnect:
 					break;
-				case (byte)Id.PackageData:if (cmd[6] == 0x12) RealDataRespon();//PackageData//数据处理
+				case (byte)Id.PackageData:if (cmd[6] == 0x12) RealDataDdOrD9();//PackageData//数据处理
 					break;
 				case (byte)Id.UpLoadRealData:
 					break;
@@ -196,10 +201,30 @@ namespace Ultrasonic_toothbrush
 					break;
 			}
 		}
-
-		private static void RealDataRespon()
+		private static byte[] ddorD9 = new byte[0x12];//暂存DD或D9指令
+		private static void RealDataDdOrD9()//解析DD或D9指令
 		{
-
+			Array.Copy(cmd, 8, ddorD9, 0, 0x12);//从第8位开始将dd或d9指令拷贝出来
+												//验证一下校验位，不符合的指令忽略
+												//下面开始对应位数据的解析
+												//	ddorD9[]
+			int batteryStatus;
+			int chargeStatus;
+			int batteryPercentage;
+			int cleanMode;
+			int runingStatus;
+			switch (ddorD9[1])
+			{
+				case 0xD9:
+					batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
+					chargeStatus = ddorD9[12]>>4;//chargeStatus=1充电，2放电，3不充电
+					cleanMode = ddorD9[13] & 0x0f;//cleanMode=1清洁，2亮白，3抛光，4敏感，5按摩
+					runingStatus = ddorD9[13] >> 4 & 0x7;//runingStatus=0关机，1开机，2暂停
+					batteryPercentage = ddorD9[10];
+					batteryPercentage = ddorD9[11];
+					break;
+				case 0xDD: chargeStatus = ddorD9[12] >> 4; break;
+			}
 		}
 		private static int macOffect = 10;
 		private static int macLength = 6;
