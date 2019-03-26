@@ -82,15 +82,15 @@ namespace Ultrasonic_toothbrush
                 Option[i] = 0x0;
             switch (id)
             {
-                case Id.UpLoadRealData:	code[1] = 0x05; brushCmdCode[1] = 0xc1; Option[1] = 0x00; Option[2] = 0x00; break;
-                case Id.CleanMode:				code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置情节模式
-                case Id.SetWhiteMode:		code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
-                case Id.SetPolishMode:		code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
-                case Id.SetSensitiveMode:	code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x04; break;
-                case Id.SetMassageMode:	code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x05; break;
-                case Id.PowerOn:				code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
-                case Id.PowerOff:				code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
-                case Id.FactoryReset:			code[1] = 0x05; brushCmdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
+                case Id.UpLoadRealData:	    code[1] = 0x05; brushCmdCode[1] = 0xc1; Option[1] = 0x00; Option[2] = 0x00; break;
+                case Id.CleanMode:		    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置情节模式
+                case Id.SetWhiteMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
+                case Id.SetPolishMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
+                case Id.SetSensitiveMode:   code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x04; break;
+                case Id.SetMassageMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x05; break;
+                case Id.PowerOn:			code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
+                case Id.PowerOff:			code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
+                case Id.FactoryReset:		code[1] = 0x05; brushCmdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
 
 
 
@@ -205,25 +205,50 @@ namespace Ultrasonic_toothbrush
 		private static void RealDataDdOrD9()//解析DD或D9指令
 		{
 			Array.Copy(cmd, 8, ddorD9, 0, 0x12);//从第8位开始将dd或d9指令拷贝出来
-												//验证一下校验位，不符合的指令忽略
-												//下面开始对应位数据的解析
-												//	ddorD9[]
-			int batteryStatus;
+                                                //验证一下校验位，不符合的指令忽略
+                                                //下面开始对应位数据的解析
+                                                //	ddorD9[]
+
+            int pureBrushTime;
+            int overPressTime;
+            int pauseTime;
+            int batteryPercentage;
+            int batteryStatus;
 			int chargeStatus;
-			int batteryPercentage;
 			int cleanMode;
 			int runingStatus;
+            int pressStatus;
+            int brushCount;
+            int finishStatus;
 			switch (ddorD9[1])
 			{
 				case 0xD9:
-					batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
+                    pureBrushTime = ddorD9[6];//净刷牙时间
+                    overPressTime = ddorD9[7];//压力过大时间
+
+                    pauseTime = ddorD9[8]&0x0f;//总暂停时间高位
+                    pauseTime = ddorD9[8] >> 4;//当次暂停时间
+                    pauseTime = ddorD9[9];//总暂停时间低位置
+
+                    batteryPercentage = ddorD9[10];//电池电量高位
+                    batteryPercentage = ddorD9[11];//电池电量低位
+
+                    batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
 					chargeStatus = ddorD9[12]>>4;//chargeStatus=1充电，2放电，3不充电
+
 					cleanMode = ddorD9[13] & 0x0f;//cleanMode=1清洁，2亮白，3抛光，4敏感，5按摩
 					runingStatus = ddorD9[13] >> 4 & 0x7;//runingStatus=0关机，1开机，2暂停
-					batteryPercentage = ddorD9[10];
-					batteryPercentage = ddorD9[11];
+                    pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
+                    brushCount = ddorD9[14];//刷牙次数高字节 
+                    brushCount = ddorD9[15];//刷牙次数低字节
+					
 					break;
-				case 0xDD: chargeStatus = ddorD9[12] >> 4; break;
+				case 0xDD:
+                    runingStatus = ddorD9[13] >> 4 & 0x3;//runingStatus=0关机，1开机，2暂停
+                    finishStatus = ddorD9[13] >> 6 & 0x20;//finishStatus=0未完成，1完成
+                    pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
+
+                    break;
 			}
 		}
 		private static int macOffect = 10;
