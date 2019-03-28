@@ -212,13 +212,13 @@ namespace Ultrasonic_toothbrush
             int pureBrushTime;
             int overPressTime;
             int pauseTime;
-            int batteryPercentage;
+			float batteryPercentage;
             int batteryStatus;
 			int chargeStatus;
 			int cleanMode;
 			int runingStatus;
             int pressStatus;
-            int brushCount;
+            int brushCount=0;
             int finishStatus;
 			switch (ddorD9[1])
 			{
@@ -230,17 +230,22 @@ namespace Ultrasonic_toothbrush
                     pauseTime = ddorD9[8] >> 4;//当次暂停时间
                     pauseTime = ddorD9[9];//总暂停时间低位置
 
-                    batteryPercentage = ddorD9[10];//电池电量高位
-                    batteryPercentage = ddorD9[11];//电池电量低位
+					int percentage = 0;
+					percentage = percentage|ddorD9[10];//取电池电量取高位
+					percentage = percentage << 8;//移动
+					batteryPercentage = percentage | ddorD9[11];//取电池电量低位
+					batteryPercentage = batteryPercentage / 100;//转换为百分比
 
-                    batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
+					batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
 					chargeStatus = ddorD9[12]>>4;//chargeStatus=1充电，2放电，3不充电
 
 					cleanMode = ddorD9[13] & 0x0f;//cleanMode=1清洁，2亮白，3抛光，4敏感，5按摩
 					runingStatus = ddorD9[13] >> 4 & 0x7;//runingStatus=0关机，1开机，2暂停
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
-                    brushCount = ddorD9[14];//刷牙次数高字节 
-                    brushCount = ddorD9[15];//刷牙次数低字节
+                    brushCount = brushCount|ddorD9[14];//取刷牙次数高字节 
+					brushCount = brushCount << 8;
+
+					brushCount = brushCount|ddorD9[15];//取刷牙次数低字节
 					
 					break;
 				case 0xDD:
