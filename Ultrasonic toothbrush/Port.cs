@@ -22,8 +22,8 @@ namespace Ultrasonic_toothbrush
         private string portName;//使用串口
 		string[] portNames;//所有串口
 		int portNameIndex = -1;//当前串口索引号
-		public static UIHandler uiHandler ;//ui委托对象
-		public static MainForm mf;//引用主窗口
+	//	public static TextBoxHandler uiHandler ;//ui委托对象
+		//public static MainForm mf;//引用主窗口
 		public Port()//构造函数
 		{
 			/*查找本机串口号*/
@@ -102,8 +102,9 @@ namespace Ultrasonic_toothbrush
 			int offset = 0;
 			int count = buf.Length;
 			string s = BitConverter.ToString(buf).Replace("-", " ");//转换为16进制显示
-			Port.mf.BeginInvoke(Port.uiHandler, "[W] "+s);//在界面显示/
-			comm.Write(buf, offset, count);
+            string t = DateTime.Now.ToString("HH:mm:ss");
+            UI.TextBox( t  + " [W] " + s);//在界面显示/
+            comm.Write(buf, offset, count);
 		}
 		/*修改端口号为下一个*/
 		public string NextPort()
@@ -137,8 +138,9 @@ namespace Ultrasonic_toothbrush
 					buffer.RemoveRange(0, len + Command.headerLength);//移除已拷贝数据
 					Command.cmd = cmd;//拷贝已缓存命令
 					string s =BitConverter.ToString(cmd).Replace("-", " ");//转换为16进制显示
-					Port.mf.BeginInvoke(Port.uiHandler, "[R] "+s);//在界面显示/
-					Command.DealCmd();//处理已拷贝的命令
+                    string t = DateTime.Now.ToString("HH:mm:ss");
+                    UI.TextBox(t+" [R] " + s);//在界面显示/
+                    Command.DealCmd();//处理已拷贝的命令
 				}
 				else
 				{

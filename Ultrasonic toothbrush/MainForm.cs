@@ -10,26 +10,30 @@ using System.Windows.Forms;
 
 namespace Ultrasonic_toothbrush
 {
-	public delegate bool UIHandler(string s);//UI更新委托
-	
-	public partial class MainForm : Form
+	public delegate bool TextBoxHandler(string s);//UI更新委托
+    public delegate bool LedHandler(int i);//LED更新委托
+    public partial class MainForm : Form
 	{
 		//public   UIHandler uiHandler ;
 		private Port port;
         private bool isStart=true;
-		public MainForm()
+        Color c;
+        public MainForm()
 		{
 			InitializeComponent();
 			port = new Port();
 			this.buttonPortName.Text = port.NextPort();
-			//uiHandler = new UIHandler(UpdateUI);
-			Port.uiHandler = new UIHandler(UpdateUI);
-			Port.mf = this;
-		}
+            //委托textBoX接口
+            UI.textBoxHandler = new TextBoxHandler(UpdateTextBox);
+            UI.ledHandler = new LedHandler(UpdateLed);
+            UI.mf = this;
+            c = ledBattery.BackColor;
+
+        }
 
 
-		//更换端口号
-		private void buttonPortName_Click(object sender, EventArgs e)
+        //更换端口号
+        private void buttonPortName_Click(object sender, EventArgs e)
 		{
 			this.buttonPortName.Text = port.NextPort();
 		}
@@ -53,13 +57,35 @@ namespace Ultrasonic_toothbrush
             }
 
 		}
-		//更新UI
-		public  bool UpdateUI(string s)
+		//更新协议数据窗口
+		public  bool UpdateTextBox(string s)
 		{
 			s = s + System.Environment.NewLine;//换行
 			logBox.AppendText(s);
 			return true;
 		}
+        //更新LED指示灯
+        public bool UpdateLed(int i)
+        {
+            
+            switch (i)
+            {
+                case 1:radioButton1.Checked = true; ledBattery.BackColor = Color.Green; break;//清洁灯
+                case 2:radioButton2.Checked = true; ledBattery.BackColor = Color.Green; break;//
+                case 3:radioButton3.Checked = true; ledBattery.BackColor = Color.Green; break;
+                case 4:radioButton4.Checked = true; ledBattery.BackColor = Color.Green; break;
+                case 5:radioButton5.Checked = true; ledBattery.BackColor = Color.Green; break;
+                case 6:radioButton6.Checked = true;  break;
+                case -6:radioButton6.Checked = false; break;
+                case 0:radioButton1.Checked = false; radioButton2.Checked = false;
+                    radioButton3.Checked = false; radioButton4.Checked = false;
+                    radioButton5.Checked = false;
+                    ledBattery.BackColor =c;
+                    break;
+
+            }
+            return true;
+        }
 
 		private void button1_Click(object sender, EventArgs e)
 		{

@@ -117,7 +117,7 @@ namespace Ultrasonic_toothbrush
         public static byte[] Disconnect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x03, 0x00, 0x00 };//收到断开{ 0x78,0x73,0x63,0x73,0x01,0x03,0x00,0x19 };
         private static Device device=null;
 		public static Port port;
-		public  enum Id//协议中传输命令类型枚举
+		public enum  Id //协议中传输命令类型枚举
 		{
 			Scan = 1,
 			Connect = 2,
@@ -187,9 +187,9 @@ namespace Ultrasonic_toothbrush
 					if(device.rssi> Setting.Rssi)//这里是连接条件（还可以包含设置连接名称）
 					Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
-				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);
+				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);UI.LED(6);//打开连接led
 					break;
-				case (byte)Id.Disconnect:
+				case (byte)Id.Disconnect:UI.LED(-6);//关闭连接led
 					break;
 				case (byte)Id.PackageData:if (cmd[6] == 0x12) RealDataDdOrD9();//PackageData//数据处理
 					break;
@@ -240,6 +240,7 @@ namespace Ultrasonic_toothbrush
 					chargeStatus = ddorD9[12]>>4;//chargeStatus=1充电，2放电，3不充电
 
 					cleanMode = ddorD9[13] & 0x0f;//cleanMode=1清洁，2亮白，3抛光，4敏感，5按摩
+                    UI.LED(cleanMode);//显示一下led
 					runingStatus = ddorD9[13] >> 4 & 0x7;//runingStatus=0关机，1开机，2暂停
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
                     brushCount = brushCount|ddorD9[14];//取刷牙次数高字节 
@@ -252,7 +253,7 @@ namespace Ultrasonic_toothbrush
                     runingStatus = ddorD9[13] >> 4 & 0x3;//runingStatus=0关机，1开机，2暂停
                     finishStatus = ddorD9[13] >> 6 & 0x20;//finishStatus=0未完成，1完成
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
-
+                    UI.LED(0);//关闭所有led
                     break;
 			}
 		}
