@@ -183,8 +183,9 @@ namespace Ultrasonic_toothbrush
 					device = new Device();//新建一个扫描到的设备
 					device.mac=GetMac();//获取扫描到的mac地址
 					device.rssi=GetRssi();//获取信号强度
+					string settingName = "FLYCO DDYS01      ";
 					device.name=GetDeviceName();//getmac//getrssi//getdevicename//getchiptype//port.connect(if rssi>x)
-					if(device.rssi> Setting.Rssi)//这里是连接条件（还可以包含设置连接名称）
+					if (device.rssi> Setting.Rssi&&device.name==settingName)//这里是连接条件（还可以包含设置连接名称）
 					Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
 				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);UI.LED(6);//打开连接led
@@ -278,8 +279,9 @@ namespace Ultrasonic_toothbrush
 		private static string GetDeviceName()
 		{
 			int i=Array.IndexOf(cmd, (byte)0x9);//查找名称起始字符（\t制表符），这里的查找类型要与cmd元素类型匹配
-			int len = cmd[i - 1];//获取名称字符串长度
-			return System.Text.Encoding.Default.GetString(cmd, i, len);//将名称拷贝出来里面带有制表符
+			int len = cmd[i - 1]-1;//获取名称字符串长度
+			return System.Text.Encoding.Default.GetString(cmd, i+1, len);//将名称拷贝出来里面带有制表符
+		//	System.Text.Encoding.Default.GetString()
 		}
 	}
 }
