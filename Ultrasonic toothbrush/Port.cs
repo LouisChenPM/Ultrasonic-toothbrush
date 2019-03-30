@@ -94,7 +94,7 @@ namespace Ultrasonic_toothbrush
                 case Command.Id.SetSensitiveMode: buf = Command.SetSensitiveMode; break;
                 case Command.Id.SetMassageMode: buf = Command.SetMassageMode; break;
 				case Command.Id.Rssi:buf = Command.SelRssi;break;
-
+				case Command.Id.Version:buf = Command.SelVersion;break;
                 case Command.Id.PowerOn:buf = Command.SetPowerOn;break;
 				case Command.Id.PowerOff:buf = Command.SetPowerOff;break;
 

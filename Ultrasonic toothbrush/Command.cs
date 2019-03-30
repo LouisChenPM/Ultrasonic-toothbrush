@@ -13,9 +13,10 @@ namespace Ultrasonic_toothbrush
 		public static byte[] cmd;//指令缓存
 		public static byte[] Scan = { 0x58, 0x53, 0x43, 0x53, 0x00, 0x01, 0x01, 0x01, 0x01 };//扫描命令字节串
 		public static byte[] SelRssi = { 0x46, 0x4C, 0x59, 0x43, 0x4F, 0x01, 0x00, 0x01 };
-		//连接命令字节串，里面的mac地址(从第九位开始往后算两位)、芯片型号(最后两位)
-		//public static byte[] Connect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x02, 0x06, 0x08, 0x20, 0x49, 0x31, 0x50, 0xA0, 0x00, 0x01, 0x31 };
-		private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
+		public static byte[] SelVersion = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x04, 0x08, 0x08, 0x46, 0x4C, 0x59, 0x43, 0x4F, 0x14, 0x00, 0x14 };
+//连接命令字节串，里面的mac地址(从第九位开始往后算两位)、芯片型号(最后两位)
+//public static byte[] Connect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x02, 0x06, 0x08, 0x20, 0x49, 0x31, 0x50, 0xA0, 0x00, 0x01, 0x31 };
+private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 		private static byte[] commandCode = { 0x01, 0x02, 0x06, 0x08 };//命令特征码连接码0x1厂家代码，0x02命令类型,0x06数据长度,0x08校验值和
 		private static byte[] chipCode = { 0x01, 0x31 };//芯片型号/通道号 ，来自设置
 		private static byte[] deviceCodeRear = {  };//device Code，来自设置
@@ -131,6 +132,7 @@ namespace Ultrasonic_toothbrush
             PowerOn,
 			PowerOff,
 			Rssi,
+			Version,
 			Stop,
 			Reset
 			//以下留着备用
@@ -188,11 +190,17 @@ namespace Ultrasonic_toothbrush
 					if (device.rssi > Setting.Rssi && device.name == settingName)//这里是连接条件（还可以包含设置连接名称）
 						Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
-				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);UI.LED(6);//打开连接led
+				case (byte)Id.Connect:
+					Port.SendCommand(Id.Version);UI.LED(6);//上传实时数据打开连接led
 					break;
 				case (byte)Id.Disconnect:UI.LED(-6);//关闭连接led
 					break;
-				case (byte)Id.PackageData:if (cmd[6] == 0x12) RealDataDdOrD9();//PackageData//数据处理
+				case (byte)Id.PackageData:
+					if (cmd[6] == 0x12) RealDataDdOrD9();//PackageData//数据处理
+					if (cmd[6] == 0x0A&&cmd[8]==0x66&& cmd[9] == 0x65 && cmd[13]==0x14) {
+						GetVersion();//获取版本号
+						Port.SendCommand(Id.UpLoadRealData); UI.LED(6);//上传实时数据打开连接led
+					}
 					break;
 				case (byte)Id.UpLoadRealData:
 					break;
@@ -275,6 +283,10 @@ namespace Ultrasonic_toothbrush
 			rssi =-( 0x7F - cmd[rssiOffect] & 0x7F);//这里信号强度算法不懂，从我哥那里炒来的
 			string s = rssi.ToString();
 			return rssi;
+		}
+		private static string GetVersion()
+		{
+			return null;
 		}
 		private static string GetDeviceName()
 		{
