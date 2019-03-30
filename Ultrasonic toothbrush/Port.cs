@@ -68,6 +68,7 @@ namespace Ultrasonic_toothbrush
 			return true;
 		}
 
+		static int count1 = 0;
 		//发送命令
 		public static  void SendCommand(Command.Id commId)
 		{
@@ -77,7 +78,7 @@ namespace Ultrasonic_toothbrush
 			{
 				case Command.Id.Scan:buf = Command.Scan;
 					break;
-				case Command.Id.Connect:buf = Command.Connect;
+				case Command.Id.Connect:buf = Command.Connect; 
 					break;
 				case Command.Id.Stop:
 					break;
@@ -92,6 +93,7 @@ namespace Ultrasonic_toothbrush
                 case Command.Id.SetPolishMode:buf = Command.SetPolishMode;break;
                 case Command.Id.SetSensitiveMode: buf = Command.SetSensitiveMode; break;
                 case Command.Id.SetMassageMode: buf = Command.SetMassageMode; break;
+				case Command.Id.Rssi:buf = Command.SelRssi;break;
 
                 case Command.Id.PowerOn:buf = Command.SetPowerOn;break;
 				case Command.Id.PowerOff:buf = Command.SetPowerOff;break;

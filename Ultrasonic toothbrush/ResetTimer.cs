@@ -13,6 +13,7 @@ namespace Ultrasonic_toothbrush
 		private static int tick=100;
         private static bool disConnected = false;
 		private static bool eventHandleNotBonded=true;
+		private static int SelRssiTime = 5000;
 		public static void Start()
 		{
 			timeInterval = 0;
@@ -55,6 +56,18 @@ namespace Ultrasonic_toothbrush
                 }
 
                 timeInterval = 0;//重置计时；
+
+
+			}
+
+			//每隔五秒查询信号强度
+			//Status判断连接状态是否为连接状态
+			
+			SelRssiTime = SelRssiTime - tick;
+			if (SelRssiTime < 0)
+			{
+				Port.SendCommand(Command.Id.Rssi);
+				SelRssiTime = 5000;
 			}
 		}
 		public static void MarkTime()

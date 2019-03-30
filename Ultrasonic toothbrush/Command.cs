@@ -12,6 +12,7 @@ namespace Ultrasonic_toothbrush
 		public static int lenghtIndex = 6;//指示数据包长度的位
 		public static byte[] cmd;//指令缓存
 		public static byte[] Scan = { 0x58, 0x53, 0x43, 0x53, 0x00, 0x01, 0x01, 0x01, 0x01 };//扫描命令字节串
+		public static byte[] SelRssi = { 0x46, 0x4C, 0x59, 0x43, 0x4F, 0x01, 0x00, 0x01 };
 		//连接命令字节串，里面的mac地址(从第九位开始往后算两位)、芯片型号(最后两位)
 		//public static byte[] Connect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x02, 0x06, 0x08, 0x20, 0x49, 0x31, 0x50, 0xA0, 0x00, 0x01, 0x31 };
 		private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
@@ -91,9 +92,6 @@ namespace Ultrasonic_toothbrush
                 case Id.PowerOn:			code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
                 case Id.PowerOff:			code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
                 case Id.FactoryReset:		code[1] = 0x05; brushCmdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
-
-
-
             }
             List<byte> byteSource = new List<byte>();
             byteSource.AddRange(head);//添加帧头
@@ -132,6 +130,7 @@ namespace Ultrasonic_toothbrush
             SetMassageMode,
             PowerOn,
 			PowerOff,
+			Rssi,
 			Stop,
 			Reset
 			//以下留着备用
@@ -173,9 +172,10 @@ namespace Ultrasonic_toothbrush
 
 		}
 
+		static int count = 0;
 		public static void  DealCmd()
 		{
-         //   timestamp();
+			//   timestamp();
 
             switch (cmd[5])
 			{
@@ -185,8 +185,8 @@ namespace Ultrasonic_toothbrush
 					device.rssi=GetRssi();//获取信号强度
 					string settingName = "FLYCO DDYS01      ";
 					device.name=GetDeviceName();//getmac//getrssi//getdevicename//getchiptype//port.connect(if rssi>x)
-					if (device.rssi> Setting.Rssi&&device.name==settingName)//这里是连接条件（还可以包含设置连接名称）
-					Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
+					if (device.rssi > Setting.Rssi && device.name == settingName)//这里是连接条件（还可以包含设置连接名称）
+						Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
 				case (byte)Id.Connect:Port.SendCommand(Id.UpLoadRealData);UI.LED(6);//打开连接led
 					break;

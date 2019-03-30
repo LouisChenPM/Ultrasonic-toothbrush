@@ -1,0 +1,6 @@
+CREATE USER 'test' IDENTIFIED BY 'test@123';
+GRANT ALL ON *.* to 'test';
+SOURCE d:/bluetooth.sql;
+exit£»
+
+ 3306 port open
