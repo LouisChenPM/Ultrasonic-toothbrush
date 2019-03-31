@@ -149,5 +149,15 @@ namespace Ultrasonic_toothbrush
         {
             Port.SendCommand(Command.Id.SetMassageMode);
         }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Port.SendCommand(Command.Id.StopRealData);
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            logBox.Clear();
+        }
     }
 }

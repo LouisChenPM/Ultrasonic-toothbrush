@@ -86,6 +86,8 @@ namespace Ultrasonic_toothbrush
 					break;
 				case Command.Id.UpLoadRealData:buf = Command.UpLoadRealData;
 					break;
+                case Command.Id.StopRealData:buf = Command.StopRealData;
+                    break;
 				case Command.Id.Reset: buf=Command.Disconnect; break;//暂时显示reset
                 case Command.Id.FactoryReset: buf= Command.Factoryreset;break;
 				case Command.Id.CleanMode:buf = Command.SetCleanMode;break;

@@ -30,14 +30,22 @@ namespace Ultrasonic_toothbrush
         {
             timer.Enabled = false;
         }
-		public static void DelaySend(int tickCount ,Command.Id id)//延迟几个tick发送某个命令
+        static int delaytime = 0;
+        static Command.Id id;
+        public static void DelaySend(int t, Command.Id i)//延迟几个tick发送某个命令
 		{
-			int delaytime = tick * tickCount;//定义延时时间
-			delaytime = delaytime - tick;
+            delaytime = t;
+            id = i;
 		/*	if(delaytime<=0)*/
 				//send
 
 		}
+        private static void send()
+        {
+            if (delaytime <= 0) return;
+            delaytime = delaytime - tick;
+            Port.SendCommand(id);
+        }
 		private static void  SendReset(object source,ElapsedEventArgs e)
 		{
 			 timeInterval = timeInterval + tick;
@@ -69,7 +77,11 @@ namespace Ultrasonic_toothbrush
 				Port.SendCommand(Command.Id.Rssi);
 				SelRssiTime = 5000;
 			}
-		}
+            //延迟发送函数
+            send();
+
+
+        }
 		public static void MarkTime()
 		{
 			timeInterval = 0;//毫秒数

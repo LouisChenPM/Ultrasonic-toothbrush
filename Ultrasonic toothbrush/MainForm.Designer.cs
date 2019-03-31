@@ -50,9 +50,11 @@
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton6 = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.ledBattery = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -61,6 +63,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button12);
+            this.groupBox1.Controls.Add(this.button11);
             this.groupBox1.Controls.Add(this.button10);
             this.groupBox1.Controls.Add(this.button9);
             this.groupBox1.Controls.Add(this.button8);
@@ -297,16 +301,6 @@
             this.panel1.Size = new System.Drawing.Size(241, 43);
             this.panel1.TabIndex = 12;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.ledBattery);
-            this.panel2.Controls.Add(this.radioButton6);
-            this.panel2.Controls.Add(this.panel1);
-            this.panel2.Location = new System.Drawing.Point(545, 128);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(358, 100);
-            this.panel2.TabIndex = 13;
-            // 
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
@@ -317,6 +311,16 @@
             this.radioButton5.TabStop = true;
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.ledBattery);
+            this.panel2.Controls.Add(this.radioButton6);
+            this.panel2.Controls.Add(this.panel1);
+            this.panel2.Location = new System.Drawing.Point(545, 128);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(358, 100);
+            this.panel2.TabIndex = 13;
+            // 
             // ledBattery
             // 
             this.ledBattery.AutoSize = true;
@@ -326,6 +330,26 @@
             this.ledBattery.Size = new System.Drawing.Size(41, 12);
             this.ledBattery.TabIndex = 13;
             this.ledBattery.Text = "label2";
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(832, 48);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(75, 23);
+            this.button11.TabIndex = 14;
+            this.button11.Text = "停止上传";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(832, 19);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.TabIndex = 15;
+            this.button12.Text = "清空";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // MainForm
             // 
@@ -378,6 +402,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.RadioButton radioButton5;
         private System.Windows.Forms.Label ledBattery;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
     }
 }
 

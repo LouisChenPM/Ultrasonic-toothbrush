@@ -19,18 +19,18 @@ namespace Ultrasonic_toothbrush
 private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 		private static byte[] commandCode = { 0x01, 0x02, 0x06, 0x08 };//命令特征码连接码0x1厂家代码，0x02命令类型,0x06数据长度,0x08校验值和
 		private static byte[] chipCode = { 0x01, 0x31 };//芯片型号/通道号 ，来自设置
-		private static byte[] deviceCodeRear = {  };//device Code，来自设置
+		private static byte[] channelName = {  };//device Code，来自设置
 		public static byte[] Connect //拼接连接指令，这里要在最后增加字符串以供通道设置并设置length的长度
 		{
 
 			get {
 				List<byte> byteSource = new List<byte>();
 				byteSource.AddRange(head);//添加头
-                commandCode[2] = (byte)(device.connectMac.Length + deviceCodeRear.Length + chipCode.Length);//计算数据包的长度
+                commandCode[2] = (byte)(device.connectMac.Length + channelName.Length + chipCode.Length);//计算数据包的长度
 				byteSource.AddRange(commandCode);//添加命令类型
 				byteSource.AddRange(device.connectMac);//添加mac地址
 				byteSource.AddRange(chipCode);//添加芯片型号
-				byteSource.AddRange(deviceCodeRear);//添加用于指定通道号的字符串
+				byteSource.AddRange(channelName);//添加用于指定通道号的字符串
 				return  byteSource.ToArray();
 			}
 
@@ -39,6 +39,10 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
         public static byte[] UpLoadRealData//上传实时数据命令
         {
             get { return getPackageToBrush(Id.UpLoadRealData); }
+        }
+        public static byte[] StopRealData
+        {
+            get { return getPackageToBrush(Id.StopRealData); }
         }
         public static byte[] SetCleanMode//设置清洁模式
         {
@@ -84,8 +88,9 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                 Option[i] = 0x0;
             switch (id)
             {
-                case Id.UpLoadRealData:	    code[1] = 0x05; brushCmdCode[1] = 0xc1; Option[1] = 0x00; Option[2] = 0x00; break;
-                case Id.CleanMode:		    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置情节模式
+                case Id.UpLoadRealData:	    code[1] = 0x05; brushCmdCode[1] = 0xC1; Option[1] = 0x00; Option[2] = 0x00; break;
+                case Id.StopRealData:       code[1] = 0x05; brushCmdCode[1] = 0xDD; Option[1] = 0x01;break;//终止发送实时数据
+                case Id.CleanMode:		    code[1] = 0x05; brushCmdCode[1] = 0xC8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置清洁模式
                 case Id.SetWhiteMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
                 case Id.SetPolishMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
                 case Id.SetSensitiveMode:   code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x04; break;
@@ -123,6 +128,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 			Disconnect = 3,
 			PackageData = 4,
 			UpLoadRealData,
+            StopRealData,
             FactoryReset,
 			CleanMode,
             SetWhiteMode,
@@ -191,7 +197,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 						Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
 				case (byte)Id.Connect:
-					Port.SendCommand(Id.Version);UI.LED(6);//上传实时数据打开连接led
+					Port.SendCommand(Id.Version);UI.LED(6);//连接后查询版本号
 					break;
 				case (byte)Id.Disconnect:UI.LED(-6);//关闭连接led
 					break;
@@ -264,6 +270,17 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
                     UI.LED(0);//关闭所有led
                     break;
+                case 0xC1://收到
+                    //同步延迟，可能导致阻塞接受数据的线程
+                    System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送实验对dc指令收不到有没有改善
+                    Port.SendCommand(Id.StopRealData); //关闭上传实时数据
+                    //异步延迟,可能导致多次被调用，暂时弃用
+                  //  ResetTimer.DelaySend(150, Id.StopRealData);
+                    break;
+                case 0xDC://这里会几率性的收不到这条指令可能会导致
+                   // if (ddorD9 == 1)//表示收到，实时数据已经停止
+                        ;//查询电压这里
+                    break;
 			}
 		}
 		private static int macOffect = 10;
@@ -286,6 +303,10 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 		}
 		private static string GetVersion()
 		{
+            int i = 0;
+            i = cmd[15];
+            i = i <<8;
+            i =i| cmd[16];//将两位拼接起来
 			return null;
 		}
 		private static string GetDeviceName()
@@ -293,7 +314,6 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 			int i=Array.IndexOf(cmd, (byte)0x9);//查找名称起始字符（\t制表符），这里的查找类型要与cmd元素类型匹配
 			int len = cmd[i - 1]-1;//获取名称字符串长度
 			return System.Text.Encoding.Default.GetString(cmd, i+1, len);//将名称拷贝出来里面带有制表符
-		//	System.Text.Encoding.Default.GetString()
 		}
 	}
 }
