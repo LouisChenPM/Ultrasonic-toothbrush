@@ -42,9 +42,12 @@ namespace Ultrasonic_toothbrush
 		}
         private static void send()
         {
-            if (delaytime <= 0) return;
+            if (delaytime> 0)
+            {
             delaytime = delaytime - tick;
+            if(delaytime<=0)
             Port.SendCommand(id);
+            }
         }
 		private static void  SendReset(object source,ElapsedEventArgs e)
 		{

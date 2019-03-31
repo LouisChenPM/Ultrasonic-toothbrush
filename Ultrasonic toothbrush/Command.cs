@@ -40,9 +40,16 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
         {
             get { return getPackageToBrush(Id.UpLoadRealData); }
         }
-        public static byte[] StopRealData
+        public static byte[] StopRealData//关闭上传实时数据
         {
             get { return getPackageToBrush(Id.StopRealData); }
+        }
+        public static byte[] Voltage//查询电压命令
+        {
+            get
+            {
+                return getPackageToBrush(Id.Voltage);
+            }
         }
         public static byte[] SetCleanMode//设置清洁模式
         {
@@ -73,7 +80,9 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
         {
             get { return getPackageToBrush(Id.PowerOff); }
         }
-
+        public static byte[] DelData { get {//删除历史数据
+                return getPackageToBrush(Id.DelData);
+            } }
         /*--将与牙刷通信的指令拆分为head code timestamp brushComdCode Option Rear---
         ----这几部分根据不同的指令对应这些部分不同的内容分别赋值，最后做校验拼接---- */
         private static byte[] code = { 0x01, 0x02, 0x06, 0x08 };
@@ -90,6 +99,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
             {
                 case Id.UpLoadRealData:	    code[1] = 0x05; brushCmdCode[1] = 0xC1; Option[1] = 0x00; Option[2] = 0x00; break;
                 case Id.StopRealData:       code[1] = 0x05; brushCmdCode[1] = 0xDD; Option[1] = 0x01;break;//终止发送实时数据
+                case Id.Voltage:            code[1] = 0x5;brushCmdCode[1] = 0xD1; break;//查询电池电压电量等
+                case Id.DelData: code[1] = 0x5; brushCmdCode[1] = 0xD6; break;//删除历史数据
                 case Id.CleanMode:		    code[1] = 0x05; brushCmdCode[1] = 0xC8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置清洁模式
                 case Id.SetWhiteMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
                 case Id.SetPolishMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
@@ -98,6 +109,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                 case Id.PowerOn:			code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x01; break;//C9设置开关机
                 case Id.PowerOff:			code[1] = 0x05; brushCmdCode[1] = 0xc9; Option[1] = 0x01; Option[2] = 0x00; break;
                 case Id.FactoryReset:		code[1] = 0x05; brushCmdCode[1] = 0xcb; Option[1] = 0x01; Option[2] = 0x00; break;//CB设置恢复工厂模式
+                
             }
             List<byte> byteSource = new List<byte>();
             byteSource.AddRange(head);//添加帧头
@@ -116,6 +128,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
         {
             get { return getPackageToBrush(Id.FactoryReset); }
         }
+
+
 
         //public static byte[] Factoryreset  = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x05, 0x12, 0xA8, 0x9A, 0xCB, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCA, 0xAA };
         public static byte[] Disconnect = { 0x58, 0x53, 0x43, 0x53, 0x01, 0x03, 0x00, 0x00 };//收到断开{ 0x78,0x73,0x63,0x73,0x01,0x03,0x00,0x19 };
@@ -139,14 +153,16 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 			PowerOff,
 			Rssi,
 			Version,
+            Voltage,
 			Stop,
-			Reset
-			//以下留着备用
-			//wait_disconnect = 0xFB,
-			//in_reset = 0xFC,
-			//out_reset = 0xFD,
-			//sel_mac = 0xFE,
-		}
+			Reset,
+            DelData
+            //以下留着备用
+            //wait_disconnect = 0xFB,
+            //in_reset = 0xFC,
+            //out_reset = 0xFD,
+            //sel_mac = 0xFE,
+        }
 	    public static byte[] nowtimestamp()//时间戳前两位表示高位，后两位表示低位
         {
             long l =(System.DateTime.UtcNow.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
@@ -217,6 +233,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 			}
 		}
 		private static byte[] ddorD9 = new byte[0x12];//暂存DD或D9指令
+        private static bool poweroff = false;
 		private static void RealDataDdOrD9()//解析DD或D9指令
 		{
 			Array.Copy(cmd, 8, ddorD9, 0, 0x12);//从第8位开始将dd或d9指令拷贝出来
@@ -237,7 +254,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
             int finishStatus;
 			switch (ddorD9[1])
 			{
-				case 0xD9:
+				case 0xD9://解析D9指令
                     pureBrushTime = ddorD9[6];//净刷牙时间
                     overPressTime = ddorD9[7];//压力过大时间
 
@@ -264,7 +281,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					brushCount = brushCount|ddorD9[15];//取刷牙次数低字节
 					
 					break;
-				case 0xDD:
+				case 0xDD://解析DD指令
                     runingStatus = ddorD9[13] >> 4 & 0x3;//runingStatus=0关机，1开机，2暂停
                     finishStatus = ddorD9[13] >> 6 & 0x20;//finishStatus=0未完成，1完成
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
@@ -272,15 +289,53 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     break;
                 case 0xC1://收到
                     //同步延迟，可能导致阻塞接受数据的线程
-                    System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送实验对dc指令收不到有没有改善
+                    System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送对dc指令收不到有没有改善
                     Port.SendCommand(Id.StopRealData); //关闭上传实时数据
                     //异步延迟,可能导致多次被调用，暂时弃用
                   //  ResetTimer.DelaySend(150, Id.StopRealData);
                     break;
                 case 0xDC://这里会几率性的收不到这条指令可能会导致
-                   // if (ddorD9 == 1)//表示收到，实时数据已经停止
-                        ;//查询电压这里
+                          //if flag2=false
+                          // if (ddorD9 == 1)//表示收到，实时数据已经停止
+                         // if(poweroff==false)
+                        Port.SendCommand(Id.Voltage);
+                  //  else
+                       // Port.SendCommand(Id.DelData)//删除历史数据
+                       // ;//查询电压这里
+                    
                     break;
+                case 0xD1://解析电压结果并开机异步
+                    GetVoltage();//解析电压
+                    //设置清洁模式
+                    Port.SendCommand(Id.PowerOn);//开机
+                    ResetTimer.DelaySend(2000, Id.PowerOff);//延时关机
+                    break;
+                //case 关机：关闭实时数据 flag2=true
+                case 0xC9:
+                   // if(ddorD9[8]==0x00)
+                  //  poweroff = true;
+                   // System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送对dc指令收不到有没有改善
+                 // Port.SendCommand(Id.StopRealData);
+                    //if(ddorD9[8]==0x01)
+                     //   poweroff = false;
+                    break;
+
+                case 0xD6:
+                //    poweroff = true;
+                    // 查询删除
+                    //case 已删除
+                    //显示测试结果
+                    //恢复工厂模式断开
+                    //Port.SendCommand(Id.FactoryReset);
+                    Port.SendCommand(Id.Disconnect);
+                    break;
+                    //case 恢复工厂模式
+                    //断开
+                  //  break;//删除历史数据 
+                   
+                    
+                    
+                //    break;
 			}
 		}
 		private static int macOffect = 10;
@@ -301,14 +356,35 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 			string s = rssi.ToString();
 			return rssi;
 		}
-		private static string GetVersion()
+        //获取固件版本号
+        private static string GetVersion()
 		{
             int i = 0;
             i = cmd[15];
             i = i <<8;
-            i =i| cmd[16];//将两位拼接起来
-			return null;
+            i =i| cmd[16];//将[15][16]两位拼接起来
+            string spec = (i&1).ToString();//特殊位
+            string child=(i >> 1 & 0x1FF).ToString() ;//3位长度子版本号
+            string main= (i>> 10 & 0x1F).ToString();//2位长度主版本号
+            string fun = (i >> 15 & 1).ToString();//测试环境版本号
+            //补足长度
+            if (main.Length == 1)
+                main = "0" + main;
+            if (child.Length == 1)
+                child = "00" + child;
+            if (child.Length == 2)
+                child = "0" + child;
+            string s= fun + "." + main + "." + child + "." + spec;//连接
+            return s;
 		}
+        //获取电压
+        private static float GetVoltage()//获取电压
+        {
+            int i = cmd[14];
+            float f = i << 8|cmd[15];
+            f = f / 10;
+            return f;
+        }
 		private static string GetDeviceName()
 		{
 			int i=Array.IndexOf(cmd, (byte)0x9);//查找名称起始字符（\t制表符），这里的查找类型要与cmd元素类型匹配
