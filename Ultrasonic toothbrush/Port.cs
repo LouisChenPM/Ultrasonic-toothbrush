@@ -78,7 +78,7 @@ namespace Ultrasonic_toothbrush
 			{
 				case Command.Id.Scan:buf = Command.Scan;
 					break;
-				case Command.Id.Connect:buf = Command.Connect; 
+				case Command.Id.Connect:buf = Command.Connect;
 					break;
 				case Command.Id.Stop:
 					break;
@@ -88,19 +88,32 @@ namespace Ultrasonic_toothbrush
 					break;
                 case Command.Id.StopRealData:buf = Command.StopRealData;
                     break;
-                case Command.Id.DelData: buf= Command.DelData;break;
-                case Command.Id.Voltage:buf = Command.Voltage;break;
-				case Command.Id.Reset: buf=Command.Disconnect; break;//暂时显示reset
-                case Command.Id.FactoryReset: buf= Command.Factoryreset;break;
-				case Command.Id.CleanMode:buf = Command.SetCleanMode;break;
-                case Command.Id.SetWhiteMode:buf = Command.SetWhiteMode;break;
-                case Command.Id.SetPolishMode:buf = Command.SetPolishMode;break;
-                case Command.Id.SetSensitiveMode: buf = Command.SetSensitiveMode; break;
-                case Command.Id.SetMassageMode: buf = Command.SetMassageMode; break;
-				case Command.Id.Rssi:buf = Command.SelRssi;break;
-				case Command.Id.Version:buf = Command.SelVersion;break;
-                case Command.Id.PowerOn:buf = Command.SetPowerOn;break;
-				case Command.Id.PowerOff:buf = Command.SetPowerOff;break;
+                case Command.Id.DelData: buf= Command.DelData;
+                    break;
+                case Command.Id.Voltage:buf = Command.Voltage;
+                    break;
+				case Command.Id.Reset: buf=Command.Disconnect;
+                    break;//暂时显示reset
+                case Command.Id.FactoryReset: buf= Command.Factoryreset;
+                    break;
+				case Command.Id.CleanMode:buf = Command.SetCleanMode;
+                    break;
+                case Command.Id.SetWhiteMode:buf = Command.SetWhiteMode;
+                    break;
+                case Command.Id.SetPolishMode:buf = Command.SetPolishMode;
+                    break;
+                case Command.Id.SetSensitiveMode: buf = Command.SetSensitiveMode;
+                    break;
+                case Command.Id.SetMassageMode: buf = Command.SetMassageMode;
+                    break;
+				case Command.Id.Rssi:buf = Command.SelRssi;
+                    break;
+				case Command.Id.Version:buf = Command.SelVersion;
+                    break;
+                case Command.Id.PowerOn:buf = Command.SetPowerOn;
+                    break;
+				case Command.Id.PowerOff:buf = Command.SetPowerOff;
+                    break;
 
                 default:
 					break;

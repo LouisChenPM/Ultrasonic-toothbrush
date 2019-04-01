@@ -203,8 +203,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 
             switch (cmd[5])
 			{
-				case(byte) Id.Scan:
-					device = new Device();//新建一个扫描到的设备
+				case(byte) Id.Scan://*****测试流程第1步扫描结果决定是否连接
+                    device = new Device();//新建一个扫描到的设备
 					device.mac=GetMac();//获取扫描到的mac地址
 					device.rssi=GetRssi();//获取信号强度
 					string settingName = "FLYCO DDYS01      ";
@@ -212,8 +212,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					if (device.rssi > Setting.Rssi && device.name == settingName)//这里是连接条件（还可以包含设置连接名称）
 						Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
 					break;
-				case (byte)Id.Connect:
-					Port.SendCommand(Id.Version);UI.LED(6);//连接后查询版本号
+				case (byte)Id.Connect://*****测试流程第2步连接后查询版本号
+                    Port.SendCommand(Id.Version);UI.LED(6);//连接后查询版本号
 					break;
 				case (byte)Id.Disconnect:UI.LED(-6);//关闭连接led
 					break;
@@ -221,8 +221,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					if (cmd[6] == 0x12) RealDataDdOrD9();//PackageData//数据处理
 					if (cmd[6] == 0x0A&&cmd[8]==0x66&& cmd[9] == 0x65 && cmd[13]==0x14) {
 						GetVersion();//获取版本号
-						Port.SendCommand(Id.UpLoadRealData); UI.LED(6);//上传实时数据打开连接led
-					}
+						Port.SendCommand(Id.UpLoadRealData); UI.LED(6);//*****测试流程第3步上传实时数据打开连接led
+                    }
 					break;
 				case (byte)Id.UpLoadRealData:
 					break;
@@ -287,46 +287,65 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
                     UI.LED(0);//关闭所有led
                     break;
-                case 0xC1://收到
-                    //同步延迟，可能导致阻塞接受数据的线程
-                    System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送对dc指令收不到有没有改善
-                    Port.SendCommand(Id.StopRealData); //关闭上传实时数据
+
+                case 0xC1://*****测试流程第4步关闭实时数据
+                //同步延迟，可能导致阻塞接受数据的线程
+                // System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送对dc指令收不到有没有改善
+                    Port.SendCommand(Id.StopRealData); //测试流程关闭上传实时数据
+                    ResetTimer.DelayRetry(Id.StopRealData);//收不到DC指令重发机制
+                    Status.now = Status.AllStatus.StopReal1;
                     //异步延迟,可能导致多次被调用，暂时弃用
                   //  ResetTimer.DelaySend(150, Id.StopRealData);
                     break;
-                case 0xDC://这里会几率性的收不到这条指令可能会导致
-                          //if flag2=false
-                          // if (ddorD9 == 1)//表示收到，实时数据已经停止
-                         // if(poweroff==false)
-                        Port.SendCommand(Id.Voltage);
-                  //  else
-                       // Port.SendCommand(Id.DelData)//删除历史数据
-                       // ;//查询电压这里
-                    
+                case 0xDC:////*****测试流程第5步查询电压，这里会几率性的收不到这条指令可能会导致待机实时数据不停止
+                    ResetTimer.StopRetry();//关闭重发
+                    if(Status.now==Status.AllStatus.StopReal1)
+                    Port.SendCommand(Id.Voltage);//这里如果批量生产时有检测不到电压的情况，加上重发机制
+
                     break;
-                case 0xD1://解析电压结果并开机异步
+                    //case第6步设置清洁模式
+                    //case第7部收到清洁模式并开机
+                case 0xD1://*****测试流程第7步查询电压,解析电压结果开机，并异步关机
+                          //if (Status.now == Status.AllStatus.PowerOffDone) break;
                     GetVoltage();//解析电压
-                    //设置清洁模式
-                    Port.SendCommand(Id.PowerOn);//开机
-                    ResetTimer.DelaySend(2000, Id.PowerOff);//延时关机
+                    Status.now = Status.AllStatus.VoltageGot;
+                    Port.SendCommand(Id.SetMassageMode);//设置清洁模式，这里如果批量时有不开机的情况，加上重发机制
                     break;
-                //case 关机：关闭实时数据 flag2=true
-                case 0xC9:
-                   // if(ddorD9[8]==0x00)
-                  //  poweroff = true;
-                   // System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送对dc指令收不到有没有改善
-                 // Port.SendCommand(Id.StopRealData);
+                case 0xC8: //*****第8步清洁模式设置成功 ，开机并延时开机
+                    Port.SendCommand(Id.PowerOn);//开机
+                    Status.now = Status.AllStatus.PowerOnStart;
+                    int settingTime = 1000;//这里设置的是延时关机时间可通过UI设置
+                    ResetTimer.DelaySend(settingTime, Id.PowerOff);//延时关机
+                    ResetTimer.DelayRetry(Id.PowerOff);//固定时间内不到就重发
+                    break;
+
+                //case 关机：第8部检测到关机后 关闭实时数据 flag2=true
+                case 0xC9://*****第8步检测到关机后停止发送实时；
+                    // if(ddorD9[8]==0x00)
+                    //  poweroff = true;
+                    // System.Threading.Thread.Sleep(100);//这里延迟150毫秒发送对dc指令收不到有没有改善
+                    if(ddorD9[8]==0x01)
+                        Status.now = Status.AllStatus.PowerOnDone;
+                    if (ddorD9[8] == 0x00)
+                    {
+                        ResetTimer.StopRetry();//关机后停止重发关机指令
+                        Status.now = Status.AllStatus.PowerOffDone;//这行状态很快被StopReal2覆盖没有参考意义
+                        Status.now = Status.AllStatus.StopReal2;
+                        Port.SendCommand(Id.StopRealData);
+                        ResetTimer.DelayRetry(Id.StopRealData);//这里有问题明天接着解，关机后关闭上传实时待机数据失败
+                        
+                    }
                     //if(ddorD9[8]==0x01)
                      //   poweroff = false;
                     break;
 
-                case 0xD6:
-                //    poweroff = true;
-                    // 查询删除
-                    //case 已删除
-                    //显示测试结果
-                    //恢复工厂模式断开
-                    //Port.SendCommand(Id.FactoryReset);
+                case 0xD6://***第9步 删除历史数据
+                          //    poweroff = true;
+                          //case 第10步 查询删除历史数据
+                          //case 第11步 显示测试结果
+                          //case 12恢复出厂设置
+                          //case 第13步断开连接
+                          //Port.SendCommand(Id.FactoryReset);
                     Port.SendCommand(Id.Disconnect);
                     break;
                     //case 恢复工厂模式

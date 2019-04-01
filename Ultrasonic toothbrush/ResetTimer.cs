@@ -36,24 +36,51 @@ namespace Ultrasonic_toothbrush
 		{
             delaytime = t;
             id = i;
-		/*	if(delaytime<=0)*/
-				//send
-
 		}
         private static void send()
         {
-            if (delaytime> 0)
+            if (delaytime > 0)
             {
-            delaytime = delaytime - tick;
-            if(delaytime<=0)
-            Port.SendCommand(id);
+                delaytime = delaytime - tick;
+                if (delaytime <= 0)
+                Port.SendCommand(id);
+            }
+        }
+        static bool RetryDone= false;//flase为true时启动重发机制
+        static int OverTime = 500;//设置重发超时时间为500毫秒
+        static int retryTime = OverTime;
+        static Command.Id retryId;
+       public static void DelayRetry(Command.Id i)
+        {
+            RetryDone = true;
+            retryId = i;
+            if (i == Command.Id.PowerOff)//这里因为PowerOff本身是延时关机所以指令重发的时间要在原来的基础上增加，PowerOff的延时
+                retryTime = delaytime + retryTime;
+        }
+        public static void StopRetry()//停止重发
+        {
+            RetryDone = false;
+            retryTime = OverTime;
+        }
+        private static void Retry()
+        {
+            if (retryTime > 0&& RetryDone==true)
+            {
+                retryTime = retryTime - tick;
+                if (retryTime <= 0)
+                { 
+                    Port.SendCommand(retryId);
+                    retryTime = OverTime;
+                }
+
             }
         }
 		private static void  SendReset(object source,ElapsedEventArgs e)
 		{
 			 timeInterval = timeInterval + tick;
-            if (timeInterval > 2000)//间隔两秒发送重置
+            if (timeInterval > 1000)//间隔两秒发送重置
             {
+                Status.now = Status.AllStatus.Scaning;
                 // Port.SendCommand(Command.Id.Scan);
                 if (disConnected == false)
                 { 
@@ -82,7 +109,8 @@ namespace Ultrasonic_toothbrush
 			}
             //延迟发送函数
             send();
-
+            //重发函数
+            Retry();
 
         }
 		public static void MarkTime()
