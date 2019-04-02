@@ -47,7 +47,7 @@ namespace Ultrasonic_toothbrush
             }
         }
         static bool RetryDone= false;//flase为true时启动重发机制
-        static int OverTime = 500;//设置重发超时时间为500毫秒
+        static int OverTime = 10000;//设置重发超时时间为500毫秒
         static int retryTime = OverTime;
         static Command.Id retryId;
        public static void DelayRetry(Command.Id i)

@@ -10,6 +10,7 @@ namespace Ultrasonic_toothbrush
     {
         public static TextBoxHandler textBoxHandler;//textBox委托对象
         public static LedHandler ledHandler;//led显示更新
+        public static PassHandler passHander;//更新测试结果按钮
         public static MainForm mf;//引用主窗口
 
         public static void  TextBox(string s)
@@ -22,6 +23,10 @@ namespace Ultrasonic_toothbrush
             mf.BeginInvoke(ledHandler, i);
 
 
+        }
+        public static void PassShow(bool i)
+        {
+            mf.BeginInvoke(passHander, i);
         }
     }
 }

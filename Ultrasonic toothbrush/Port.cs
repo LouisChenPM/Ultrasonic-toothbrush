@@ -90,6 +90,8 @@ namespace Ultrasonic_toothbrush
                     break;
                 case Command.Id.DelData: buf= Command.DelData;
                     break;
+                case Command.Id.SelData:buf = Command.SelData;
+                    break;
                 case Command.Id.Voltage:buf = Command.Voltage;
                     break;
 				case Command.Id.Reset: buf=Command.Disconnect;

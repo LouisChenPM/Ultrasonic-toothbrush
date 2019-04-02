@@ -12,6 +12,7 @@ namespace Ultrasonic_toothbrush
 {
 	public delegate bool TextBoxHandler(string s);//UI更新委托
     public delegate bool LedHandler(int i);//LED更新委托
+    public delegate bool PassHandler(bool b);//
     public partial class MainForm : Form
 	{
 		//public   UIHandler uiHandler ;
@@ -26,6 +27,7 @@ namespace Ultrasonic_toothbrush
             //委托textBoX接口
             UI.textBoxHandler = new TextBoxHandler(UpdateTextBox);
             UI.ledHandler = new LedHandler(UpdateLed);
+            UI.passHander = new PassHandler(UpdatePass);
             UI.mf = this;
             c = ledBattery.BackColor;
 
@@ -86,7 +88,14 @@ namespace Ultrasonic_toothbrush
             }
             return true;
         }
-
+        //更新测试通过按钮
+        int i = 0;
+        private bool UpdatePass(bool b)
+        {
+            i++;
+            passBtn.Text = "Pass" + i;
+            return true;
+        }
 		private void button1_Click(object sender, EventArgs e)
 		{
 			Port.SendCommand(Command.Id.Disconnect);

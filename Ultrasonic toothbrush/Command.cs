@@ -83,6 +83,13 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
         public static byte[] DelData { get {//删除历史数据
                 return getPackageToBrush(Id.DelData);
             } }
+        public static byte[] SelData
+        {
+            get
+            {
+                return getPackageToBrush(Id.SelData);
+            }
+        }
         /*--将与牙刷通信的指令拆分为head code timestamp brushComdCode Option Rear---
         ----这几部分根据不同的指令对应这些部分不同的内容分别赋值，最后做校验拼接---- */
         private static byte[] code = { 0x01, 0x02, 0x06, 0x08 };
@@ -100,7 +107,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                 case Id.UpLoadRealData:	    code[1] = 0x05; brushCmdCode[1] = 0xC1; Option[1] = 0x00; Option[2] = 0x00; break;
                 case Id.StopRealData:       code[1] = 0x05; brushCmdCode[1] = 0xDD; Option[1] = 0x01;break;//终止发送实时数据
                 case Id.Voltage:            code[1] = 0x5;brushCmdCode[1] = 0xD1; break;//查询电池电压电量等
-                case Id.DelData: code[1] = 0x5; brushCmdCode[1] = 0xD6; break;//删除历史数据
+                case Id.DelData: code[1] = 0x5; brushCmdCode[1] = 0xD6;Option[0] = 0xC1; break;//删除历史数据
+                case Id.SelData: code[1] = 0x5; brushCmdCode[1] = 0xD6; Option[0] = 0x00; break;//查询历史数据是否被删除
                 case Id.CleanMode:		    code[1] = 0x05; brushCmdCode[1] = 0xC8; Option[1] = 0x01; Option[2] = 0x01; break;//C8设置清洁模式
                 case Id.SetWhiteMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x02; break;
                 case Id.SetPolishMode:	    code[1] = 0x05; brushCmdCode[1] = 0xc8; Option[1] = 0x01; Option[2] = 0x03; break;
@@ -156,7 +164,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
             Voltage,
 			Stop,
 			Reset,
-            DelData
+            DelData,
+            SelData
             //以下留着备用
             //wait_disconnect = 0xFB,
             //in_reset = 0xFC,
@@ -286,6 +295,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     finishStatus = ddorD9[13] >> 6 & 0x20;//finishStatus=0未完成，1完成
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
                     UI.LED(0);//关闭所有led
+                    /*这里会出现收到DC指令后还会继续收到DD指令，这是由于牙刷没有回复DD指令造成的*/
+
                     break;
 
                 case 0xC1://*****测试流程第4步关闭实时数据
@@ -298,14 +309,20 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                   //  ResetTimer.DelaySend(150, Id.StopRealData);
                     break;
                 case 0xDC:////*****测试流程第5步查询电压，这里会几率性的收不到这条指令可能会导致待机实时数据不停止
+                          //  这里应当回应DD xxx01 00 牙刷回错了
+                          // Status.now=Status.AllStatus.
                     ResetTimer.StopRetry();//关闭重发
-                    if(Status.now==Status.AllStatus.StopReal1)
+                    if(Status.now==Status.AllStatus.StopReal1)//确保只有第一次停止发送待机数据时才查询电压
                     Port.SendCommand(Id.Voltage);//这里如果批量生产时有检测不到电压的情况，加上重发机制
+                    if (Status.now == Status.AllStatus.StopReal2)//关机后停止发送实时数据，这时删除历史数据
+                    {
+                        Port.SendCommand(Id.DelData);////*****第9步 删除历史数据，这里如果生产时有删除历史数据失败的情况下，加上重发机制
+                        ResetTimer.DelayRetry(Id.DelData);//这里保证能够重发
+
+                    }
 
                     break;
-                    //case第6步设置清洁模式
-                    //case第7部收到清洁模式并开机
-                case 0xD1://*****测试流程第7步查询电压,解析电压结果开机，并异步关机
+                case 0xD1://*****测试流程第6步查询电压,解析电压结果开机，并设置清洁模式
                           //if (Status.now == Status.AllStatus.PowerOffDone) break;
                     GetVoltage();//解析电压
                     Status.now = Status.AllStatus.VoltageGot;
@@ -332,31 +349,42 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                         Status.now = Status.AllStatus.PowerOffDone;//这行状态很快被StopReal2覆盖没有参考意义
                         Status.now = Status.AllStatus.StopReal2;
                         Port.SendCommand(Id.StopRealData);
-                        ResetTimer.DelayRetry(Id.StopRealData);//这里有问题明天接着解，关机后关闭上传实时待机数据失败
+                        ResetTimer.DelayRetry(Id.StopRealData);//几率性出现:关机后关闭上传实时待机数据失败,牙刷待机数据不停止
                         
                     }
                     //if(ddorD9[8]==0x01)
                      //   poweroff = false;
                     break;
 
-                case 0xD6://***第9步 删除历史数据
+                case 0xD6://***第10步 查询历史数据看是否已经被删除
+                  //  Port.SendCommand(sel)
                           //    poweroff = true;
-                          //case 第10步 查询删除历史数据
                           //case 第11步 显示测试结果
                           //case 12恢复出厂设置
                           //case 第13步断开连接
                           //Port.SendCommand(Id.FactoryReset);
-                    Port.SendCommand(Id.Disconnect);
+                          if(ddorD9[6]==0xc1&&ddorD9[7]==0xFF)//
+                    {
+                        Port.SendCommand(Id.SelData);//这里不需要重发机制，因为下一步已经调用了StopRetry
+                    }
+                    if (ddorD9[6]== 0x00 && ddorD9[7] == 0xFF)//***第10步查询到已经删除了历史数据后测试显示结果，恢复工厂模式
+                    {
+                        ResetTimer.StopRetry();//停止删除指令的重发
+                        //调用Test();
+                        UI.PassShow(true);
+                        //调用恢复工厂模式;
+                        Port.SendCommand(Id.FactoryReset);//***第11步恢复工厂模式，如果出现恢复不了工厂模式的情况则在这里增加重发机制
+
+                    }
+
                     break;
-                    //case 恢复工厂模式
-                    //断开
-                  //  break;//删除历史数据 
-                   
-                    
-                    
-                //    break;
-			}
-		}
+                case 0xCb: //case 第12步 断开连接，也是最后异步
+                    Port.SendCommand(Id.Disconnect);//这里如果量产时出现无法断开的情况 则重发
+                    break;
+
+                    //    break;
+            }
+        }
 		private static int macOffect = 10;
 		private static int macLength = 6;
 		private static byte[] GetMac()

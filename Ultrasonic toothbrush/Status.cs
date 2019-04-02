@@ -12,7 +12,6 @@ namespace Ultrasonic_toothbrush
         public static AllStatus now;
         public static int Step=0;
 
-
         public  enum AllStatus
         {
           Scaning,

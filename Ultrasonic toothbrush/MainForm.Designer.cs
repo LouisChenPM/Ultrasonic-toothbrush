@@ -29,6 +29,8 @@
 		private void InitializeComponent()
 		{
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -53,8 +55,7 @@
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.ledBattery = new System.Windows.Forms.Label();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
+            this.passBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -83,6 +84,26 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "...";
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(832, 19);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.TabIndex = 15;
+            this.button12.Text = "清空";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(832, 48);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(75, 23);
+            this.button11.TabIndex = 14;
+            this.button11.Text = "停止上传";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button10
             // 
@@ -331,31 +352,22 @@
             this.ledBattery.TabIndex = 13;
             this.ledBattery.Text = "label2";
             // 
-            // button11
+            // passBtn
             // 
-            this.button11.Location = new System.Drawing.Point(832, 48);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(75, 23);
-            this.button11.TabIndex = 14;
-            this.button11.Text = "停止上传";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
-            // 
-            // button12
-            // 
-            this.button12.Location = new System.Drawing.Point(832, 19);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(75, 23);
-            this.button12.TabIndex = 15;
-            this.button12.Text = "清空";
-            this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.button12_Click);
+            this.passBtn.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.passBtn.Location = new System.Drawing.Point(192, 102);
+            this.passBtn.Name = "passBtn";
+            this.passBtn.Size = new System.Drawing.Size(225, 52);
+            this.passBtn.TabIndex = 14;
+            this.passBtn.Text = "PASS";
+            this.passBtn.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1010, 715);
+            this.Controls.Add(this.passBtn);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBar1);
@@ -404,6 +416,7 @@
         private System.Windows.Forms.Label ledBattery;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button passBtn;
     }
 }
 
