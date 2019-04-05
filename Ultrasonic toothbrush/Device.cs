@@ -16,19 +16,53 @@ namespace Ultrasonic_toothbrush
 			UpLoadingRealData,
 			Testing
 		}
-		public byte[] mac = null;
-		public string name = null;
-		public int rssi = -10000;
-		public byte[] connectMac//用于连接的mac地址与显示的mac地址相反
-		{
-			get {
-				byte[] c = new byte[6];
-				Array.Copy(mac, c, 6);
-				Array.Reverse(c);
-				return c;
-			}
-		}
+        private byte[] macIn = null;
+        public byte[] mac {
+            set
+            {
+                macIn = value;
+                Array.Copy(macIn, macConnectIn, 6);
+                string s = BitConverter.ToString(macIn).Replace("-", " ");//转换为16进制显示
+                UI.StatusBar("MAC: "+s,false);//在UI上显示
+            }
+            get//实际mac地址与通信时mac地址反向
+            {
+                return macIn;
+            }
+        }
+        private byte[] macConnectIn = new byte[6];
+        public byte[] macConnect//连接时mac与显示时mac相反
+        {
+            get{
+                Array.Reverse(macConnectIn);
+                return macConnectIn;
+            }
+        }
+        public string nameIn = null;
+        public string name {
+            set
+            {
+                nameIn = value;
+                UI.StatusBar("NAME: " + nameIn + "|",false);
+            }
+            get
+            {
+                return nameIn;
+            }
+        }
 
+        public int rssiIn = -10000;
+        public int rssi {
+            set
+            {
+                rssiIn = value;
+                UI.StatusBar("RSSI: "+rssiIn.ToString(),false);// 在界面状态栏上显示
+            }
+            get
+            {
+                return rssiIn;
+            }
+        }
 		//test bool
 	}
 }

@@ -12,7 +12,9 @@ namespace Ultrasonic_toothbrush
         public static LedHandler ledHandler;//led显示更新
         public static PassHandler passHander;//更新测试结果按钮
         public static MainForm mf;//引用主窗口
+        public static StatusBarHandler statusBarHander;//更新状态栏按钮
 
+        // public static 
         public static void  TextBox(string s)
         {
             mf.BeginInvoke(textBoxHandler, s);//异步更新
@@ -24,9 +26,18 @@ namespace Ultrasonic_toothbrush
 
 
         }
-        public static void PassShow(bool i)
+        public static void PassShow(bool i)//
         {
             mf.BeginInvoke(passHander, i);
+        }
+        private static string b = null;
+        public static void StatusBar(string s,bool clean)//更新状态栏
+        {
+            b = b + s+" ";
+            if (clean)
+                b = null;
+            mf.BeginInvoke(statusBarHander, b);
+
         }
     }
 }

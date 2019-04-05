@@ -13,6 +13,7 @@ namespace Ultrasonic_toothbrush
 	public delegate bool TextBoxHandler(string s);//UI更新委托
     public delegate bool LedHandler(int i);//LED更新委托
     public delegate bool PassHandler(bool b);//
+    public delegate bool StatusBarHandler(string s);//状态栏委托
     public partial class MainForm : Form
 	{
 		//public   UIHandler uiHandler ;
@@ -28,6 +29,7 @@ namespace Ultrasonic_toothbrush
             UI.textBoxHandler = new TextBoxHandler(UpdateTextBox);
             UI.ledHandler = new LedHandler(UpdateLed);
             UI.passHander = new PassHandler(UpdatePass);
+            UI.statusBarHander = new StatusBarHandler(UpdateStatusBar);
             UI.mf = this;
             c = ledBattery.BackColor;
 
@@ -95,6 +97,12 @@ namespace Ultrasonic_toothbrush
             i++;
             passBtn.Text = "Pass" + i;
             return true;
+        }
+        //更新StatusBar
+        private bool UpdateStatusBar(string s)
+        {
+            this.toolStripStatusLabel1.Text = s;
+                return true;
         }
 		private void button1_Click(object sender, EventArgs e)
 		{

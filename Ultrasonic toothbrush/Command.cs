@@ -26,9 +26,9 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 			get {
 				List<byte> byteSource = new List<byte>();
 				byteSource.AddRange(head);//添加头
-                commandCode[2] = (byte)(device.connectMac.Length + channelName.Length + chipCode.Length);//计算数据包的长度
+                commandCode[2] = (byte)(device.mac.Length + channelName.Length + chipCode.Length);//计算数据包的长度
 				byteSource.AddRange(commandCode);//添加命令类型
-				byteSource.AddRange(device.connectMac);//添加mac地址
+				byteSource.AddRange(device.macConnect);//添加mac地址
 				byteSource.AddRange(chipCode);//添加芯片型号
 				byteSource.AddRange(channelName);//添加用于指定通道号的字符串
 				return  byteSource.ToArray();
@@ -396,6 +396,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     ResetTimer.StopRetry();//停止恢复工厂模式重发
                     Status.now = Status.AllStatus.TestDone;
                     Port.SendCommand(Id.Disconnect);//这里如果量产时出现无法断开的情况 则重发
+
                     break;
 
                     //    break;
