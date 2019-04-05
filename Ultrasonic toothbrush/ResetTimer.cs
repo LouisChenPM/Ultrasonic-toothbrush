@@ -14,6 +14,7 @@ namespace Ultrasonic_toothbrush
         private static bool disConnected = false;
 		private static bool eventHandleNotBonded=true;
 		private static int SelRssiTime = 5000;
+        private static bool exe = false;
 		public static void Start()
 		{
 			timeInterval = 0;
@@ -21,7 +22,8 @@ namespace Ultrasonic_toothbrush
 			timer.Enabled = true;
 			if (eventHandleNotBonded) {//只绑定一次计时器相应函数这里后面代码修改
 				timer.Elapsed += new ElapsedEventHandler(SendReset);
-				eventHandleNotBonded = false;
+                delayTimer.Elapsed += new ElapsedEventHandler(delaySend);
+                eventHandleNotBonded = false;
 			}
 			
 			timer.Start();
@@ -32,11 +34,21 @@ namespace Ultrasonic_toothbrush
         }
         static int delaytime = 0;
         static Command.Id id;
+        private static System.Timers.Timer delayTimer = new Timer();
         public static void DelaySend(int t, Command.Id i)//延迟几个tick发送某个命令
 		{
             delaytime = t;
             id = i;
-		}
+            delayTimer.AutoReset = false;
+            delayTimer.Interval = t;
+            delayTimer.Start();
+        }
+        private static void delaySend(object source, ElapsedEventArgs e)
+        {
+            Port.SendCommand(Command.Id.PowerOff);
+            delayTimer.Stop();
+
+        }
         private static void send()
         {
             if (delaytime > 0)
@@ -59,7 +71,7 @@ namespace Ultrasonic_toothbrush
                 retryTime = delaytime + retryTime;
         }
         //*这里由于Power与PowerOFF是连续开启并且异步因此PowerOFF会导致
-        //* PowerOn的重发机制失效因此对PowerOFF重发机制做特殊处理使用
+        //* PowerOn的重发机制失效因此对PowerOn重发机制做特殊处理使用
         //* 不同的代码
 
         static bool PowerOnRetryDone = false;//flase为true时启动重发机制
@@ -72,10 +84,9 @@ namespace Ultrasonic_toothbrush
         }
         public static void StopRetry()//停止重发
         {
-            PowerOnRetryDone = false;
             RetryDone = false;
             retryTime = OverTime;
-            PowerOnretryTime = OverTime;
+
         }
         private static void Retry()//重发函数
         {
@@ -89,6 +100,11 @@ namespace Ultrasonic_toothbrush
                 }
 
             }
+        }
+        public static void StopPowerOnRetry()
+        {
+            PowerOnRetryDone = false;
+            PowerOnretryTime = OverTime;
         }
         private static void PowerOnRetry()//开机重发函数
         {
@@ -105,6 +121,8 @@ namespace Ultrasonic_toothbrush
         }
         private static void  SendReset(object source,ElapsedEventArgs e)
 		{
+            if (exe == true) return;
+            exe = true;
 			 timeInterval = timeInterval + tick;
             if (timeInterval > 1000)//间隔两秒发送重置
             {
@@ -137,11 +155,11 @@ namespace Ultrasonic_toothbrush
 				SelRssiTime = 5000;
 			}
             //延迟发送函数
-            send();
+          //  send();
             //重发函数
             PowerOnRetry();
             Retry();
-
+            exe = false;
         }
 		public static void MarkTime()
 		{

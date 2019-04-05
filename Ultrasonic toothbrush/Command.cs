@@ -269,36 +269,37 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
             int pressStatus;
             int brushCount=0;
             int finishStatus;
-			switch (ddorD9[1])
-			{
-				case 0xD9://解析D9指令
+            switch (ddorD9[1])
+            {
+                case 0xD9://解析D9指令
                     pureBrushTime = ddorD9[6];//净刷牙时间
                     overPressTime = ddorD9[7];//压力过大时间
 
-                    pauseTime = ddorD9[8]&0x0f;//总暂停时间高位
+                    pauseTime = ddorD9[8] & 0x0f;//总暂停时间高位
                     pauseTime = ddorD9[8] >> 4;//当次暂停时间
                     pauseTime = ddorD9[9];//总暂停时间低位置
 
-					int percentage = 0;
-					percentage = percentage|ddorD9[10];//取电池电量取高位
-					percentage = percentage << 8;//移动
-					batteryPercentage = percentage | ddorD9[11];//取电池电量低位
-					batteryPercentage = batteryPercentage / 100;//转换为百分比
+                    int percentage = 0;
+                    percentage = percentage | ddorD9[10];//取电池电量取高位
+                    percentage = percentage << 8;//移动
+                    batteryPercentage = percentage | ddorD9[11];//取电池电量低位
+                    batteryPercentage = batteryPercentage / 100;//转换为百分比
 
-					batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
-					chargeStatus = ddorD9[12]>>4;//chargeStatus=1充电，2放电，3不充电
+                    batteryStatus = ddorD9[12] & 0x0f;//batteryStatus=1,无电2少电3多电4满电
+                    chargeStatus = ddorD9[12] >> 4;//chargeStatus=1充电，2放电，3不充电
 
-					cleanMode = ddorD9[13] & 0x0f;//cleanMode=1清洁，2亮白，3抛光，4敏感，5按摩
+                    cleanMode = ddorD9[13] & 0x0f;//cleanMode=1清洁，2亮白，3抛光，4敏感，5按摩
                     UI.LED(cleanMode);//显示一下led
-					runingStatus = ddorD9[13] >> 4 & 0x7;//runingStatus=0关机，1开机，2暂停
+                    UI.Time(pureBrushTime);
+                    runingStatus = ddorD9[13] >> 4 & 0x7;//runingStatus=0关机，1开机，2暂停
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
-                    brushCount = brushCount|ddorD9[14];//取刷牙次数高字节 
-					brushCount = brushCount << 8;
+                    brushCount = brushCount | ddorD9[14];//取刷牙次数高字节 
+                    brushCount = brushCount << 8;
 
-					brushCount = brushCount|ddorD9[15];//取刷牙次数低字节
-					
-					break;
-				case 0xDD://解析DD指令
+                    brushCount = brushCount | ddorD9[15];//取刷牙次数低字节
+
+                    break;
+                case 0xDD://解析DD指令
                     runingStatus = ddorD9[13] >> 4 & 0x3;//runingStatus=0关机，1开机，2暂停
                     finishStatus = ddorD9[13] >> 6 & 0x20;//finishStatus=0未完成，1完成
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
@@ -314,14 +315,14 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     Status.now = Status.AllStatus.StopReal1;//开始上传实时数据后停止发送实时数据全局状态设置为StopReal1；
                     Port.SendCommand(Id.StopRealData); //测试流程关闭上传实时数据
                     ResetTimer.DelayRetry(Id.StopRealData);//收不到DC指令重发机制
-                    //异步延迟,可能导致多次被调用，暂时弃用
-                  //  ResetTimer.DelaySend(150, Id.StopRealData);
+                                                           //异步延迟,可能导致多次被调用，暂时弃用
+                                                           //  ResetTimer.DelaySend(150, Id.StopRealData);
                     break;
                 case 0xDC:////*****测试流程第5步查询电压，这里会几率性的收不到这条指令可能会导致待机实时数据不停止
                           //  这里应当回应DD xxx01 00 牙刷回错了
                           // Status.now=Status.AllStatus.
-                    
-                    if(Status.now==Status.AllStatus.StopReal1)//确保只有第一次停止发送待机数据时才查询电压
+
+                    if (Status.now == Status.AllStatus.StopReal1)//确保只有第一次停止发送待机数据时才查询电压
                     {
                         ResetTimer.StopRetry();//关闭上传实时数据重发机制
                         Port.SendCommand(Id.Voltage);//这里如果批量生产时有检测不到电压的情况，加上重发机制
@@ -344,23 +345,26 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     Port.SendCommand(settingCleanMode);//设置清洁模式，这里如果批量时有不开机的情况，加上重发机制
                     ResetTimer.DelayRetry(settingCleanMode);//设置清洁模式重发机制
                     break;
-                case 0xC8: //*****第8步清洁模式设置成功 ，开机并延时开机
+                case 0xC8: //*****第7步清洁模式设置成功 ，开机并延时开机
                     ResetTimer.StopRetry();//关闭设置清洁模式重发机制
                     Port.SendCommand(Id.PowerOn);//开机
                     ResetTimer.PowerOnDelayRetry();//开机重发机制
                     Status.now = Status.AllStatus.PowerOnStart;
-                    int settingTime = 1000;//这里设置的是延时关机时间可通过UI设置
+                    int settingTime = 10000;//这里设置的是延时关机时间可通过UI设置
                     ResetTimer.DelaySend(settingTime, Id.PowerOff);//延时关机，这里时间是运行时间
                     ResetTimer.DelayRetry(Id.PowerOff);//延时关机重发机制
                     break;
 
                 //case 关机：第8部检测到关机后 关闭实时数据 flag2=true
                 case 0xC9://*****第9步检测到关机后停止发送实时；
-                    ResetTimer.StopRetry();//关闭开机或关机重发机制
-                    if(ddorD9[8]==0x01)
+                    if (ddorD9[8] == 0x01)
+                    {
                         Status.now = Status.AllStatus.PowerOnDone;//全局状态设置为开机成功
+                        ResetTimer.StopPowerOnRetry();//关闭
+                    }
                     if (ddorD9[8] == 0x00)
                     {
+                        ResetTimer.StopRetry();
                         Status.now = Status.AllStatus.PowerOffDone;//这行状态很快被StopReal2覆盖没有参考意义
                         Status.now = Status.AllStatus.StopReal2; //第二次关机后停止发送实时数据全局状态设置为StopReal2；
                         Port.SendCommand(Id.StopRealData);//第二次停止发送实时数据
@@ -386,6 +390,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                         //调用Test();
                         UI.PassShow(true);
                         //调用恢复工厂模式;
+                        bool settingFac = false;
+                        if (settingFac == false) break; 
                         Port.SendCommand(Id.FactoryReset);//***第11步恢复工厂模式，如果出现恢复不了工厂模式的情况则在这里增加重发机制
                         ResetTimer.DelayRetry(Id.FactoryReset);
 

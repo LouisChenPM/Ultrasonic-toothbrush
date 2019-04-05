@@ -31,6 +31,8 @@ namespace Ultrasonic_toothbrush
             mf.BeginInvoke(passHander, i);
         }
         private static string b = null;
+        internal static TimerHandler timeHandler;
+
         public static void StatusBar(string s,bool clean)//更新状态栏
         {
             b = b + s+" ";
@@ -38,6 +40,11 @@ namespace Ultrasonic_toothbrush
                 b = null;
             mf.BeginInvoke(statusBarHander, b);
 
+        }
+
+        internal static void Time(int pureBrushTime)
+        {
+            mf.BeginInvoke(timeHandler, pureBrushTime);
         }
     }
 }
