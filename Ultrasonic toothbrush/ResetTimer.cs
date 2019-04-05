@@ -47,22 +47,37 @@ namespace Ultrasonic_toothbrush
             }
         }
         static bool RetryDone= false;//flase为true时启动重发机制
-        static int OverTime = 10000;//设置重发超时时间为500毫秒
+        const int OverTime = 500;//设置重发超时时间为500毫秒
         static int retryTime = OverTime;
         static Command.Id retryId;
        public static void DelayRetry(Command.Id i)
         {
             RetryDone = true;
+            retryTime = OverTime;
             retryId = i;
             if (i == Command.Id.PowerOff)//这里因为PowerOff本身是延时关机所以指令重发的时间要在原来的基础上增加，PowerOff的延时
                 retryTime = delaytime + retryTime;
         }
+        //*这里由于Power与PowerOFF是连续开启并且异步因此PowerOFF会导致
+        //* PowerOn的重发机制失效因此对PowerOFF重发机制做特殊处理使用
+        //* 不同的代码
+
+        static bool PowerOnRetryDone = false;//flase为true时启动重发机制
+        static int PowerOnretryTime = OverTime;
+        public static void PowerOnDelayRetry()//设置标识位让重发机制生效
+        {
+            PowerOnRetryDone = true;
+            PowerOnretryTime = OverTime;
+
+        }
         public static void StopRetry()//停止重发
         {
+            PowerOnRetryDone = false;
             RetryDone = false;
             retryTime = OverTime;
+            PowerOnretryTime = OverTime;
         }
-        private static void Retry()
+        private static void Retry()//重发函数
         {
             if (retryTime > 0&& RetryDone==true)
             {
@@ -75,7 +90,20 @@ namespace Ultrasonic_toothbrush
 
             }
         }
-		private static void  SendReset(object source,ElapsedEventArgs e)
+        private static void PowerOnRetry()//开机重发函数
+        {
+            if (PowerOnretryTime > 0 && PowerOnRetryDone == true)
+            {
+                PowerOnretryTime = PowerOnretryTime - tick;
+                if (PowerOnretryTime <= 0)
+                {
+                    Port.SendCommand(Command.Id.PowerOn);
+                    PowerOnretryTime = OverTime;
+                }
+
+            }
+        }
+        private static void  SendReset(object source,ElapsedEventArgs e)
 		{
 			 timeInterval = timeInterval + tick;
             if (timeInterval > 1000)//间隔两秒发送重置
@@ -110,6 +138,7 @@ namespace Ultrasonic_toothbrush
             //延迟发送函数
             send();
             //重发函数
+            PowerOnRetry();
             Retry();
 
         }

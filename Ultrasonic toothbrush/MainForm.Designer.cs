@@ -243,16 +243,18 @@
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(228, 45);
             this.trackBar1.TabIndex = 2;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(243, 192);
+            this.label1.Location = new System.Drawing.Point(259, 184);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(11, 12);
             this.label1.TabIndex = 3;
             this.label1.Text = "0";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // radioButton1
             // 

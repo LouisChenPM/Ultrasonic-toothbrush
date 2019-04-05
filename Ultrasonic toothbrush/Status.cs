@@ -25,7 +25,8 @@ namespace Ultrasonic_toothbrush
             VoltageGot,
             PowerOffDone,
             PowerOnStart,
-            PowerOnDone
+            PowerOnDone,
+            TestDone
         }
     }
 }
