@@ -10,7 +10,7 @@ namespace Ultrasonic_toothbrush
 	{
 		public  static System.Timers.Timer timer = new Timer();
 		private static long timeInterval;
-		private static int tick=100;
+		private static int tick=20;
         private static bool disConnected = false;
 		private static bool eventHandleNotBonded=true;
 		private static int SelRssiTime = 5000;
@@ -22,7 +22,8 @@ namespace Ultrasonic_toothbrush
 			timer.Enabled = true;
 			if (eventHandleNotBonded) {//只绑定一次计时器相应函数这里后面代码修改
 				timer.Elapsed += new ElapsedEventHandler(SendReset);
-                delayTimer.Elapsed += new ElapsedEventHandler(delaySend);
+                delayTimer.Elapsed += new ElapsedEventHandler(PowerOffTimerHandle);
+                RetryPoweroffTimer.Elapsed += new ElapsedEventHandler(RetryPoweroffTimerHandle);
                 eventHandleNotBonded = false;
 			}
 			
@@ -35,31 +36,44 @@ namespace Ultrasonic_toothbrush
         static int delaytime = 0;
         static Command.Id id;
         private static System.Timers.Timer delayTimer = new Timer();
-        public static void DelaySend(int t, Command.Id i)//延迟几个tick发送某个命令
+        private static System.Timers.Timer RetryPoweroffTimer = new Timer();
+        public static void DelayPowerOff(int t)//延时关机函数
 		{
-            delaytime = t;
-            id = i;
             delayTimer.AutoReset = false;
-            delayTimer.Interval = t;
+            delayTimer.Interval = t+500;
             delayTimer.Start();
         }
-        private static void delaySend(object source, ElapsedEventArgs e)
+        private static void PowerOffTimerHandle(object source, ElapsedEventArgs e)//延时关机超时响应函数
         {
-            Port.SendCommand(Command.Id.PowerOff);
+           Port.SendCommand(Command.Id.PowerOff);
             delayTimer.Stop();
-
         }
-        private static void send()
+        public static void RetryPoweroff(int t)//延时关机重发函数
         {
-            if (delaytime > 0)
-            {
-                delaytime = delaytime - tick;
-                if (delaytime <= 0)
-                Port.SendCommand(id);
-            }
+            RetryPoweroffTimer.AutoReset = false;
+            PowerOffRetryDone = true;
+            RetryPoweroffTimer.Interval = t + 1000;
+            RetryPoweroffTimer.Start();
         }
+        public static void StopPoweroffRetry()//延时关机停止重发函数
+        {
+            PowerOffRetryDone = false;
+        }
+        private static bool PowerOffRetryDone=false;
+        private static void RetryPoweroffTimerHandle(object source, ElapsedEventArgs e)//延时关机重发超时响应函数
+        {
+            if (PowerOffRetryDone == true)
+            { 
+                Port.SendCommand(Command.Id.PowerOff);
+                delayTimer.Interval = 500;//将超时时间修改为500毫秒
+                RetryPoweroffTimer.AutoReset = true;
+            }
+            else
+                RetryPoweroffTimer.Stop();
+        }
+
         static bool RetryDone= false;//flase为true时启动重发机制
-        const int OverTime = 500;//设置重发超时时间为500毫秒
+        const int OverTime = 700;//设置重发超时时间为500毫秒，查询电压需要的时间过长因此将这里的电压查询时间设置为700毫秒
         static int retryTime = OverTime;
         static Command.Id retryId;
        public static void DelayRetry(Command.Id i)
@@ -96,6 +110,7 @@ namespace Ultrasonic_toothbrush
                 if (retryTime <= 0)
                 { 
                     Port.SendCommand(retryId);
+                    Console.WriteLine(retryId);
                     retryTime = OverTime;
                 }
 

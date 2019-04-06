@@ -226,6 +226,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     Port.SendCommand(Id.Version);//查询版本号
                     ResetTimer.DelayRetry(Id.Version);//查询版本号重发机制
                     UI.LED(6);//连接后查询版本号
+                    Console.WriteLine("S2");
 					break;
 				case (byte)Id.Disconnect:UI.LED(-6);//关闭连接led
                     if (Status.now == Status.AllStatus.TestDone)
@@ -239,6 +240,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 						Port.SendCommand(Id.UpLoadRealData);
                         ResetTimer.DelayRetry(Id.UpLoadRealData);//上传实时数据重发机制
                         UI.LED(6);//*****测试流程第3步上传实时数据打开连接led
+                        Console.WriteLine("S3");
                     }
 					break;
 				case (byte)Id.UpLoadRealData:
@@ -269,6 +271,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
             int pressStatus;
             int brushCount=0;
             int finishStatus;
+            long currentTicks = DateTime.Now.Ticks;
             switch (ddorD9[1])
             {
                 case 0xD9://解析D9指令
@@ -315,8 +318,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     Status.now = Status.AllStatus.StopReal1;//开始上传实时数据后停止发送实时数据全局状态设置为StopReal1；
                     Port.SendCommand(Id.StopRealData); //测试流程关闭上传实时数据
                     ResetTimer.DelayRetry(Id.StopRealData);//收不到DC指令重发机制
-                                                           //异步延迟,可能导致多次被调用，暂时弃用
-                                                           //  ResetTimer.DelaySend(150, Id.StopRealData);
+                    Console.WriteLine("S4");           //异步延迟,可能导致多次被调用，暂时弃用
+                                                       //  ResetTimer.DelaySend(150, Id.StopRealData);
                     break;
                 case 0xDC:////*****测试流程第5步查询电压，这里会几率性的收不到这条指令可能会导致待机实时数据不停止
                           //  这里应当回应DD xxx01 00 牙刷回错了
@@ -326,14 +329,15 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     {
                         ResetTimer.StopRetry();//关闭上传实时数据重发机制
                         Port.SendCommand(Id.Voltage);//这里如果批量生产时有检测不到电压的情况，加上重发机制
-                        ResetTimer.DelayRetry(Id.Voltage);//电压重发机制
+                        ResetTimer.DelayRetry(Id.Voltage);//电压重发机制，电压查询时间过长导致重发机制频繁触发因此这里将重发超时时间设置为500毫秒
+                        Console.WriteLine("S5");
                     }
                     if (Status.now == Status.AllStatus.StopReal2)//关机后停止发送实时数据，这时删除历史数据
                     {
                         ResetTimer.StopRetry();//关闭上传实时数据重发机制
                         Port.SendCommand(Id.DelData);////*****第9步 删除历史数据，这里如果生产时有删除历史数据失败的情况下，加上重发机制
                         ResetTimer.DelayRetry(Id.DelData);//这里保证能够重发
-
+                        Console.WriteLine("S9");
                     }
                     break;
                 case 0xD1://*****测试流程第6步查询电压,解析电压结果开机，并设置清洁模式
@@ -341,9 +345,10 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     ResetTimer.StopRetry();//关闭电压重发机制
                     GetVoltage();//解析电压
                     Status.now = Status.AllStatus.VoltageGot;
-                    Id settingCleanMode = Id.SetPolishMode;
+                    Id settingCleanMode = Id.CleanMode;
                     Port.SendCommand(settingCleanMode);//设置清洁模式，这里如果批量时有不开机的情况，加上重发机制
                     ResetTimer.DelayRetry(settingCleanMode);//设置清洁模式重发机制
+                    Console.WriteLine("S6");
                     break;
                 case 0xC8: //*****第7步清洁模式设置成功 ，开机并延时开机
                     ResetTimer.StopRetry();//关闭设置清洁模式重发机制
@@ -351,12 +356,13 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     ResetTimer.PowerOnDelayRetry();//开机重发机制
                     Status.now = Status.AllStatus.PowerOnStart;
                     int settingTime = 10000;//这里设置的是延时关机时间可通过UI设置
-                    ResetTimer.DelaySend(settingTime, Id.PowerOff);//延时关机，这里时间是运行时间
-                    ResetTimer.DelayRetry(Id.PowerOff);//延时关机重发机制
+                    ResetTimer.DelayPowerOff(settingTime);//延时关机，这里时间是运行时间
+                    ResetTimer.RetryPoweroff(settingTime);//延时关机重发机制
+                    Console.WriteLine("S7");
                     break;
 
                 //case 关机：第8部检测到关机后 关闭实时数据 flag2=true
-                case 0xC9://*****第9步检测到关机后停止发送实时；
+                case 0xC9://*****第8步检测到关机后停止发送实时；
                     if (ddorD9[8] == 0x01)
                     {
                         Status.now = Status.AllStatus.PowerOnDone;//全局状态设置为开机成功
@@ -364,12 +370,12 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     }
                     if (ddorD9[8] == 0x00)
                     {
-                        ResetTimer.StopRetry();
+                        ResetTimer.StopPoweroffRetry();//关闭延时关机重发机制
                         Status.now = Status.AllStatus.PowerOffDone;//这行状态很快被StopReal2覆盖没有参考意义
                         Status.now = Status.AllStatus.StopReal2; //第二次关机后停止发送实时数据全局状态设置为StopReal2；
                         Port.SendCommand(Id.StopRealData);//第二次停止发送实时数据
                         ResetTimer.DelayRetry(Id.StopRealData);//几率性出现:关机后关闭上传实时待机数据失败,牙刷待机数据不停止，需要修复牙刷bug
-                        
+                        Console.WriteLine("S8");
                     }
                     break;
 
@@ -382,7 +388,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                           //Port.SendCommand(Id.FactoryReset);
                           if(ddorD9[6]==0xc1&&ddorD9[7]==0xFF)//
                     {
-                           Port.SendCommand(Id.SelData);//这里不需要重发机制，因为下一步已经调用了StopRetry
+                        Port.SendCommand(Id.SelData);//这里不需要重发机制，因为下一步已经调用了StopRetry
                     }
                     if (ddorD9[6]== 0x00 && ddorD9[7] == 0xFF)//***第10步查询到已经删除了历史数据后测试显示结果，恢复工厂模式
                     {
@@ -390,11 +396,15 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                         //调用Test();
                         UI.PassShow(true);
                         //调用恢复工厂模式;
+
+                        Console.WriteLine("S10");
+                        Console.WriteLine("-----------------");
+
                         bool settingFac = false;
                         if (settingFac == false) break; 
                         Port.SendCommand(Id.FactoryReset);//***第11步恢复工厂模式，如果出现恢复不了工厂模式的情况则在这里增加重发机制
                         ResetTimer.DelayRetry(Id.FactoryReset);
-
+                        
                     }
 
                     break;

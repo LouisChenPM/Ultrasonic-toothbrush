@@ -65,6 +65,8 @@ namespace Ultrasonic_toothbrush
             {
                 ResetTimer.Disable();//计时器关闭
                 isStart=true;//开始标志
+                Port.SendCommand(Command.Id.Disconnect);
+                System.Threading.Thread.Sleep(100);
                 port.End();//停止串口
                 this.startButton.Text = "开始";
             }
