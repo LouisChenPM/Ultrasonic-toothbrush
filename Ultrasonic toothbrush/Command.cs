@@ -208,8 +208,8 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 		static int count = 0;
 		public static void  DealCmd()
 		{
-			//   timestamp();
-
+            //   timestamp();
+            if (Status.END) return;
             switch (cmd[5])
 			{
 				case(byte) Id.Scan://*****测试流程第1步扫描结果决定是否连接
@@ -355,13 +355,13 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     Port.SendCommand(Id.PowerOn);//开机
                     ResetTimer.PowerOnDelayRetry();//开机重发机制
                     Status.now = Status.AllStatus.PowerOnStart;
-                    int settingTime = 10000;//这里设置的是延时关机时间可通过UI设置
+                    int settingTime = 2000;//这里设置的是延时关机时间可通过UI设置
                     ResetTimer.DelayPowerOff(settingTime);//延时关机，这里时间是运行时间
                     ResetTimer.RetryPoweroff(settingTime);//延时关机重发机制
                     Console.WriteLine("S7");
                     break;
 
-                //case 关机：第8部检测到关机后 关闭实时数据 flag2=true
+                //case 关机：第8步骤检测到关机后 关闭实时数据 flag2=true
                 case 0xC9://*****第8步检测到关机后停止发送实时；
                     if (ddorD9[8] == 0x01)
                     {
@@ -370,6 +370,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     }
                     if (ddorD9[8] == 0x00)
                     {
+
                         ResetTimer.StopPoweroffRetry();//关闭延时关机重发机制
                         Status.now = Status.AllStatus.PowerOffDone;//这行状态很快被StopReal2覆盖没有参考意义
                         Status.now = Status.AllStatus.StopReal2; //第二次关机后停止发送实时数据全局状态设置为StopReal2；
@@ -394,6 +395,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     {
                         ResetTimer.StopRetry();//停止删除指令的重发
                         //调用Test();
+                        System.Threading.Thread.Sleep(10000);//这里模拟测试所占用的时间10秒
                         UI.PassShow(true);
                         //调用恢复工厂模式;
 
@@ -408,7 +410,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     }
 
                     break;
-                case 0xCb: //case 第12步 断开连接，也是最后异步
+                case 0xCb: //case 第12步 断开连接，也是最后一步
                     ResetTimer.StopRetry();//停止恢复工厂模式重发
                     Status.now = Status.AllStatus.TestDone;
                     Port.SendCommand(Id.Disconnect);//这里如果量产时出现无法断开的情况 则重发

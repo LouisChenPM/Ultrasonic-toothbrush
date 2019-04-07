@@ -19,7 +19,7 @@ namespace Ultrasonic_toothbrush
 	{
 		//public   UIHandler uiHandler ;
 		private Port port;
-        private bool isStart=true;
+       // private bool isStart=true;
         Color c;
         public MainForm()
 		{
@@ -34,6 +34,7 @@ namespace Ultrasonic_toothbrush
             UI.timeHandler = new TimerHandler(updateTime);
             UI.mf = this;
             c = ledBattery.BackColor;
+            Status.END = true;
 
         }
 
@@ -53,18 +54,20 @@ namespace Ultrasonic_toothbrush
 
 		private void startButton_Click(object sender, EventArgs e)//开始停止
 		{
-            if (isStart)
+            if (Status.END)
             {
                 port.Start();//打开串口
                 Port.SendCommand(Command.Id.Scan);//发送连接
                 ResetTimer.Start();//重置时钟开始计时
-                isStart = false;//停止标志
+                Status.END = false;//停止标志
                 this.startButton.Text = "停止";
             }
             else
             {
                 ResetTimer.Disable();//计时器关闭
-                isStart=true;//开始标志
+                Status.END =true;//开始标志
+                Port.SendCommand(Command.Id.PowerOff);
+                System.Threading.Thread.Sleep(50);//延时关闭端口
                 Port.SendCommand(Command.Id.Disconnect);
                 System.Threading.Thread.Sleep(100);
                 port.End();//停止串口

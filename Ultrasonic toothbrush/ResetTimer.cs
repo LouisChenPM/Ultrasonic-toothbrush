@@ -32,6 +32,9 @@ namespace Ultrasonic_toothbrush
         public static void Disable()
         {
             timer.Enabled = false;
+            delayTimer.Enabled = false;
+            RetryPoweroffTimer.Enabled = false;
+            
         }
         static int delaytime = 0;
         static Command.Id id;
@@ -45,7 +48,7 @@ namespace Ultrasonic_toothbrush
         }
         private static void PowerOffTimerHandle(object source, ElapsedEventArgs e)//延时关机超时响应函数
         {
-           Port.SendCommand(Command.Id.PowerOff);
+          Port.SendCommand(Command.Id.PowerOff);
             delayTimer.Stop();
         }
         public static void RetryPoweroff(int t)//延时关机重发函数
@@ -67,6 +70,7 @@ namespace Ultrasonic_toothbrush
                 Port.SendCommand(Command.Id.PowerOff);
                 delayTimer.Interval = 500;//将超时时间修改为500毫秒
                 RetryPoweroffTimer.AutoReset = true;
+                Console.WriteLine("PowerOff");
             }
             else
                 RetryPoweroffTimer.Stop();
@@ -130,6 +134,7 @@ namespace Ultrasonic_toothbrush
                 {
                     Port.SendCommand(Command.Id.PowerOn);
                     PowerOnretryTime = OverTime;
+                    Console.WriteLine("PowerOn");
                 }
 
             }

@@ -72,7 +72,7 @@ namespace Ultrasonic_toothbrush
 		//发送命令
 		public static  void SendCommand(Command.Id commId)
 		{
-            //if(停止) return
+            if (Status.END) return;//ruguoting
 			byte[] buf=null;
 
 			switch (commId)

@@ -28,5 +28,7 @@ namespace Ultrasonic_toothbrush
             PowerOnDone,
             TestDone
         }
+
+        public static bool END;
     }
 }
