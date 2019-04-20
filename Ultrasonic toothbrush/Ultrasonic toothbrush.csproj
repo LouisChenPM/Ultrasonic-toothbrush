@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Command.cs" />
     <Compile Include="Device.cs" />
+    <Compile Include="feike_db.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
