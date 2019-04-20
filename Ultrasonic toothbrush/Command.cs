@@ -220,7 +220,11 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					device.name=GetDeviceName();//getmac//getrssi//getdevicename//getchiptype//port.connect(if rssi>x)
                     Status.now = Status.AllStatus.Scaning;//全局状态设置为扫描
 					if (device.rssi > Setting.Rssi && device.name == settingName)//这里是连接条件（还可以包含设置连接名称）
+					{
+						//if (Status.now == Status.AllStatus.Connecting) return;//这里保证在连接时直接忽略其他mac地址
 						Port.SendCommand(Id.Connect);//在信号范围内尝试连接，不在信号范围内重新扫描
+						Status.now = Status.AllStatus.Connecting;
+					}
 					break;
 				case (byte)Id.Connect://*****测试流程第2步连接后查询版本号
                     Port.SendCommand(Id.Version);//查询版本号
@@ -395,7 +399,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     {
                         ResetTimer.StopRetry();//停止删除指令的重发
                         //调用Test();
-                        System.Threading.Thread.Sleep(10000);//这里模拟测试所占用的时间10秒
+                       System.Threading.Thread.Sleep(10000);//这里模拟测试所占用的时间10秒
                         UI.PassShow(true);
                         //调用恢复工厂模式;
 

@@ -67,7 +67,7 @@ namespace Ultrasonic_toothbrush
                 ResetTimer.Disable();//计时器关闭
                 Status.END =true;//开始标志
                 Port.SendCommand(Command.Id.PowerOff);
-                System.Threading.Thread.Sleep(50);//延时关闭端口
+                System.Threading.Thread.Sleep(100);//延时关闭端口
                 Port.SendCommand(Command.Id.Disconnect);
                 System.Threading.Thread.Sleep(100);
                 port.End();//停止串口

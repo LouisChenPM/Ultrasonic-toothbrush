@@ -156,7 +156,7 @@ namespace Ultrasonic_toothbrush
                 else
                 {
                     Port.SendCommand(Command.Id.Scan);//间隔时间差大于5秒发送重置
-                    UI.StatusBar(null, true);
+                    UI.StatusBar(null, true);//更新状态栏
                     disConnected = false;
                 }
 
