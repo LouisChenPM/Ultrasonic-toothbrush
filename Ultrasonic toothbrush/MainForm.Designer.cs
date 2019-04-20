@@ -60,12 +60,24 @@
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.button13 = new System.Windows.Forms.Button();
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.button14 = new System.Windows.Forms.Button();
+			this.button15 = new System.Windows.Forms.Button();
+			this.button16 = new System.Windows.Forms.Button();
+			this.button17 = new System.Windows.Forms.Button();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.panel3.SuspendLayout();
+			this.panel4.SuspendLayout();
+			this.menuStrip1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -75,7 +87,7 @@
 			this.groupBox1.Controls.Add(this.button1);
 			this.groupBox1.Location = new System.Drawing.Point(12, 12);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(986, 84);
+			this.groupBox1.Size = new System.Drawing.Size(986, 88);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "...";
@@ -192,7 +204,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(496, 26);
+			this.button1.Location = new System.Drawing.Point(611, 22);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(225, 48);
 			this.button1.TabIndex = 4;
@@ -202,7 +214,7 @@
 			// 
 			// buttonPortName
 			// 
-			this.buttonPortName.Location = new System.Drawing.Point(29, 26);
+			this.buttonPortName.Location = new System.Drawing.Point(144, 22);
 			this.buttonPortName.Name = "buttonPortName";
 			this.buttonPortName.Size = new System.Drawing.Size(117, 30);
 			this.buttonPortName.TabIndex = 3;
@@ -212,7 +224,7 @@
 			// 
 			// startButton
 			// 
-			this.startButton.Location = new System.Drawing.Point(180, 20);
+			this.startButton.Location = new System.Drawing.Point(295, 16);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(225, 48);
 			this.startButton.TabIndex = 0;
@@ -223,16 +235,16 @@
 			// logBox
 			// 
 			this.logBox.AllowDrop = true;
-			this.logBox.Location = new System.Drawing.Point(41, 472);
+			this.logBox.Location = new System.Drawing.Point(184, 463);
 			this.logBox.Multiline = true;
 			this.logBox.Name = "logBox";
 			this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logBox.Size = new System.Drawing.Size(908, 285);
+			this.logBox.Size = new System.Drawing.Size(717, 202);
 			this.logBox.TabIndex = 1;
 			// 
 			// trackBar1
 			// 
-			this.trackBar1.Location = new System.Drawing.Point(276, 183);
+			this.trackBar1.Location = new System.Drawing.Point(32, 21);
 			this.trackBar1.Maximum = 0;
 			this.trackBar1.Minimum = -100;
 			this.trackBar1.Name = "trackBar1";
@@ -244,7 +256,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(259, 184);
+			this.label1.Location = new System.Drawing.Point(15, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(11, 12);
 			this.label1.TabIndex = 3;
@@ -334,7 +346,7 @@
 			this.panel2.Controls.Add(this.ledBattery);
 			this.panel2.Controls.Add(this.radioButton6);
 			this.panel2.Controls.Add(this.panel1);
-			this.panel2.Location = new System.Drawing.Point(545, 128);
+			this.panel2.Location = new System.Drawing.Point(575, 134);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(358, 100);
 			this.panel2.TabIndex = 13;
@@ -352,7 +364,7 @@
 			// passBtn
 			// 
 			this.passBtn.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.passBtn.Location = new System.Drawing.Point(192, 102);
+			this.passBtn.Location = new System.Drawing.Point(314, 102);
 			this.passBtn.Name = "passBtn";
 			this.passBtn.Size = new System.Drawing.Size(225, 48);
 			this.passBtn.TabIndex = 14;
@@ -377,7 +389,7 @@
 			// 
 			// button13
 			// 
-			this.button13.Location = new System.Drawing.Point(41, 102);
+			this.button13.Location = new System.Drawing.Point(156, 70);
 			this.button13.Name = "button13";
 			this.button13.Size = new System.Drawing.Size(117, 30);
 			this.button13.TabIndex = 16;
@@ -397,25 +409,108 @@
 			this.panel3.Controls.Add(this.button4);
 			this.panel3.Controls.Add(this.button5);
 			this.panel3.Controls.Add(this.button6);
-			this.panel3.Location = new System.Drawing.Point(192, 514);
+			this.panel3.Location = new System.Drawing.Point(207, 517);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(497, 85);
 			this.panel3.TabIndex = 17;
+			// 
+			// button14
+			// 
+			this.button14.Location = new System.Drawing.Point(196, 251);
+			this.button14.Name = "button14";
+			this.button14.Size = new System.Drawing.Size(336, 35);
+			this.button14.TabIndex = 18;
+			this.button14.Text = "button14";
+			this.button14.UseVisualStyleBackColor = true;
+			// 
+			// button15
+			// 
+			this.button15.Location = new System.Drawing.Point(196, 308);
+			this.button15.Name = "button15";
+			this.button15.Size = new System.Drawing.Size(336, 35);
+			this.button15.TabIndex = 19;
+			this.button15.Text = "button15";
+			this.button15.UseVisualStyleBackColor = true;
+			// 
+			// button16
+			// 
+			this.button16.Location = new System.Drawing.Point(196, 359);
+			this.button16.Name = "button16";
+			this.button16.Size = new System.Drawing.Size(336, 35);
+			this.button16.TabIndex = 20;
+			this.button16.Text = "button16";
+			this.button16.UseVisualStyleBackColor = true;
+			// 
+			// button17
+			// 
+			this.button17.Location = new System.Drawing.Point(196, 399);
+			this.button17.Name = "button17";
+			this.button17.Size = new System.Drawing.Size(336, 35);
+			this.button17.TabIndex = 21;
+			this.button17.Text = "button17";
+			this.button17.UseVisualStyleBackColor = true;
+			// 
+			// panel4
+			// 
+			this.panel4.Controls.Add(this.trackBar1);
+			this.panel4.Controls.Add(this.label1);
+			this.panel4.Location = new System.Drawing.Point(575, 251);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(341, 69);
+			this.panel4.TabIndex = 22;
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开ToolStripMenuItem,
+            this.设置ToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(1010, 25);
+			this.menuStrip1.TabIndex = 23;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// 打开ToolStripMenuItem
+			// 
+			this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
+			this.打开ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+			this.打开ToolStripMenuItem.Text = "打开";
+			// 
+			// 设置ToolStripMenuItem
+			// 
+			this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
+			this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+			this.设置ToolStripMenuItem.Text = "设置";
+			// 
+			// dataGridView1
+			// 
+			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Location = new System.Drawing.Point(12, 251);
+			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.RowTemplate.Height = 23;
+			this.dataGridView1.Size = new System.Drawing.Size(166, 414);
+			this.dataGridView1.TabIndex = 24;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1010, 715);
+			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.panel4);
+			this.Controls.Add(this.button17);
+			this.Controls.Add(this.button16);
+			this.Controls.Add(this.button15);
+			this.Controls.Add(this.button14);
 			this.Controls.Add(this.button13);
 			this.Controls.Add(this.statusStrip1);
+			this.Controls.Add(this.menuStrip1);
 			this.Controls.Add(this.passBtn);
 			this.Controls.Add(this.panel2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.trackBar1);
 			this.Controls.Add(this.logBox);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.panel3);
+			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.Text = "Ultrasonic toothbrush";
 			this.Load += new System.EventHandler(this.MainForm_Load);
@@ -428,6 +523,11 @@
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.panel3.ResumeLayout(false);
+			this.panel4.ResumeLayout(false);
+			this.panel4.PerformLayout();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -467,6 +567,15 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button button13;
 		private System.Windows.Forms.Panel panel3;
+		private System.Windows.Forms.Button button14;
+		private System.Windows.Forms.Button button15;
+		private System.Windows.Forms.Button button16;
+		private System.Windows.Forms.Button button17;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
+		private System.Windows.Forms.DataGridView dataGridView1;
 	}
 }
 

@@ -241,11 +241,13 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					if (cmd[6] == 0x0A&&cmd[8]==0x66&& cmd[9] == 0x65 && cmd[13]==0x14) {
                         ResetTimer.StopRetry();//停止重发获取版本号
 						GetVersion();//获取版本号
-						Port.SendCommand(Id.UpLoadRealData);
-                        ResetTimer.DelayRetry(Id.UpLoadRealData);//上传实时数据重发机制
+						/********************************************这两行注释掉以后从原步骤S4-S10都不在工作*************************************************/
+					   //	Port.SendCommand(Id.UpLoadRealData);
+                      //  ResetTimer.DelayRetry(Id.UpLoadRealData);//上传实时数据重发机制
                         UI.LED(6);//*****测试流程第3步上传实时数据打开连接led
                         Console.WriteLine("S3");
-                    }
+						Console.WriteLine("-----------------------------");
+					}
 					break;
 				case (byte)Id.UpLoadRealData:
 					break;
@@ -311,9 +313,25 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     finishStatus = ddorD9[13] >> 6 & 0x20;//finishStatus=0未完成，1完成
                     pressStatus = ddorD9[13] >> 7;//pressStatus=0压力正常，1压力过大
                     UI.LED(0);//关闭所有led
-                    /*这里会出现收到DC指令后还会继续收到DD指令，这是由于牙刷没有回复DD指令造成的*/
+							  /*这里会出现收到DC指令后还会继续收到DD指令，这是由于牙刷没有回复DD指令造成的*/
 
-                    break;
+					/* *****测试流程第5步,关闭实时数据查询电压*/
+					if (Status.now == Status.AllStatus.StopReal1)//确保只有第一次停止发送待机数据时才查询电压
+					{
+						ResetTimer.StopRetry();//关闭上传实时数据重发机制
+						Port.SendCommand(Id.Voltage);//这里如果批量生产时有检测不到电压的情况，加上重发机制
+						ResetTimer.DelayRetry(Id.Voltage);//电压重发机制，电压查询时间过长导致重发机制频繁触发因此这里将重发超时时间设置为500毫秒
+						Console.WriteLine("S5");
+					}
+					if (Status.now == Status.AllStatus.StopReal2)//关机后停止发送实时数据，这时删除历史数据
+					{
+						//ResetTimer.StopRetry();//关闭上传实时数据重发机制
+					//	Port.SendCommand(Id.DelData);////*****第9步 删除历史数据，这里如果生产时有删除历史数据失败的情况下，加上重发机制
+					//	ResetTimer.DelayRetry(Id.DelData);//这里保证能够重发
+					//	Console.WriteLine("S9");
+					}
+
+					break;
 
                 case 0xC1://*****测试流程第4步关闭实时数据
                           //同步延迟，可能导致阻塞接受数据的线程
@@ -324,25 +342,6 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     ResetTimer.DelayRetry(Id.StopRealData);//收不到DC指令重发机制
                     Console.WriteLine("S4");           //异步延迟,可能导致多次被调用，暂时弃用
                                                        //  ResetTimer.DelaySend(150, Id.StopRealData);
-                    break;
-                case 0xDC:////*****测试流程第5步查询电压，这里会几率性的收不到这条指令可能会导致待机实时数据不停止
-                          //  这里应当回应DD xxx01 00 牙刷回错了
-                          // Status.now=Status.AllStatus.
-
-                    if (Status.now == Status.AllStatus.StopReal1)//确保只有第一次停止发送待机数据时才查询电压
-                    {
-                        ResetTimer.StopRetry();//关闭上传实时数据重发机制
-                        Port.SendCommand(Id.Voltage);//这里如果批量生产时有检测不到电压的情况，加上重发机制
-                        ResetTimer.DelayRetry(Id.Voltage);//电压重发机制，电压查询时间过长导致重发机制频繁触发因此这里将重发超时时间设置为500毫秒
-                        Console.WriteLine("S5");
-                    }
-                    if (Status.now == Status.AllStatus.StopReal2)//关机后停止发送实时数据，这时删除历史数据
-                    {
-                        ResetTimer.StopRetry();//关闭上传实时数据重发机制
-                        Port.SendCommand(Id.DelData);////*****第9步 删除历史数据，这里如果生产时有删除历史数据失败的情况下，加上重发机制
-                        ResetTimer.DelayRetry(Id.DelData);//这里保证能够重发
-                        Console.WriteLine("S9");
-                    }
                     break;
                 case 0xD1://*****测试流程第6步查询电压,解析电压结果开机，并设置清洁模式
                           //if (Status.now == Status.AllStatus.PowerOffDone) break;
@@ -399,7 +398,7 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
                     {
                         ResetTimer.StopRetry();//停止删除指令的重发
                         //调用Test();
-                       System.Threading.Thread.Sleep(10000);//这里模拟测试所占用的时间10秒
+                //       System.Threading.Thread.Sleep(10000);//这里模拟测试所占用的时间10秒
                         UI.PassShow(true);
                         //调用恢复工厂模式;
 
