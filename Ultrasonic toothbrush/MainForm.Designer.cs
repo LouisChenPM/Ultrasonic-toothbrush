@@ -29,6 +29,9 @@
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.buttonPortName = new System.Windows.Forms.Button();
+			this.startButton = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
 			this.button12 = new System.Windows.Forms.Button();
 			this.button11 = new System.Windows.Forms.Button();
 			this.button10 = new System.Windows.Forms.Button();
@@ -40,9 +43,6 @@
 			this.button4 = new System.Windows.Forms.Button();
 			this.button3 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.buttonPortName = new System.Windows.Forms.Button();
-			this.startButton = new System.Windows.Forms.Button();
 			this.logBox = new System.Windows.Forms.TextBox();
 			this.trackBar1 = new System.Windows.Forms.TrackBar();
 			this.label1 = new System.Windows.Forms.Label();
@@ -60,15 +60,13 @@
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.button13 = new System.Windows.Forms.Button();
 			this.panel3 = new System.Windows.Forms.Panel();
-			this.button14 = new System.Windows.Forms.Button();
-			this.button15 = new System.Windows.Forms.Button();
-			this.button16 = new System.Windows.Forms.Button();
-			this.button17 = new System.Windows.Forms.Button();
 			this.panel4 = new System.Windows.Forms.Panel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.MAC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -91,6 +89,36 @@
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "...";
+			// 
+			// buttonPortName
+			// 
+			this.buttonPortName.Location = new System.Drawing.Point(144, 22);
+			this.buttonPortName.Name = "buttonPortName";
+			this.buttonPortName.Size = new System.Drawing.Size(117, 30);
+			this.buttonPortName.TabIndex = 3;
+			this.buttonPortName.Text = "无串口";
+			this.buttonPortName.UseVisualStyleBackColor = true;
+			this.buttonPortName.Click += new System.EventHandler(this.buttonPortName_Click);
+			// 
+			// startButton
+			// 
+			this.startButton.Location = new System.Drawing.Point(295, 16);
+			this.startButton.Name = "startButton";
+			this.startButton.Size = new System.Drawing.Size(225, 48);
+			this.startButton.TabIndex = 0;
+			this.startButton.Text = "开始";
+			this.startButton.UseVisualStyleBackColor = true;
+			this.startButton.Click += new System.EventHandler(this.startButton_Click);
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(611, 22);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(225, 48);
+			this.button1.TabIndex = 4;
+			this.button1.Text = "断开";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// button12
 			// 
@@ -202,49 +230,19 @@
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(611, 22);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(225, 48);
-			this.button1.TabIndex = 4;
-			this.button1.Text = "断开";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// buttonPortName
-			// 
-			this.buttonPortName.Location = new System.Drawing.Point(144, 22);
-			this.buttonPortName.Name = "buttonPortName";
-			this.buttonPortName.Size = new System.Drawing.Size(117, 30);
-			this.buttonPortName.TabIndex = 3;
-			this.buttonPortName.Text = "无串口";
-			this.buttonPortName.UseVisualStyleBackColor = true;
-			this.buttonPortName.Click += new System.EventHandler(this.buttonPortName_Click);
-			// 
-			// startButton
-			// 
-			this.startButton.Location = new System.Drawing.Point(295, 16);
-			this.startButton.Name = "startButton";
-			this.startButton.Size = new System.Drawing.Size(225, 48);
-			this.startButton.TabIndex = 0;
-			this.startButton.Text = "开始";
-			this.startButton.UseVisualStyleBackColor = true;
-			this.startButton.Click += new System.EventHandler(this.startButton_Click);
-			// 
 			// logBox
 			// 
 			this.logBox.AllowDrop = true;
-			this.logBox.Location = new System.Drawing.Point(184, 463);
+			this.logBox.Location = new System.Drawing.Point(281, 463);
 			this.logBox.Multiline = true;
 			this.logBox.Name = "logBox";
 			this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logBox.Size = new System.Drawing.Size(717, 202);
+			this.logBox.Size = new System.Drawing.Size(961, 202);
 			this.logBox.TabIndex = 1;
 			// 
 			// trackBar1
 			// 
-			this.trackBar1.Location = new System.Drawing.Point(32, 21);
+			this.trackBar1.Location = new System.Drawing.Point(48, 14);
 			this.trackBar1.Maximum = 0;
 			this.trackBar1.Minimum = -100;
 			this.trackBar1.Name = "trackBar1";
@@ -377,7 +375,7 @@
             this.toolStripStatusLabel1});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 693);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1010, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(1268, 22);
 			this.statusStrip1.TabIndex = 15;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -409,54 +407,18 @@
 			this.panel3.Controls.Add(this.button4);
 			this.panel3.Controls.Add(this.button5);
 			this.panel3.Controls.Add(this.button6);
-			this.panel3.Location = new System.Drawing.Point(207, 517);
+			this.panel3.Location = new System.Drawing.Point(295, 519);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(497, 85);
 			this.panel3.TabIndex = 17;
-			// 
-			// button14
-			// 
-			this.button14.Location = new System.Drawing.Point(196, 251);
-			this.button14.Name = "button14";
-			this.button14.Size = new System.Drawing.Size(336, 35);
-			this.button14.TabIndex = 18;
-			this.button14.Text = "button14";
-			this.button14.UseVisualStyleBackColor = true;
-			// 
-			// button15
-			// 
-			this.button15.Location = new System.Drawing.Point(196, 308);
-			this.button15.Name = "button15";
-			this.button15.Size = new System.Drawing.Size(336, 35);
-			this.button15.TabIndex = 19;
-			this.button15.Text = "button15";
-			this.button15.UseVisualStyleBackColor = true;
-			// 
-			// button16
-			// 
-			this.button16.Location = new System.Drawing.Point(196, 359);
-			this.button16.Name = "button16";
-			this.button16.Size = new System.Drawing.Size(336, 35);
-			this.button16.TabIndex = 20;
-			this.button16.Text = "button16";
-			this.button16.UseVisualStyleBackColor = true;
-			// 
-			// button17
-			// 
-			this.button17.Location = new System.Drawing.Point(196, 399);
-			this.button17.Name = "button17";
-			this.button17.Size = new System.Drawing.Size(336, 35);
-			this.button17.TabIndex = 21;
-			this.button17.Text = "button17";
-			this.button17.UseVisualStyleBackColor = true;
 			// 
 			// panel4
 			// 
 			this.panel4.Controls.Add(this.trackBar1);
 			this.panel4.Controls.Add(this.label1);
-			this.panel4.Location = new System.Drawing.Point(575, 251);
+			this.panel4.Location = new System.Drawing.Point(575, 264);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(341, 69);
+			this.panel4.Size = new System.Drawing.Size(341, 62);
 			this.panel4.TabIndex = 22;
 			// 
 			// menuStrip1
@@ -466,7 +428,7 @@
             this.设置ToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1010, 25);
+			this.menuStrip1.Size = new System.Drawing.Size(1268, 25);
 			this.menuStrip1.TabIndex = 23;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -485,23 +447,32 @@
 			// dataGridView1
 			// 
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.MAC,
+            this.NAME});
 			this.dataGridView1.Location = new System.Drawing.Point(12, 251);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 23;
-			this.dataGridView1.Size = new System.Drawing.Size(166, 414);
+			this.dataGridView1.Size = new System.Drawing.Size(243, 414);
 			this.dataGridView1.TabIndex = 24;
+			// 
+			// MAC
+			// 
+			this.MAC.HeaderText = "MAC";
+			this.MAC.Name = "MAC";
+			// 
+			// NAME
+			// 
+			this.NAME.HeaderText = "名称";
+			this.NAME.Name = "NAME";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1010, 715);
+			this.ClientSize = new System.Drawing.Size(1268, 715);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.panel4);
-			this.Controls.Add(this.button17);
-			this.Controls.Add(this.button16);
-			this.Controls.Add(this.button15);
-			this.Controls.Add(this.button14);
 			this.Controls.Add(this.button13);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
@@ -567,15 +538,13 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button button13;
 		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Button button14;
-		private System.Windows.Forms.Button button15;
-		private System.Windows.Forms.Button button16;
-		private System.Windows.Forms.Button button17;
 		private System.Windows.Forms.Panel panel4;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
 		private System.Windows.Forms.DataGridView dataGridView1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn MAC;
+		private System.Windows.Forms.DataGridViewTextBoxColumn NAME;
 	}
 }
 

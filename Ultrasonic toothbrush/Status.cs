@@ -26,8 +26,10 @@ namespace Ultrasonic_toothbrush
             PowerOffDone,
             PowerOnStart,
             PowerOnDone,
-            TestDone
-        }
+            TestDone,
+			Testing,
+			Connected
+		}
 
         public static bool END;
     }

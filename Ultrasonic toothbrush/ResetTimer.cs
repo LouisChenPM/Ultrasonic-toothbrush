@@ -144,8 +144,8 @@ namespace Ultrasonic_toothbrush
             if (exe == true) return;
             exe = true;
 			 timeInterval = timeInterval + tick;
-            if (timeInterval > 1000)//间隔两秒发送重置
-            {
+            if (timeInterval > 1000&&Status.now!=Status.AllStatus.Testing)//间隔两秒，并且处于非测试期间 发送重置
+			{
                 Status.now = Status.AllStatus.Scaning;
                 // Port.SendCommand(Command.Id.Scan);
                 if (disConnected == false)

@@ -78,6 +78,7 @@ namespace Ultrasonic_toothbrush
 		//更新协议数据窗口
 		public  bool UpdateTextBox(string s)
 		{
+			Console.WriteLine(s);
 			s = s + System.Environment.NewLine;//换行
 			logBox.AppendText(s);
 			return true;

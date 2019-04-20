@@ -66,6 +66,7 @@
     <Compile Include="ResetTimer.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="UI.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
