@@ -33,20 +33,14 @@ namespace Ultrasonic_toothbrush
             UI.ledHandler = new LedHandler(UpdateLed);
             UI.passHander = new PassHandler(UpdatePass);
             UI.statusBarHander = new StatusBarHandler(UpdateStatusBar);
-            UI.timeHandler = new TimerHandler(updateTime);
+            //UI.timeHandler = new TimerHandler(updateTime);
 			UI.repeatHandler = new RepeatHandler(ShowRepeatWindow);
             UI.mf = this;
             c = ledBattery.BackColor;
             Status.END = true;
-
+			//dataGridView2.add
         }
 
-		private bool updateTime(int t)
-
-        {
-            this.button13.Text = t.ToString();
-            return true;
-        }
 
 
         //更换端口号
@@ -160,8 +154,8 @@ namespace Ultrasonic_toothbrush
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
-        }
+		//	asf.InitOldControlRects(this);
+		}
 
 		private void button4_Click(object sender, EventArgs e)
 		{
@@ -207,5 +201,24 @@ namespace Ultrasonic_toothbrush
         {
             logBox.Clear();
         }
-    }
+
+		private void MainForm_MaximumSizeChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		AutoSizeForm asf = new AutoSizeForm();
+		private void MainForm_SizeChanged(object sender, EventArgs e)
+		{
+		//	AutoSizeForm asf = new AutoSizeForm();
+			//AutoSizeForm asf = new AutoSizeForm();
+			
+			asf.AutoSize(this);
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			asf.InitOldControlRects(this);
+		}
+	}
 }

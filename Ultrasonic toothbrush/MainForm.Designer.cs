@@ -31,6 +31,7 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.buttonPortName = new System.Windows.Forms.Button();
 			this.startButton = new System.Windows.Forms.Button();
+			this.passBtn = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button12 = new System.Windows.Forms.Button();
 			this.button11 = new System.Windows.Forms.Button();
@@ -53,48 +54,53 @@
 			this.radioButton6 = new System.Windows.Forms.RadioButton();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.radioButton5 = new System.Windows.Forms.RadioButton();
-			this.panel2 = new System.Windows.Forms.Panel();
 			this.ledBattery = new System.Windows.Forms.Label();
-			this.passBtn = new System.Windows.Forms.Button();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.button13 = new System.Windows.Forms.Button();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.panel4 = new System.Windows.Forms.Panel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.导入MAC地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.导出MAC地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.MAC = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridView2 = new System.Windows.Forms.DataGridView();
+			this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Range = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Current = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.TestResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.panel1.SuspendLayout();
-			this.panel2.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.panel3.SuspendLayout();
 			this.panel4.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.buttonPortName);
 			this.groupBox1.Controls.Add(this.startButton);
-			this.groupBox1.Controls.Add(this.button1);
+			this.groupBox1.Controls.Add(this.passBtn);
 			this.groupBox1.Location = new System.Drawing.Point(12, 12);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(986, 88);
+			this.groupBox1.Size = new System.Drawing.Size(1066, 88);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "...";
 			// 
 			// buttonPortName
 			// 
-			this.buttonPortName.Location = new System.Drawing.Point(144, 22);
+			this.buttonPortName.Location = new System.Drawing.Point(166, 20);
 			this.buttonPortName.Name = "buttonPortName";
-			this.buttonPortName.Size = new System.Drawing.Size(117, 30);
+			this.buttonPortName.Size = new System.Drawing.Size(118, 30);
 			this.buttonPortName.TabIndex = 3;
 			this.buttonPortName.Text = "无串口";
 			this.buttonPortName.UseVisualStyleBackColor = true;
@@ -102,7 +108,7 @@
 			// 
 			// startButton
 			// 
-			this.startButton.Location = new System.Drawing.Point(295, 16);
+			this.startButton.Location = new System.Drawing.Point(324, 20);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(225, 48);
 			this.startButton.TabIndex = 0;
@@ -110,11 +116,21 @@
 			this.startButton.UseVisualStyleBackColor = true;
 			this.startButton.Click += new System.EventHandler(this.startButton_Click);
 			// 
+			// passBtn
+			// 
+			this.passBtn.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.passBtn.Location = new System.Drawing.Point(652, 20);
+			this.passBtn.Name = "passBtn";
+			this.passBtn.Size = new System.Drawing.Size(225, 48);
+			this.passBtn.TabIndex = 14;
+			this.passBtn.Text = "PASS";
+			this.passBtn.UseVisualStyleBackColor = true;
+			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(611, 22);
+			this.button1.Location = new System.Drawing.Point(4, 18);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(225, 48);
+			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 4;
 			this.button1.Text = "断开";
 			this.button1.UseVisualStyleBackColor = true;
@@ -233,16 +249,16 @@
 			// logBox
 			// 
 			this.logBox.AllowDrop = true;
-			this.logBox.Location = new System.Drawing.Point(281, 463);
+			this.logBox.Location = new System.Drawing.Point(295, 471);
 			this.logBox.Multiline = true;
 			this.logBox.Name = "logBox";
 			this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logBox.Size = new System.Drawing.Size(961, 202);
+			this.logBox.Size = new System.Drawing.Size(783, 194);
 			this.logBox.TabIndex = 1;
 			// 
 			// trackBar1
 			// 
-			this.trackBar1.Location = new System.Drawing.Point(48, 14);
+			this.trackBar1.Location = new System.Drawing.Point(32, 17);
 			this.trackBar1.Maximum = 0;
 			this.trackBar1.Minimum = -100;
 			this.trackBar1.Name = "trackBar1";
@@ -310,7 +326,7 @@
 			// radioButton6
 			// 
 			this.radioButton6.AutoSize = true;
-			this.radioButton6.Location = new System.Drawing.Point(277, 55);
+			this.radioButton6.Location = new System.Drawing.Point(1228, 702);
 			this.radioButton6.Name = "radioButton6";
 			this.radioButton6.Size = new System.Drawing.Size(14, 13);
 			this.radioButton6.TabIndex = 11;
@@ -324,7 +340,7 @@
 			this.panel1.Controls.Add(this.radioButton3);
 			this.panel1.Controls.Add(this.radioButton2);
 			this.panel1.Controls.Add(this.radioButton1);
-			this.panel1.Location = new System.Drawing.Point(30, 33);
+			this.panel1.Location = new System.Drawing.Point(11, 77);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(241, 43);
 			this.panel1.TabIndex = 12;
@@ -339,35 +355,15 @@
 			this.radioButton5.TabStop = true;
 			this.radioButton5.UseVisualStyleBackColor = true;
 			// 
-			// panel2
-			// 
-			this.panel2.Controls.Add(this.ledBattery);
-			this.panel2.Controls.Add(this.radioButton6);
-			this.panel2.Controls.Add(this.panel1);
-			this.panel2.Location = new System.Drawing.Point(575, 134);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(358, 100);
-			this.panel2.TabIndex = 13;
-			// 
 			// ledBattery
 			// 
 			this.ledBattery.AutoSize = true;
 			this.ledBattery.BackColor = System.Drawing.SystemColors.Control;
-			this.ledBattery.Location = new System.Drawing.Point(297, 54);
+			this.ledBattery.Location = new System.Drawing.Point(265, 97);
 			this.ledBattery.Name = "ledBattery";
 			this.ledBattery.Size = new System.Drawing.Size(41, 12);
 			this.ledBattery.TabIndex = 13;
 			this.ledBattery.Text = "label2";
-			// 
-			// passBtn
-			// 
-			this.passBtn.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.passBtn.Location = new System.Drawing.Point(314, 102);
-			this.passBtn.Name = "passBtn";
-			this.passBtn.Size = new System.Drawing.Size(225, 48);
-			this.passBtn.TabIndex = 14;
-			this.passBtn.Text = "PASS";
-			this.passBtn.UseVisualStyleBackColor = true;
 			// 
 			// statusStrip1
 			// 
@@ -375,7 +371,7 @@
             this.toolStripStatusLabel1});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 693);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(1268, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(1109, 22);
 			this.statusStrip1.TabIndex = 15;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -385,19 +381,13 @@
 			this.toolStripStatusLabel1.Size = new System.Drawing.Size(131, 17);
 			this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
 			// 
-			// button13
-			// 
-			this.button13.Location = new System.Drawing.Point(156, 70);
-			this.button13.Name = "button13";
-			this.button13.Size = new System.Drawing.Size(117, 30);
-			this.button13.TabIndex = 16;
-			this.button13.Text = "时间";
-			this.button13.UseVisualStyleBackColor = true;
-			// 
 			// panel3
 			// 
+			this.panel3.Controls.Add(this.ledBattery);
 			this.panel3.Controls.Add(this.button12);
+			this.panel3.Controls.Add(this.panel1);
 			this.panel3.Controls.Add(this.button7);
+			this.panel3.Controls.Add(this.button1);
 			this.panel3.Controls.Add(this.button11);
 			this.panel3.Controls.Add(this.button10);
 			this.panel3.Controls.Add(this.button2);
@@ -409,43 +399,69 @@
 			this.panel3.Controls.Add(this.button6);
 			this.panel3.Location = new System.Drawing.Point(295, 519);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(497, 85);
+			this.panel3.Size = new System.Drawing.Size(551, 132);
 			this.panel3.TabIndex = 17;
 			// 
 			// panel4
 			// 
 			this.panel4.Controls.Add(this.trackBar1);
 			this.panel4.Controls.Add(this.label1);
-			this.panel4.Location = new System.Drawing.Point(575, 264);
+			this.panel4.Location = new System.Drawing.Point(6, 173);
 			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(341, 62);
+			this.panel4.Size = new System.Drawing.Size(267, 62);
 			this.panel4.TabIndex = 22;
 			// 
 			// menuStrip1
 			// 
+			this.menuStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.打开ToolStripMenuItem,
             this.设置ToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(1268, 25);
+			this.menuStrip1.Size = new System.Drawing.Size(1109, 25);
 			this.menuStrip1.TabIndex = 23;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
 			// 打开ToolStripMenuItem
 			// 
+			this.打开ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.导入MAC地址ToolStripMenuItem,
+            this.导出MAC地址ToolStripMenuItem});
 			this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
 			this.打开ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
 			this.打开ToolStripMenuItem.Text = "打开";
 			// 
+			// 导入MAC地址ToolStripMenuItem
+			// 
+			this.导入MAC地址ToolStripMenuItem.Name = "导入MAC地址ToolStripMenuItem";
+			this.导入MAC地址ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.导入MAC地址ToolStripMenuItem.Text = "导入MAC清单";
+			// 
+			// 导出MAC地址ToolStripMenuItem
+			// 
+			this.导出MAC地址ToolStripMenuItem.Name = "导出MAC地址ToolStripMenuItem";
+			this.导出MAC地址ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.导出MAC地址ToolStripMenuItem.Text = "导出MAC清单";
+			// 
 			// 设置ToolStripMenuItem
 			// 
+			this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.配置ToolStripMenuItem});
 			this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
 			this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
 			this.设置ToolStripMenuItem.Text = "设置";
 			// 
+			// 配置ToolStripMenuItem
+			// 
+			this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
+			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.配置ToolStripMenuItem.Text = "配置";
+			// 
 			// dataGridView1
 			// 
+			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
 			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MAC,
@@ -453,7 +469,7 @@
 			this.dataGridView1.Location = new System.Drawing.Point(12, 251);
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 23;
-			this.dataGridView1.Size = new System.Drawing.Size(243, 414);
+			this.dataGridView1.Size = new System.Drawing.Size(245, 414);
 			this.dataGridView1.TabIndex = 24;
 			// 
 			// MAC
@@ -466,39 +482,79 @@
 			this.NAME.HeaderText = "名称";
 			this.NAME.Name = "NAME";
 			// 
+			// dataGridView2
+			// 
+			this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.Control;
+			this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Item,
+            this.Range,
+            this.Current,
+            this.TestResult});
+			this.dataGridView2.Location = new System.Drawing.Point(295, 251);
+			this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+			this.dataGridView2.Name = "dataGridView2";
+			this.dataGridView2.RowTemplate.Height = 23;
+			this.dataGridView2.Size = new System.Drawing.Size(783, 183);
+			this.dataGridView2.TabIndex = 25;
+			// 
+			// Item
+			// 
+			this.Item.HeaderText = "项目";
+			this.Item.Name = "Item";
+			// 
+			// Range
+			// 
+			this.Range.HeaderText = "范围";
+			this.Range.Name = "Range";
+			// 
+			// Current
+			// 
+			this.Current.HeaderText = "当前值";
+			this.Current.Name = "Current";
+			// 
+			// TestResult
+			// 
+			this.TestResult.HeaderText = "状态";
+			this.TestResult.Name = "TestResult";
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1268, 715);
+			this.ClientSize = new System.Drawing.Size(1109, 715);
+			this.Controls.Add(this.dataGridView2);
 			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.radioButton6);
 			this.Controls.Add(this.panel4);
-			this.Controls.Add(this.button13);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
-			this.Controls.Add(this.passBtn);
-			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.logBox);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.panel3);
 			this.MainMenuStrip = this.menuStrip1;
+			this.MinimumSize = new System.Drawing.Size(1125, 754);
 			this.Name = "MainForm";
 			this.Text = "Ultrasonic toothbrush";
+			this.MaximumSizeChanged += new System.EventHandler(this.MainForm_MaximumSizeChanged);
 			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.Shown += new System.EventHandler(this.MainForm_Shown);
+			this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			this.panel2.ResumeLayout(false);
-			this.panel2.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.panel3.ResumeLayout(false);
+			this.panel3.PerformLayout();
 			this.panel4.ResumeLayout(false);
 			this.panel4.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -528,7 +584,6 @@
 		private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton radioButton6;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.RadioButton radioButton5;
         private System.Windows.Forms.Label ledBattery;
         private System.Windows.Forms.Button button11;
@@ -536,7 +591,6 @@
         private System.Windows.Forms.Button passBtn;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.Button button13;
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Panel panel4;
 		private System.Windows.Forms.MenuStrip menuStrip1;
@@ -545,6 +599,14 @@
 		private System.Windows.Forms.DataGridView dataGridView1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn MAC;
 		private System.Windows.Forms.DataGridViewTextBoxColumn NAME;
+		private System.Windows.Forms.ToolStripMenuItem 导入MAC地址ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 导出MAC地址ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
+		private System.Windows.Forms.DataGridView dataGridView2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Range;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Current;
+		private System.Windows.Forms.DataGridViewTextBoxColumn TestResult;
 	}
 }
 
