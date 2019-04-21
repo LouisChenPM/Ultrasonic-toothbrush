@@ -63,6 +63,9 @@ namespace Ultrasonic_toothbrush
                 return rssiIn;
             }
         }
+
+		public string version { get; internal set; }
+		public bool FactoryReseted { get; internal set; }
 		//test bool
 	}
 }
