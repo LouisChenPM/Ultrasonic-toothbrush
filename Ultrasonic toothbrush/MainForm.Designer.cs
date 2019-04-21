@@ -98,9 +98,9 @@
 			// 
 			// buttonPortName
 			// 
-			this.buttonPortName.Location = new System.Drawing.Point(166, 20);
+			this.buttonPortName.Location = new System.Drawing.Point(0, 36);
 			this.buttonPortName.Name = "buttonPortName";
-			this.buttonPortName.Size = new System.Drawing.Size(118, 30);
+			this.buttonPortName.Size = new System.Drawing.Size(88, 26);
 			this.buttonPortName.TabIndex = 3;
 			this.buttonPortName.Text = "无串口";
 			this.buttonPortName.UseVisualStyleBackColor = true;
@@ -123,7 +123,7 @@
 			this.passBtn.Name = "passBtn";
 			this.passBtn.Size = new System.Drawing.Size(225, 48);
 			this.passBtn.TabIndex = 14;
-			this.passBtn.Text = "PASS";
+			this.passBtn.Text = "测试结果";
 			this.passBtn.UseVisualStyleBackColor = true;
 			// 
 			// button1
@@ -378,8 +378,8 @@
 			// toolStripStatusLabel1
 			// 
 			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(131, 17);
-			this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(509, 17);
+			this.toolStripStatusLabel1.Text = "配置信息----服务器：|MAC:000000-FFFFF| 串口:com4|产线号:1|设备名称:xxxxx|信号强度范围";
 			// 
 			// panel3
 			// 
@@ -435,13 +435,13 @@
 			// 导入MAC地址ToolStripMenuItem
 			// 
 			this.导入MAC地址ToolStripMenuItem.Name = "导入MAC地址ToolStripMenuItem";
-			this.导入MAC地址ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.导入MAC地址ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.导入MAC地址ToolStripMenuItem.Text = "导入MAC清单";
 			// 
 			// 导出MAC地址ToolStripMenuItem
 			// 
 			this.导出MAC地址ToolStripMenuItem.Name = "导出MAC地址ToolStripMenuItem";
-			this.导出MAC地址ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.导出MAC地址ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.导出MAC地址ToolStripMenuItem.Text = "导出MAC清单";
 			// 
 			// 设置ToolStripMenuItem
@@ -455,8 +455,9 @@
 			// 配置ToolStripMenuItem
 			// 
 			this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
-			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
 			this.配置ToolStripMenuItem.Text = "配置";
+			this.配置ToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
 			// 
 			// dataGridView1
 			// 

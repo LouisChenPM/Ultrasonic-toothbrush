@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ultrasonic_toothbrush.UserSetting;
 
 namespace Ultrasonic_toothbrush
 {
@@ -219,6 +220,12 @@ namespace Ultrasonic_toothbrush
 		private void MainForm_Shown(object sender, EventArgs e)
 		{
 			asf.InitOldControlRects(this);
+		}
+		SettingPanel sp = new SettingPanel();
+		private void ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+				sp = new SettingPanel();
+			sp.Show();
 		}
 	}
 }
