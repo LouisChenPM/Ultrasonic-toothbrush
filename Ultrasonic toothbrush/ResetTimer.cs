@@ -159,10 +159,7 @@ namespace Ultrasonic_toothbrush
                     UI.StatusBar(null, true);//更新状态栏
                     disConnected = false;
                 }
-
                 timeInterval = 0;//重置计时；
-
-
 			}
 
 			//每隔五秒查询信号强度

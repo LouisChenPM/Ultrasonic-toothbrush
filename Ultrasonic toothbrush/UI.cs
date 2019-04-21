@@ -13,14 +13,20 @@ namespace Ultrasonic_toothbrush
         public static PassHandler passHander;//更新测试结果按钮
         public static MainForm mf;//引用主窗口
         public static StatusBarHandler statusBarHander;//更新状态栏按钮
-
-        // public static 
-        public static void  TextBox(string s)
+		public static RepeatHandler repeatHandler;
+		// public static 
+		public static void  TextBox(string s)
         {
             mf.BeginInvoke(textBoxHandler, s);//异步更新
         }
-      //  private static int x=0;
-        public static void LED(int i)
+
+		internal static void Repeat(string s, System.Threading.Thread t)
+		{
+			 mf.BeginInvoke(repeatHandler, s,t);//同步更新
+		}
+
+		//  private static int x=0;
+		public static void LED(int i)
         {
             mf.BeginInvoke(ledHandler, i);
 

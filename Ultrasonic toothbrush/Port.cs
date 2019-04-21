@@ -45,7 +45,7 @@ namespace Ultrasonic_toothbrush
 			comm.Handshake= System.IO.Ports.Handshake.None;
 			comm.ReadTimeout = 500;
 			comm.WriteTimeout = 500;
-            if(dataReceivedHandleNotBonded)
+			if (dataReceivedHandleNotBonded)
             { 
 			comm.DataReceived += DataDataReceived;
                 dataReceivedHandleNotBonded = false;

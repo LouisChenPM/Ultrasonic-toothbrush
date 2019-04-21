@@ -15,7 +15,9 @@ namespace Ultrasonic_toothbrush
     public delegate bool PassHandler(bool b);//
     public delegate bool StatusBarHandler(string s);//状态栏委托
     public delegate bool TimerHandler(int t);
-    public partial class MainForm : Form
+	public delegate bool RepeatHandler(string s, System.Threading.Thread t);//重复提示显示
+
+	public partial class MainForm : Form
 	{
 		//public   UIHandler uiHandler ;
 		private Port port;
@@ -32,13 +34,14 @@ namespace Ultrasonic_toothbrush
             UI.passHander = new PassHandler(UpdatePass);
             UI.statusBarHander = new StatusBarHandler(UpdateStatusBar);
             UI.timeHandler = new TimerHandler(updateTime);
+			UI.repeatHandler = new RepeatHandler(ShowRepeatWindow);
             UI.mf = this;
             c = ledBattery.BackColor;
             Status.END = true;
 
         }
 
-        private bool updateTime(int t)
+		private bool updateTime(int t)
 
         {
             this.button13.Text = t.ToString();
@@ -83,8 +86,21 @@ namespace Ultrasonic_toothbrush
 			logBox.AppendText(s);
 			return true;
 		}
-        //更新LED指示灯
-        public bool UpdateLed(int i)
+
+		//显示重复测试提示
+		private bool ShowRepeatWindow(string s, System.Threading.Thread t)
+		{
+			DialogResult dr=MessageBox.Show("  MAC: "+s, "重复MAC地址是否重复测试", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+			if (dr == DialogResult.Yes)
+				Test.macRepeatSameProduct = true;
+			else
+				Test.macRepeatSameProduct = false;
+			t.Resume();
+			return true;
+		}
+
+		//更新LED指示灯
+		public bool UpdateLed(int i)
         {
             
             switch (i)
