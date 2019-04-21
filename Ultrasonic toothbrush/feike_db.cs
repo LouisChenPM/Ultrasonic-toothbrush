@@ -8,7 +8,7 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 using n_mysql;
 
-namespace Ultrasonic_toothbrush
+namespace n_feike_db
 {
 
 	public class CfeikeDB : Cmysql

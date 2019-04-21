@@ -53,6 +53,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="feike_db.cs" />
+    <Compile Include="language\language.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +66,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResetTimer.cs" />
     <Compile Include="Setting.cs" />
+    <Compile Include="setting\setting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="setting\setting.Designer.cs">
+      <DependentUpon>setting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Status.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="UI.cs" />
@@ -93,5 +100,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
