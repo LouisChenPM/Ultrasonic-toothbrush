@@ -15,6 +15,8 @@ namespace Ultrasonic_toothbrush.UserSetting
 		public SettingPanel()
 		{
 			InitializeComponent();
+			if(SaveXml.Load()==false)
+			 MessageBox.Show("  配置文件加载失败 " , "重要信息", MessageBoxButtons.OK, MessageBoxIcon.Warning); ;
 			//mac地址
 			int index =dataGridView.Rows.Add();
 			dataGridView.Rows[index].Cells["item"].Value = "MAC";
@@ -118,7 +120,8 @@ namespace Ultrasonic_toothbrush.UserSetting
 			Setting.DeviceName = textBox1.Text;
 			Setting.Server = serverNameComboBox.Text;
 			Setting.Chip = bleChipComboBox.Text;
-			SaveXml.Save();
+			if(SaveXml.Save()==false)
+				MessageBox.Show("  配置文件保存失败 ", "重要信息", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
 		}
 
 		private void button2_Click(object sender, EventArgs e)

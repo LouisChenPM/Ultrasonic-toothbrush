@@ -77,9 +77,10 @@ namespace Ultrasonic_toothbrush.UserSetting
 
 		public static bool Load()
 		{
-			try
+				try
 			{
-				doc.Load(xmlPath);
+			doc = new XmlDocument();
+			doc.Load(xmlPath);
 				XmlElement root = doc.DocumentElement;
 
 				XmlNode macMax = root.SelectSingleNode("MAC/MAX");
@@ -110,7 +111,7 @@ namespace Ultrasonic_toothbrush.UserSetting
 			}
 		}
 
-		public static bool load(string path)//导入配置
+		public static bool Load(string path)//导入配置
 		{
 			xmlPath = xmlPath + path;
 			return Load();
