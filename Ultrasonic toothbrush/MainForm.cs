@@ -27,6 +27,7 @@ namespace Ultrasonic_toothbrush
         public MainForm()
 		{
 			InitializeComponent();
+			this.AdjustSize();
 			port = new Port();
 			this.buttonPortName.Text = port.NextPort();
             //委托textBoX接口
@@ -42,10 +43,45 @@ namespace Ultrasonic_toothbrush
 			//dataGridView2.add
         }
 
+		bool adjust_size = true;
+		public void AdjustSize(int margent=20)
+		{
+			try
+			{
+				if(!adjust_size) return;//not adjust_size
+				
+				this.settingPanel.Width = this.Width - margent;
+				//leftRightSplitContainer
+				this.leftRightSplitContainer.Height = this.Height - this.menuStrip1.Height - this.settingPanel.Height - this.statusStrip1.Height - 60;
+				this.leftRightSplitContainer.Width = this.Width- margent;
+				//testListtabControl
+				this.testListtabControl.Width = this.leftRightSplitContainer.Panel1.Width;
+				this.testListtabControl.Height = this.leftRightSplitContainer.Panel1.Height;
+				//testListDataGridView
+				this.testListDataGridView.Width = this.testListTabPage.Width;
+				this.testListDataGridView.Height = this.testListTabPage.Height;
+				//testItmeTabControl
+				this.testItmeTabControl.Width = this.aboveBelowSplitContainer.Panel1.Width;
+				this.testItmeTabControl.Height = this.aboveBelowSplitContainer.Panel1.Height;
+				//testItemDataGridView
+				this.testItemDataGridView.Height = this.testItemTabPage.Height;
+				this.testItemDataGridView.Width = this.testItemTabPage.Width;
+				//outputTabControl
+				this.outputTabControl.Height = this.aboveBelowSplitContainer.Panel2.Height;
+				this.outputTabControl.Width = this.aboveBelowSplitContainer.Panel2.Width;
+				//logBox
+				this.logBox.Width = this.outputTabControl.Width;
+				this.logBox.Height = this.outputTabControl.Height;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("AdjustSize() fail:" + ex.ToString());
+			}
+		}
 
 
-        //更换端口号
-        private void buttonPortName_Click(object sender, EventArgs e)
+		//更换端口号
+		private void buttonPortName_Click(object sender, EventArgs e)
 		{
 			this.buttonPortName.Text = port.NextPort();
 		}
@@ -155,7 +191,8 @@ namespace Ultrasonic_toothbrush
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-		//	asf.InitOldControlRects(this);
+			//	asf.InitOldControlRects(this);
+			this.AdjustSize();
 		}
 
 		private void button4_Click(object sender, EventArgs e)
@@ -211,10 +248,11 @@ namespace Ultrasonic_toothbrush
 		AutoSizeForm asf = new AutoSizeForm();
 		private void MainForm_SizeChanged(object sender, EventArgs e)
 		{
-		//	AutoSizeForm asf = new AutoSizeForm();
+			//	AutoSizeForm asf = new AutoSizeForm();
 			//AutoSizeForm asf = new AutoSizeForm();
-			
-			asf.AutoSize(this);
+
+			//	asf.AutoSize(this);
+			this.AdjustSize();
 		}
 
 		private void MainForm_Shown(object sender, EventArgs e)
@@ -227,5 +265,26 @@ namespace Ultrasonic_toothbrush
 				sp = new SettingPanel();
 			sp.Show();
 		}
+
+		private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+
+		}
+
+		private void leftRightSplitContainer_Panel1_Paint(object sender, PaintEventArgs e)
+		{
+			this.AdjustSize();
+		}
+
+		private void aboveBelowSplitContainer_Panel1_Paint(object sender, PaintEventArgs e)
+		{
+			this.AdjustSize();
+		}
+
+		private void logBox_TextChanged(object sender, EventArgs e)
+		{
+			this.logBox.ScrollToCaret();
+		}
+
 	}
 }

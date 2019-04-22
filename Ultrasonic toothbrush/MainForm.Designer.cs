@@ -28,7 +28,6 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.buttonPortName = new System.Windows.Forms.Button();
 			this.startButton = new System.Windows.Forms.Button();
 			this.passBtn = new System.Windows.Forms.Button();
@@ -45,8 +44,6 @@
 			this.button3 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.logBox = new System.Windows.Forms.TextBox();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
-			this.label1 = new System.Windows.Forms.Label();
 			this.radioButton1 = new System.Windows.Forms.RadioButton();
 			this.radioButton2 = new System.Windows.Forms.RadioButton();
 			this.radioButton3 = new System.Windows.Forms.RadioButton();
@@ -58,49 +55,62 @@
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.panel3 = new System.Windows.Forms.Panel();
-			this.panel4 = new System.Windows.Forms.Panel();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导入MAC地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导出MAC地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.testListDataGridView = new System.Windows.Forms.DataGridView();
 			this.MAC = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridView2 = new System.Windows.Forms.DataGridView();
+			this.testItemDataGridView = new System.Windows.Forms.DataGridView();
 			this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Range = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Current = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.TestResult = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.groupBox1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+			this.leftRightSplitContainer = new System.Windows.Forms.SplitContainer();
+			this.testListtabControl = new System.Windows.Forms.TabControl();
+			this.testListTabPage = new System.Windows.Forms.TabPage();
+			this.aboveBelowSplitContainer = new System.Windows.Forms.SplitContainer();
+			this.testItmeTabControl = new System.Windows.Forms.TabControl();
+			this.testItemTabPage = new System.Windows.Forms.TabPage();
+			this.outputTabControl = new System.Windows.Forms.TabControl();
+			this.outputTabPage = new System.Windows.Forms.TabPage();
+			this.settingPanel = new System.Windows.Forms.Panel();
+			this.panel4 = new System.Windows.Forms.Panel();
+			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.label1 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.statusStrip1.SuspendLayout();
 			this.panel3.SuspendLayout();
-			this.panel4.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.testListDataGridView)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.testItemDataGridView)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.leftRightSplitContainer)).BeginInit();
+			this.leftRightSplitContainer.Panel1.SuspendLayout();
+			this.leftRightSplitContainer.Panel2.SuspendLayout();
+			this.leftRightSplitContainer.SuspendLayout();
+			this.testListtabControl.SuspendLayout();
+			this.testListTabPage.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.aboveBelowSplitContainer)).BeginInit();
+			this.aboveBelowSplitContainer.Panel1.SuspendLayout();
+			this.aboveBelowSplitContainer.Panel2.SuspendLayout();
+			this.aboveBelowSplitContainer.SuspendLayout();
+			this.testItmeTabControl.SuspendLayout();
+			this.testItemTabPage.SuspendLayout();
+			this.outputTabControl.SuspendLayout();
+			this.outputTabPage.SuspendLayout();
+			this.settingPanel.SuspendLayout();
+			this.panel4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.buttonPortName);
-			this.groupBox1.Controls.Add(this.startButton);
-			this.groupBox1.Controls.Add(this.passBtn);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(1066, 88);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "...";
 			// 
 			// buttonPortName
 			// 
-			this.buttonPortName.Location = new System.Drawing.Point(0, 36);
+			this.buttonPortName.Location = new System.Drawing.Point(21, 17);
 			this.buttonPortName.Name = "buttonPortName";
-			this.buttonPortName.Size = new System.Drawing.Size(88, 26);
+			this.buttonPortName.Size = new System.Drawing.Size(212, 48);
 			this.buttonPortName.TabIndex = 3;
 			this.buttonPortName.Text = "无串口";
 			this.buttonPortName.UseVisualStyleBackColor = true;
@@ -108,7 +118,7 @@
 			// 
 			// startButton
 			// 
-			this.startButton.Location = new System.Drawing.Point(324, 20);
+			this.startButton.Location = new System.Drawing.Point(369, 17);
 			this.startButton.Name = "startButton";
 			this.startButton.Size = new System.Drawing.Size(225, 48);
 			this.startButton.TabIndex = 0;
@@ -119,7 +129,7 @@
 			// passBtn
 			// 
 			this.passBtn.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.passBtn.Location = new System.Drawing.Point(652, 20);
+			this.passBtn.Location = new System.Drawing.Point(715, 17);
 			this.passBtn.Name = "passBtn";
 			this.passBtn.Size = new System.Drawing.Size(225, 48);
 			this.passBtn.TabIndex = 14;
@@ -249,33 +259,13 @@
 			// logBox
 			// 
 			this.logBox.AllowDrop = true;
-			this.logBox.Location = new System.Drawing.Point(295, 471);
+			this.logBox.Location = new System.Drawing.Point(0, 0);
 			this.logBox.Multiline = true;
 			this.logBox.Name = "logBox";
 			this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.logBox.Size = new System.Drawing.Size(783, 194);
+			this.logBox.Size = new System.Drawing.Size(346, 71);
 			this.logBox.TabIndex = 1;
-			// 
-			// trackBar1
-			// 
-			this.trackBar1.Location = new System.Drawing.Point(32, 17);
-			this.trackBar1.Maximum = 0;
-			this.trackBar1.Minimum = -100;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(228, 45);
-			this.trackBar1.TabIndex = 2;
-			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-			this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(15, 23);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(11, 12);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "0";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.logBox.TextChanged += new System.EventHandler(this.logBox_TextChanged);
 			// 
 			// radioButton1
 			// 
@@ -326,6 +316,7 @@
 			// radioButton6
 			// 
 			this.radioButton6.AutoSize = true;
+			this.radioButton6.Checked = true;
 			this.radioButton6.Location = new System.Drawing.Point(1228, 702);
 			this.radioButton6.Name = "radioButton6";
 			this.radioButton6.Size = new System.Drawing.Size(14, 13);
@@ -397,19 +388,11 @@
 			this.panel3.Controls.Add(this.button4);
 			this.panel3.Controls.Add(this.button5);
 			this.panel3.Controls.Add(this.button6);
-			this.panel3.Location = new System.Drawing.Point(295, 519);
+			this.panel3.Location = new System.Drawing.Point(554, 535);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(551, 132);
+			this.panel3.Size = new System.Drawing.Size(500, 135);
 			this.panel3.TabIndex = 17;
-			// 
-			// panel4
-			// 
-			this.panel4.Controls.Add(this.trackBar1);
-			this.panel4.Controls.Add(this.label1);
-			this.panel4.Location = new System.Drawing.Point(6, 173);
-			this.panel4.Name = "panel4";
-			this.panel4.Size = new System.Drawing.Size(267, 62);
-			this.panel4.TabIndex = 22;
+			this.panel3.Visible = false;
 			// 
 			// menuStrip1
 			// 
@@ -455,23 +438,23 @@
 			// 配置ToolStripMenuItem
 			// 
 			this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
-			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
 			this.配置ToolStripMenuItem.Text = "配置";
 			this.配置ToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
 			// 
-			// dataGridView1
+			// testListDataGridView
 			// 
-			this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
-			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.testListDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.testListDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+			this.testListDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.testListDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MAC,
             this.NAME});
-			this.dataGridView1.Location = new System.Drawing.Point(12, 251);
-			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.RowTemplate.Height = 23;
-			this.dataGridView1.Size = new System.Drawing.Size(245, 414);
-			this.dataGridView1.TabIndex = 24;
+			this.testListDataGridView.Location = new System.Drawing.Point(0, 0);
+			this.testListDataGridView.Name = "testListDataGridView";
+			this.testListDataGridView.RowTemplate.Height = 23;
+			this.testListDataGridView.Size = new System.Drawing.Size(241, 124);
+			this.testListDataGridView.TabIndex = 24;
 			// 
 			// MAC
 			// 
@@ -483,22 +466,23 @@
 			this.NAME.HeaderText = "名称";
 			this.NAME.Name = "NAME";
 			// 
-			// dataGridView2
+			// testItemDataGridView
 			// 
-			this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.Control;
-			this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.testItemDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.testItemDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+			this.testItemDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.testItemDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item,
             this.Range,
             this.Current,
             this.TestResult});
-			this.dataGridView2.Location = new System.Drawing.Point(295, 251);
-			this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-			this.dataGridView2.Name = "dataGridView2";
-			this.dataGridView2.RowTemplate.Height = 23;
-			this.dataGridView2.Size = new System.Drawing.Size(783, 183);
-			this.dataGridView2.TabIndex = 25;
+			this.testItemDataGridView.Location = new System.Drawing.Point(0, 3);
+			this.testItemDataGridView.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+			this.testItemDataGridView.Name = "testItemDataGridView";
+			this.testItemDataGridView.RowTemplate.Height = 23;
+			this.testItemDataGridView.Size = new System.Drawing.Size(468, 85);
+			this.testItemDataGridView.TabIndex = 25;
+			this.testItemDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
 			// 
 			// Item
 			// 
@@ -520,20 +504,154 @@
 			this.TestResult.HeaderText = "状态";
 			this.TestResult.Name = "TestResult";
 			// 
+			// leftRightSplitContainer
+			// 
+			this.leftRightSplitContainer.Location = new System.Drawing.Point(0, 203);
+			this.leftRightSplitContainer.Name = "leftRightSplitContainer";
+			// 
+			// leftRightSplitContainer.Panel1
+			// 
+			this.leftRightSplitContainer.Panel1.Controls.Add(this.testListtabControl);
+			this.leftRightSplitContainer.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.leftRightSplitContainer_Panel1_Paint);
+			// 
+			// leftRightSplitContainer.Panel2
+			// 
+			this.leftRightSplitContainer.Panel2.Controls.Add(this.aboveBelowSplitContainer);
+			this.leftRightSplitContainer.Size = new System.Drawing.Size(1109, 311);
+			this.leftRightSplitContainer.SplitterDistance = 357;
+			this.leftRightSplitContainer.TabIndex = 26;
+			// 
+			// testListtabControl
+			// 
+			this.testListtabControl.Controls.Add(this.testListTabPage);
+			this.testListtabControl.Location = new System.Drawing.Point(3, 3);
+			this.testListtabControl.Name = "testListtabControl";
+			this.testListtabControl.SelectedIndex = 0;
+			this.testListtabControl.Size = new System.Drawing.Size(326, 186);
+			this.testListtabControl.TabIndex = 25;
+			// 
+			// testListTabPage
+			// 
+			this.testListTabPage.Controls.Add(this.testListDataGridView);
+			this.testListTabPage.Location = new System.Drawing.Point(4, 22);
+			this.testListTabPage.Name = "testListTabPage";
+			this.testListTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.testListTabPage.Size = new System.Drawing.Size(318, 160);
+			this.testListTabPage.TabIndex = 0;
+			this.testListTabPage.Text = "测试列表";
+			this.testListTabPage.UseVisualStyleBackColor = true;
+			// 
+			// aboveBelowSplitContainer
+			// 
+			this.aboveBelowSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.aboveBelowSplitContainer.Location = new System.Drawing.Point(0, 0);
+			this.aboveBelowSplitContainer.Name = "aboveBelowSplitContainer";
+			this.aboveBelowSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			// 
+			// aboveBelowSplitContainer.Panel1
+			// 
+			this.aboveBelowSplitContainer.Panel1.Controls.Add(this.testItmeTabControl);
+			this.aboveBelowSplitContainer.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.aboveBelowSplitContainer_Panel1_Paint);
+			// 
+			// aboveBelowSplitContainer.Panel2
+			// 
+			this.aboveBelowSplitContainer.Panel2.Controls.Add(this.outputTabControl);
+			this.aboveBelowSplitContainer.Size = new System.Drawing.Size(748, 311);
+			this.aboveBelowSplitContainer.SplitterDistance = 173;
+			this.aboveBelowSplitContainer.TabIndex = 0;
+			// 
+			// testItmeTabControl
+			// 
+			this.testItmeTabControl.Controls.Add(this.testItemTabPage);
+			this.testItmeTabControl.Location = new System.Drawing.Point(3, 3);
+			this.testItmeTabControl.Name = "testItmeTabControl";
+			this.testItmeTabControl.SelectedIndex = 0;
+			this.testItmeTabControl.Size = new System.Drawing.Size(690, 146);
+			this.testItmeTabControl.TabIndex = 26;
+			// 
+			// testItemTabPage
+			// 
+			this.testItemTabPage.Controls.Add(this.testItemDataGridView);
+			this.testItemTabPage.Location = new System.Drawing.Point(4, 22);
+			this.testItemTabPage.Name = "testItemTabPage";
+			this.testItemTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.testItemTabPage.Size = new System.Drawing.Size(682, 120);
+			this.testItemTabPage.TabIndex = 0;
+			this.testItemTabPage.Text = "测试项";
+			this.testItemTabPage.UseVisualStyleBackColor = true;
+			// 
+			// outputTabControl
+			// 
+			this.outputTabControl.Controls.Add(this.outputTabPage);
+			this.outputTabControl.Location = new System.Drawing.Point(3, 3);
+			this.outputTabControl.Name = "outputTabControl";
+			this.outputTabControl.SelectedIndex = 0;
+			this.outputTabControl.Size = new System.Drawing.Size(593, 118);
+			this.outputTabControl.TabIndex = 27;
+			// 
+			// outputTabPage
+			// 
+			this.outputTabPage.Controls.Add(this.logBox);
+			this.outputTabPage.Location = new System.Drawing.Point(4, 22);
+			this.outputTabPage.Name = "outputTabPage";
+			this.outputTabPage.Padding = new System.Windows.Forms.Padding(3);
+			this.outputTabPage.Size = new System.Drawing.Size(585, 92);
+			this.outputTabPage.TabIndex = 0;
+			this.outputTabPage.Text = "输出";
+			this.outputTabPage.UseVisualStyleBackColor = true;
+			// 
+			// settingPanel
+			// 
+			this.settingPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.settingPanel.Controls.Add(this.panel4);
+			this.settingPanel.Controls.Add(this.passBtn);
+			this.settingPanel.Controls.Add(this.startButton);
+			this.settingPanel.Controls.Add(this.buttonPortName);
+			this.settingPanel.Location = new System.Drawing.Point(0, 28);
+			this.settingPanel.Name = "settingPanel";
+			this.settingPanel.Size = new System.Drawing.Size(1109, 169);
+			this.settingPanel.TabIndex = 27;
+			// 
+			// panel4
+			// 
+			this.panel4.Controls.Add(this.trackBar1);
+			this.panel4.Controls.Add(this.label1);
+			this.panel4.Location = new System.Drawing.Point(21, 82);
+			this.panel4.Name = "panel4";
+			this.panel4.Size = new System.Drawing.Size(919, 68);
+			this.panel4.TabIndex = 23;
+			// 
+			// trackBar1
+			// 
+			this.trackBar1.Location = new System.Drawing.Point(32, 17);
+			this.trackBar1.Maximum = 0;
+			this.trackBar1.Minimum = -100;
+			this.trackBar1.Name = "trackBar1";
+			this.trackBar1.Size = new System.Drawing.Size(837, 45);
+			this.trackBar1.TabIndex = 2;
+			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(15, 23);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(11, 12);
+			this.label1.TabIndex = 3;
+			this.label1.Text = "0";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1109, 715);
-			this.Controls.Add(this.dataGridView2);
-			this.Controls.Add(this.dataGridView1);
+			this.Controls.Add(this.settingPanel);
+			this.Controls.Add(this.leftRightSplitContainer);
+			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.radioButton6);
-			this.Controls.Add(this.panel4);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.menuStrip1);
-			this.Controls.Add(this.logBox);
-			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.panel3);
 			this.MainMenuStrip = this.menuStrip1;
 			this.MinimumSize = new System.Drawing.Size(1125, 754);
 			this.Name = "MainForm";
@@ -542,36 +660,47 @@
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
-			this.groupBox1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
 			this.panel3.ResumeLayout(false);
 			this.panel3.PerformLayout();
-			this.panel4.ResumeLayout(false);
-			this.panel4.PerformLayout();
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.testListDataGridView)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.testItemDataGridView)).EndInit();
+			this.leftRightSplitContainer.Panel1.ResumeLayout(false);
+			this.leftRightSplitContainer.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.leftRightSplitContainer)).EndInit();
+			this.leftRightSplitContainer.ResumeLayout(false);
+			this.testListtabControl.ResumeLayout(false);
+			this.testListTabPage.ResumeLayout(false);
+			this.aboveBelowSplitContainer.Panel1.ResumeLayout(false);
+			this.aboveBelowSplitContainer.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.aboveBelowSplitContainer)).EndInit();
+			this.aboveBelowSplitContainer.ResumeLayout(false);
+			this.testItmeTabControl.ResumeLayout(false);
+			this.testItemTabPage.ResumeLayout(false);
+			this.outputTabControl.ResumeLayout(false);
+			this.outputTabPage.ResumeLayout(false);
+			this.outputTabPage.PerformLayout();
+			this.settingPanel.ResumeLayout(false);
+			this.panel4.ResumeLayout(false);
+			this.panel4.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button startButton;
 		private System.Windows.Forms.Button buttonPortName;
 		private System.Windows.Forms.TextBox logBox;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.TrackBar trackBar1;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button button5;
 		private System.Windows.Forms.Button button4;
 		private System.Windows.Forms.Button button6;
@@ -593,21 +722,32 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
 		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Panel panel4;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
-		private System.Windows.Forms.DataGridView dataGridView1;
+		private System.Windows.Forms.DataGridView testListDataGridView;
 		private System.Windows.Forms.DataGridViewTextBoxColumn MAC;
 		private System.Windows.Forms.DataGridViewTextBoxColumn NAME;
 		private System.Windows.Forms.ToolStripMenuItem 导入MAC地址ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 导出MAC地址ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 配置ToolStripMenuItem;
-		private System.Windows.Forms.DataGridView dataGridView2;
+		private System.Windows.Forms.DataGridView testItemDataGridView;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Item;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Range;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Current;
 		private System.Windows.Forms.DataGridViewTextBoxColumn TestResult;
+		private System.Windows.Forms.SplitContainer leftRightSplitContainer;
+		private System.Windows.Forms.SplitContainer aboveBelowSplitContainer;
+		private System.Windows.Forms.TabControl testListtabControl;
+		private System.Windows.Forms.TabPage testListTabPage;
+		private System.Windows.Forms.TabControl testItmeTabControl;
+		private System.Windows.Forms.TabPage testItemTabPage;
+		private System.Windows.Forms.TabControl outputTabControl;
+		private System.Windows.Forms.TabPage outputTabPage;
+		private System.Windows.Forms.Panel settingPanel;
+		private System.Windows.Forms.Panel panel4;
+		private System.Windows.Forms.TrackBar trackBar1;
+		private System.Windows.Forms.Label label1;
 	}
 }
 
