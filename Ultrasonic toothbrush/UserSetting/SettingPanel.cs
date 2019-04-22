@@ -15,6 +15,23 @@ namespace Ultrasonic_toothbrush.UserSetting
 		public SettingPanel()
 		{
 			InitializeComponent();
+			//mac地址
+			int index =dataGridView.Rows.Add();
+			dataGridView.Rows[index].Cells["item"].Value = "MAC";
+			dataGridView.Rows[index].Cells["max"].Value = Setting.MacMax.ToString("X2");
+			dataGridView.Rows[index].Cells["mini"].Value = Setting.MacMini.ToString("X2");
+			//信号强度
+			index = dataGridView.Rows.Add();
+			dataGridView.Rows[index].Cells["item"].Value = "RSSI";
+			dataGridView.Rows[index].Cells["Count"].Value = Setting.Rssi;
+			//设备名称
+			index = dataGridView.Rows.Add();
+			dataGridView.Rows[index].Cells["item"].Value = "设备名称";
+			dataGridView.Rows[index].Cells["Count"].Value = Setting.DeviceName;
+			//版本号
+			index = dataGridView.Rows.Add();
+			dataGridView.Rows[index].Cells["item"].Value = "版本号";
+			dataGridView.Rows[index].Cells["Count"].Value = Setting.Version;
 		}
 
 		private bool offline = false;
@@ -85,6 +102,30 @@ namespace Ultrasonic_toothbrush.UserSetting
 				notfactoryReset = true;
 			}
 		}
+		private static SaveXml xml = new SaveXml();
+		private void button1_Click(object sender, EventArgs e)
+		{
+			//xml.
+			Setting.MacMax= Convert.ToInt64((string) dataGridView.Rows[0].Cells["max"].Value,16);
+			Setting.MacMini= Convert.ToInt64((string)dataGridView.Rows[0].Cells["mini"].Value,16);
+			Setting.Rssi = Convert.ToInt32(dataGridView.Rows[1].Cells["count"].Value);
+			Setting.DeviceName= (string)dataGridView.Rows[2].Cells["count"].Value;
+			Setting.Version = (string)dataGridView.Rows[3].Cells["count"].Value;
+			//Setting.Version=dataGridView.Rows[]
 
+			Setting.LineNumber = textBox2.Text;
+
+			Setting.DeviceName = textBox1.Text;
+			Setting.Server = serverNameComboBox.Text;
+			Setting.Chip = bleChipComboBox.Text;
+			SaveXml.Save();
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			SaveXml.Load();
+		}
+
+		
 	}
 }

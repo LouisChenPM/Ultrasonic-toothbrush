@@ -455,7 +455,7 @@
 			// 配置ToolStripMenuItem
 			// 
 			this.配置ToolStripMenuItem.Name = "配置ToolStripMenuItem";
-			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.配置ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
 			this.配置ToolStripMenuItem.Text = "配置";
 			this.配置ToolStripMenuItem.Click += new System.EventHandler(this.ToolStripMenuItem_Click);
 			// 
@@ -469,6 +469,7 @@
             this.NAME});
 			this.dataGridView1.Location = new System.Drawing.Point(12, 251);
 			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.RowHeadersVisible = false;
 			this.dataGridView1.RowTemplate.Height = 23;
 			this.dataGridView1.Size = new System.Drawing.Size(245, 414);
 			this.dataGridView1.TabIndex = 24;
@@ -496,6 +497,7 @@
 			this.dataGridView2.Location = new System.Drawing.Point(295, 251);
 			this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
 			this.dataGridView2.Name = "dataGridView2";
+			this.dataGridView2.RowHeadersVisible = false;
 			this.dataGridView2.RowTemplate.Height = 23;
 			this.dataGridView2.Size = new System.Drawing.Size(783, 183);
 			this.dataGridView2.TabIndex = 25;

@@ -31,11 +31,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.dataGridView2 = new System.Windows.Forms.DataGridView();
-			this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Mini = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Max = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridView = new System.Windows.Forms.DataGridView();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
@@ -49,6 +45,9 @@
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.trackBar1 = new System.Windows.Forms.TrackBar();
+			this.label3 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.button6 = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
@@ -56,18 +55,20 @@
 			this.button4 = new System.Windows.Forms.Button();
 			this.button5 = new System.Windows.Forms.Button();
 			this.button7 = new System.Windows.Forms.Button();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.trackBar1 = new System.Windows.Forms.TrackBar();
-			this.label3 = new System.Windows.Forms.Label();
+			this.Checked = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Mini = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Max = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
-			this.groupBox3.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -98,50 +99,37 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.dataGridView2);
+			this.groupBox2.Controls.Add(this.dataGridView);
 			this.groupBox2.Location = new System.Drawing.Point(9, 125);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(467, 133);
+			this.groupBox2.Size = new System.Drawing.Size(467, 166);
 			this.groupBox2.TabIndex = 29;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "参数设置";
 			// 
-			// dataGridView2
+			// dataGridView
 			// 
-			this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.Control;
-			this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+			this.dataGridView.AllowUserToAddRows = false;
+			this.dataGridView.AllowUserToDeleteRows = false;
+			this.dataGridView.AllowUserToOrderColumns = true;
+			this.dataGridView.AllowUserToResizeColumns = false;
+			this.dataGridView.AllowUserToResizeRows = false;
+			this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+			this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Checked,
             this.Item,
             this.Mini,
             this.Max,
             this.Count});
-			this.dataGridView2.Location = new System.Drawing.Point(6, 20);
-			this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-			this.dataGridView2.Name = "dataGridView2";
-			this.dataGridView2.RowTemplate.Height = 23;
-			this.dataGridView2.Size = new System.Drawing.Size(455, 96);
-			this.dataGridView2.TabIndex = 27;
-			// 
-			// Item
-			// 
-			this.Item.HeaderText = "项目";
-			this.Item.Name = "Item";
-			// 
-			// Mini
-			// 
-			this.Mini.HeaderText = "最小值";
-			this.Mini.Name = "Mini";
-			// 
-			// Max
-			// 
-			this.Max.HeaderText = "最大值";
-			this.Max.Name = "Max";
-			// 
-			// Count
-			// 
-			this.Count.HeaderText = "常量";
-			this.Count.Name = "Count";
+			this.dataGridView.Location = new System.Drawing.Point(0, 20);
+			this.dataGridView.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+			this.dataGridView.Name = "dataGridView";
+			this.dataGridView.RowHeadersVisible = false;
+			this.dataGridView.RowTemplate.Height = 23;
+			this.dataGridView.Size = new System.Drawing.Size(461, 139);
+			this.dataGridView.TabIndex = 27;
 			// 
 			// groupBox1
 			// 
@@ -166,6 +154,7 @@
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(76, 21);
 			this.textBox2.TabIndex = 74;
+		
 			// 
 			// textBox1
 			// 
@@ -173,6 +162,7 @@
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(76, 21);
 			this.textBox1.TabIndex = 73;
+
 			// 
 			// deviceNameLable
 			// 
@@ -195,6 +185,7 @@
 			this.bleChipComboBox.Name = "bleChipComboBox";
 			this.bleChipComboBox.Size = new System.Drawing.Size(76, 20);
 			this.bleChipComboBox.TabIndex = 71;
+
 			// 
 			// bleChipLabel
 			// 
@@ -222,6 +213,7 @@
 			this.serverNameComboBox.Size = new System.Drawing.Size(76, 20);
 			this.serverNameComboBox.TabIndex = 69;
 			this.serverNameComboBox.Text = "localhost";
+
 			// 
 			// serverNameLabel
 			// 
@@ -260,6 +252,7 @@
 			this.button2.TabIndex = 2;
 			this.button2.Text = "导入";
 			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// button1
 			// 
@@ -269,6 +262,7 @@
 			this.button1.TabIndex = 1;
 			this.button1.Text = "保存";
 			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// tabPage2
 			// 
@@ -281,6 +275,37 @@
 			this.tabPage2.Size = new System.Drawing.Size(501, 370);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "例外";
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.trackBar1);
+			this.groupBox4.Controls.Add(this.label3);
+			this.groupBox4.Location = new System.Drawing.Point(6, 123);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(489, 100);
+			this.groupBox4.TabIndex = 10;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "信号强度";
+			// 
+			// trackBar1
+			// 
+			this.trackBar1.Location = new System.Drawing.Point(69, 45);
+			this.trackBar1.Maximum = 0;
+			this.trackBar1.Minimum = -100;
+			this.trackBar1.Name = "trackBar1";
+			this.trackBar1.Size = new System.Drawing.Size(312, 45);
+			this.trackBar1.TabIndex = 11;
+			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(52, 45);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(11, 12);
+			this.label3.TabIndex = 12;
+			this.label3.Text = "0";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// groupBox3
 			// 
@@ -357,36 +382,38 @@
 			this.button7.UseVisualStyleBackColor = false;
 			this.button7.Click += new System.EventHandler(this.button7_Click);
 			// 
-			// groupBox4
+			// Checked
 			// 
-			this.groupBox4.Controls.Add(this.trackBar1);
-			this.groupBox4.Controls.Add(this.label3);
-			this.groupBox4.Location = new System.Drawing.Point(6, 123);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(489, 100);
-			this.groupBox4.TabIndex = 10;
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "信号强度";
+			this.Checked.FillWeight = 63.45177F;
+			this.Checked.HeaderText = " 选测";
+			this.Checked.MinimumWidth = 25;
+			this.Checked.Name = "Checked";
+			this.Checked.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Checked.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			// 
-			// trackBar1
+			// Item
 			// 
-			this.trackBar1.Location = new System.Drawing.Point(69, 45);
-			this.trackBar1.Maximum = 0;
-			this.trackBar1.Minimum = -100;
-			this.trackBar1.Name = "trackBar1";
-			this.trackBar1.Size = new System.Drawing.Size(312, 45);
-			this.trackBar1.TabIndex = 11;
-			this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
+			this.Item.FillWeight = 109.1371F;
+			this.Item.HeaderText = "项目";
+			this.Item.Name = "Item";
 			// 
-			// label3
+			// Mini
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(52, 45);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(11, 12);
-			this.label3.TabIndex = 12;
-			this.label3.Text = "0";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.Mini.FillWeight = 109.1371F;
+			this.Mini.HeaderText = "最小值";
+			this.Mini.Name = "Mini";
+			// 
+			// Max
+			// 
+			this.Max.FillWeight = 109.1371F;
+			this.Max.HeaderText = "最大值";
+			this.Max.Name = "Max";
+			// 
+			// Count
+			// 
+			this.Count.FillWeight = 109.1371F;
+			this.Count.HeaderText = "常量";
+			this.Count.Name = "Count";
 			// 
 			// SettingPanel
 			// 
@@ -401,15 +428,15 @@
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox3.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -422,11 +449,7 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.DataGridView dataGridView2;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Item;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Mini;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Max;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Count;
+		private System.Windows.Forms.DataGridView dataGridView;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button button6;
 		private System.Windows.Forms.Button button5;
@@ -447,5 +470,10 @@
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.TrackBar trackBar1;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn Checked;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Item;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Mini;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Max;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Count;
 	}
 }
