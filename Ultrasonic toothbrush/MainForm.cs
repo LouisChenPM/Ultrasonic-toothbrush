@@ -80,8 +80,8 @@ namespace Ultrasonic_toothbrush
 		}
 
 
-		//更换端口号
-		private void buttonPortName_Click(object sender, EventArgs e)
+        //更换端口号
+        private void buttonPortName_Click(object sender, EventArgs e)
 		{
 			this.buttonPortName.Text = port.NextPort();
 		}
@@ -191,7 +191,7 @@ namespace Ultrasonic_toothbrush
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-			//	asf.InitOldControlRects(this);
+		//	asf.InitOldControlRects(this);
 			this.AdjustSize();
 		}
 
@@ -248,9 +248,9 @@ namespace Ultrasonic_toothbrush
 		AutoSizeForm asf = new AutoSizeForm();
 		private void MainForm_SizeChanged(object sender, EventArgs e)
 		{
-			//	AutoSizeForm asf = new AutoSizeForm();
+		//	AutoSizeForm asf = new AutoSizeForm();
 			//AutoSizeForm asf = new AutoSizeForm();
-
+			
 			//	asf.AutoSize(this);
 			this.AdjustSize();
 		}

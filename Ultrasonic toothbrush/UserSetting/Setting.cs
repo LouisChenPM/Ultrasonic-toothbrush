@@ -23,6 +23,14 @@ namespace Ultrasonic_toothbrush
 		public static bool rssiIngore { get; internal set; }
 		public static bool versionIngore { get; internal set; }
 		public static bool factResetIngore { get; internal set; }
+		public static long MacMax { get; internal set; }
+		public static long MacMini { get; internal set; }
+		public static int rssiMax { get; internal set; }
+		public static int rssiMini { get; internal set; }
+		public static string Channel { get; internal set; }
+		public static string Server { get; internal set; }
+		public static string LineNumber { get; internal set; }
+		public static string Chip { get; internal set; }
 
 		public static int configRssi;//信号强度
 		public static string configVersio;//信号强度
