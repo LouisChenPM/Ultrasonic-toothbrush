@@ -12,8 +12,26 @@ namespace Ultrasonic_toothbrush
 			get { return configRssi; }
 			set { configRssi=value; save(); }
 		}
+
+		public static TestMode Mode { get; internal set ; }
+		public static bool settingNotResetFactoryMode { get; internal set; }
+		public static string DeviceName { get; internal set; }
+		public static string Version { get; internal set; }
+		public static bool offLine { get; internal set; }
+		public static bool macIngore { get; internal set; }
+		public static bool nameIngore { get; internal set; }
+		public static bool rssiIngore { get; internal set; }
+		public static bool versionIngore { get; internal set; }
+		public static bool factResetIngore { get; internal set; }
+
 		public static int configRssi;//信号强度
 		public static string configVersio;//信号强度
+
+		public  enum TestMode
+		{
+			PCB,
+			PRODUCT
+		}
 									 //信号强度mac地址范围
 		private static void save()//保存配置文件
 		{

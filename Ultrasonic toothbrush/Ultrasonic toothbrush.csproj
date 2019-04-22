@@ -50,10 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoSizeForm.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="feike_db.cs" />
-    <Compile Include="language\language.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,16 +65,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResetTimer.cs" />
-    <Compile Include="Setting.cs" />
-    <Compile Include="setting\setting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="setting\setting.Designer.cs">
-      <DependentUpon>setting.cs</DependentUpon>
-    </Compile>
+    <Compile Include="UserSetting\Setting.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="UI.cs" />
+    <Compile Include="UserSetting\SettingPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserSetting\SettingPanel.Designer.cs">
+      <DependentUpon>SettingPanel.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -87,6 +87,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserSetting\SettingPanel.resx">
+      <DependentUpon>SettingPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -100,6 +103,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

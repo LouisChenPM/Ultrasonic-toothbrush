@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Ultrasonic_toothbrush.UserSetting;
 
 namespace Ultrasonic_toothbrush
 {
@@ -15,7 +16,9 @@ namespace Ultrasonic_toothbrush
     public delegate bool PassHandler(bool b);//
     public delegate bool StatusBarHandler(string s);//状态栏委托
     public delegate bool TimerHandler(int t);
-    public partial class MainForm : Form
+	public delegate bool RepeatHandler(string s, System.Threading.Thread t);//重复提示显示
+
+	public partial class MainForm : Form
 	{
 		//public   UIHandler uiHandler ;
 		private Port port;
@@ -31,19 +34,14 @@ namespace Ultrasonic_toothbrush
             UI.ledHandler = new LedHandler(UpdateLed);
             UI.passHander = new PassHandler(UpdatePass);
             UI.statusBarHander = new StatusBarHandler(UpdateStatusBar);
-            UI.timeHandler = new TimerHandler(updateTime);
+            //UI.timeHandler = new TimerHandler(updateTime);
+			UI.repeatHandler = new RepeatHandler(ShowRepeatWindow);
             UI.mf = this;
             c = ledBattery.BackColor;
             Status.END = true;
-
+			//dataGridView2.add
         }
 
-        private bool updateTime(int t)
-
-        {
-            this.button13.Text = t.ToString();
-            return true;
-        }
 
 
         //更换端口号
@@ -83,8 +81,21 @@ namespace Ultrasonic_toothbrush
 			logBox.AppendText(s);
 			return true;
 		}
-        //更新LED指示灯
-        public bool UpdateLed(int i)
+
+		//显示重复测试提示
+		private bool ShowRepeatWindow(string s, System.Threading.Thread t)
+		{
+			DialogResult dr=MessageBox.Show("  MAC: "+s, "重复MAC地址是否重复测试", MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+			if (dr == DialogResult.Yes)
+				Test.macRepeatSameProduct = true;
+			else
+				Test.macRepeatSameProduct = false;
+			t.Resume();
+			return true;
+		}
+
+		//更新LED指示灯
+		public bool UpdateLed(int i)
         {
             
             switch (i)
@@ -144,8 +155,8 @@ namespace Ultrasonic_toothbrush
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
-        }
+		//	asf.InitOldControlRects(this);
+		}
 
 		private void button4_Click(object sender, EventArgs e)
 		{
@@ -191,5 +202,30 @@ namespace Ultrasonic_toothbrush
         {
             logBox.Clear();
         }
-    }
+
+		private void MainForm_MaximumSizeChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		AutoSizeForm asf = new AutoSizeForm();
+		private void MainForm_SizeChanged(object sender, EventArgs e)
+		{
+		//	AutoSizeForm asf = new AutoSizeForm();
+			//AutoSizeForm asf = new AutoSizeForm();
+			
+			asf.AutoSize(this);
+		}
+
+		private void MainForm_Shown(object sender, EventArgs e)
+		{
+			asf.InitOldControlRects(this);
+		}
+		SettingPanel sp = new SettingPanel();
+		private void ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+				sp = new SettingPanel();
+			sp.Show();
+		}
+	}
 }

@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ultrasonic_toothbrush.setting
+namespace Ultrasonic_toothbrush.Setting
 {
-	public partial class setting : Form
+	public partial class SettingPanel : Form
 	{
-		public setting()
+		public SettingPanel()
 		{
 			InitializeComponent();
 		}

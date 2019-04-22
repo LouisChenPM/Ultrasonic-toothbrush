@@ -301,9 +301,21 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					brushTime = brushTime | ddorD9[4];
 					brushTime = brushTime << 8;
 					brushTime = brushTime | ddorD9[5];//获取到返回的时间
-					//Port.SendCommand(Id.FactoryReset);//恢复出厂模式
-					//ResetTimer.DelayRetry(Id.FactoryReset);//恢复出厂模式重发机制
 					int i = brushTime-systmeTime ;//计算时间差
+
+					//提供一种不恢复工厂模式下的测试模式，方便批量化稳定性测试标识位Setting.settingNotResetFactoryMode
+					Setting.settingNotResetFactoryMode = true;
+					if (Setting.settingNotResetFactoryMode == true)
+					{
+					Status.now = Status.AllStatus.Testing;//暂时测试使用
+					Test.test(device);//暂时测试使用
+					Port.SendCommand(Id.Disconnect);//这里如果量产时出现无法断开的情况 则重发
+					ResetTimer.DelayRetry(Id.Disconnect);//断开重发机制
+						break;
+					}
+					//恢复工厂模式测试
+					Port.SendCommand(Id.FactoryReset);//恢复出厂模式
+					ResetTimer.DelayRetry(Id.FactoryReset);//恢复出厂模式重发机制
 					Console.WriteLine("S4");
                     break;
                 case 0xCb: //case 第5步 断开连接，也是最后一步
@@ -311,7 +323,6 @@ private static byte[] head = { 0x58, 0x53, 0x43, 0x53};//发送帧头//
 					device.FactoryReseted = true;//表示已经恢复工厂模式
 					Status.now = Status.AllStatus.Testing;//进入测试状态标识
 					Test.test(device);//调用设备测试
-					System.Threading.Thread.Sleep(5000);
 					Port.SendCommand(Id.Disconnect);//这里如果量产时出现无法断开的情况 则重发
 					ResetTimer.DelayRetry(Id.Disconnect);//断开重发机制
 					break;

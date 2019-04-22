@@ -22,8 +22,8 @@ namespace Ultrasonic_toothbrush
             {
                 macIn = value;
                 Array.Copy(macIn, macConnectIn, 6);
-                string s = BitConverter.ToString(macIn).Replace("-", " ");//转换为16进制显示
-                UI.StatusBar("MAC: "+s,false);//在UI上显示
+				macStr = BitConverter.ToString(macIn).Replace("-", " ");//转换为16进制显示
+                UI.StatusBar("MAC: "+ macStr, false);//在UI上显示
             }
             get//实际mac地址与通信时mac地址反向
             {
@@ -52,7 +52,8 @@ namespace Ultrasonic_toothbrush
         }
 
         public int rssiIn = -10000;
-        public int rssi {
+
+		public int rssi {
             set
             {
                 rssiIn = value;
@@ -66,6 +67,7 @@ namespace Ultrasonic_toothbrush
 
 		public string version { get; internal set; }
 		public bool FactoryReseted { get; internal set; }
+		public string  macStr { get; internal set; }
 		//test bool
 	}
 }
